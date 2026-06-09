@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TY0FJ8DJP6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TY0FJ8DJP6');
+  gtag('config', 'G-M2CLJ7E5JE');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SponsoreMe — Sponsorship Job Finder for International Students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--bg4:#22222f;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--text:#f0f0f5;--text2:#9090a8;--text3:#5a5a72;--accent:#6c63ff;--accent2:#8b85ff;--accent-bg:rgba(108,99,255,0.12);--accent-border:rgba(108,99,255,0.35);--green:#22d3a0;--green-bg:rgba(34,211,160,0.1);--green-border:rgba(34,211,160,0.3);--amber:#f59e0b;--amber-bg:rgba(245,158,11,0.1);--red:#f87171;--font:'DM Sans',sans-serif;--mono:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;line-height:1.6}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+nav{padding:20px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:18px;font-weight:600;letter-spacing:-.5px;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+.nav-badge{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent2);font-family:var(--mono)}
+.hero{padding:56px 0 40px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 14px;border-radius:20px;background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent2);margin-bottom:20px;font-family:var(--mono)}
+.hero-tag::before{content:'●';font-size:8px;color:var(--green)}
+h1{font-size:clamp(28px,5vw,48px);font-weight:600;letter-spacing:-1.5px;line-height:1.15;margin-bottom:14px;background:linear-gradient(135deg,#fff 0%,#9090c0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto 32px;font-weight:300}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-.5px}
+.stat-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.stat-divider{width:1px;height:28px;background:var(--border2)}
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:28px}
+.form-section{margin-bottom:20px}
+.form-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);margin-bottom:8px;display:block}
+.pill-group{display:flex;flex-wrap:wrap;gap:7px}
+.pill{padding:6px 14px;font-size:13px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;font-family:var(--font)}
+.pill:hover{border-color:var(--border2);color:var(--text)}
+.pill.on{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2)}
+.pill.skill-on{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.pill.country-on{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2);position:relative}
+.pill.country-on::after{content:attr(data-count);position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+.country-hint{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:7px}
+/* Keyword search bar */
+.keyword-bar-wrap{position:relative;margin-bottom:20px}
+.keyword-bar{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:11px 40px 11px 38px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;transition:border-color .2s}
+.keyword-bar:focus{border-color:var(--accent-border)}
+.keyword-bar::placeholder{color:var(--text3)}
+.keyword-bar-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.keyword-bar-clear{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;line-height:1;display:none}
+.keyword-bar-clear.show{display:block}
+.keyword-suggestions{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--bg2);border:1px solid var(--border2);border-radius:11px;z-index:10;overflow:hidden;display:none}
+.keyword-suggestions.show{display:block}
+.kw-sugg-item{padding:9px 16px;font-size:13px;color:var(--text2);cursor:pointer;transition:background .1s}
+.kw-sugg-item:hover{background:var(--bg3);color:var(--text)}
+.custom-input-row{display:flex;gap:8px;margin-top:9px}
+.custom-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:7px 13px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;transition:border-color .15s}
+.custom-input:focus{border-color:var(--accent-border)}
+.custom-input::placeholder{color:var(--text3)}
+.add-btn{padding:7px 14px;font-size:13px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.add-btn:hover{border-color:var(--border2);color:var(--text)}
+.search-btn{width:100%;padding:15px;font-size:15px;font-weight:500;border-radius:12px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:var(--font);letter-spacing:-.2px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px}
+.search-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+.search-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.loading{display:none;text-align:center;padding:48px 0}
+.loading.show{display:block}
+.loading-ring{width:38px;height:38px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--text2);font-family:var(--mono)}
+.loading-steps{display:flex;flex-direction:column;gap:5px;margin-top:14px;align-items:center}
+.loading-step{font-size:12px;color:var(--text3);opacity:0;transition:opacity .4s}
+.loading-step.show{opacity:1;color:var(--text2)}
+.results{display:none}
+.results.show{display:block}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.results-title{font-size:16px;font-weight:500;color:var(--text)}
+.results-meta{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.reset-btn{padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.reset-btn:hover{border-color:var(--border2);color:var(--text)}
+.visa-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.visa-item-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);margin-bottom:3px}
+.visa-item-val{font-size:13px;color:var(--text);font-weight:500}
+.visa-item-val.green{color:var(--green)}
+.visa-item-val.amber{color:var(--amber)}
+.query-box{background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:12px 16px;margin-bottom:6px;font-family:var(--mono);font-size:12px;color:var(--text2);word-break:break-all}
+.copy-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.copy-btn{padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:var(--mono);transition:all .15s;display:flex;align-items:center;gap:5px}
+.copy-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+.copy-btn.copied{border-color:var(--green-border);color:var(--green);background:var(--green-bg)}
+/* Profile card */
+.profile-strip{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.profile-items{display:flex;flex-wrap:wrap;gap:10px}
+.profile-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);background:var(--bg3);border:1px solid var(--border);padding:5px 12px;border-radius:8px}
+.profile-item span{color:var(--text)}
+.share-card-btn{padding:8px 16px;font-size:13px;border-radius:9px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);cursor:pointer;font-family:var(--font);white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .15s}
+.share-card-btn:hover{background:rgba(108,99,255,.2)}
+/* Modal overlay */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:28px;max-width:440px;width:100%;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1}
+.modal-close:hover{color:var(--text)}
+.modal-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px;font-family:var(--mono)}
+/* The actual card design */
+.card-preview{background:var(--bg);border:1px solid var(--border2);border-radius:14px;padding:20px 22px;margin-bottom:16px;font-family:var(--mono)}
+.card-divider{border:none;border-top:1px solid var(--border);margin:10px 0}
+.card-line{font-size:13px;color:var(--text2);padding:4px 0;display:flex;align-items:center;gap:8px}
+.card-line span{color:var(--text)}
+.card-header-line{font-size:11px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap}
+.modal-btn{flex:1;padding:9px 14px;font-size:13px;border-radius:9px;cursor:pointer;font-family:var(--font);border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.modal-btn:hover{border-color:var(--border2);color:var(--text)}
+.modal-btn.primary{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2)}
+.modal-btn.primary:hover{background:rgba(108,99,255,.2)}
+.modal-btn.done{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.section-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);margin-bottom:10px;margin-top:4px}
+.boards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:9px;margin-bottom:24px}
+.board-card{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:15px;text-decoration:none;display:block;transition:all .15s}
+.board-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.board-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.board-name{font-size:13px;font-weight:500;color:var(--text)}
+.board-arrow{font-size:14px;color:var(--text3);transition:transform .15s}
+.board-card:hover .board-arrow{transform:translate(2px,-2px);color:var(--accent2)}
+.board-desc{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.5}
+.board-tag{font-size:10px;padding:2px 7px;border-radius:5px;font-family:var(--mono);display:inline-block}
+.bt-free{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.bt-hot{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.bt-official{background:var(--accent-bg);color:var(--accent2);border:1px solid var(--accent-border)}
+.companies-section{margin-bottom:24px}
+.co-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:7px}
+.co-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:11px 13px;transition:all .15s}
+.co-card:hover{border-color:var(--accent-border)}
+.co-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px}
+.sponsor-badge{font-size:10px;padding:2px 7px;border-radius:5px;font-family:var(--mono);white-space:nowrap;flex-shrink:0}
+.sb-confirmed{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.sb-likely{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.sb-unknown{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+.co-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.co-links{display:flex;gap:6px}
+.co-link{font-size:11px;padding:3px 9px;border-radius:6px;text-decoration:none;font-family:var(--mono);transition:all .15s}
+.co-link.careers{background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+.co-link.careers:hover{border-color:var(--border2);color:var(--text)}
+.co-link.linkedin{background:rgba(10,102,194,.12);border:1px solid rgba(10,102,194,.3);color:#60a8ff}
+.co-link.linkedin:hover{background:rgba(10,102,194,.2)}
+.tips-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:28px}
+.tips-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);margin-bottom:12px}
+.tip-row{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);align-items:flex-start}
+.tip-row:last-child{border-bottom:none;padding-bottom:0}
+/* Application Checklist */
+.checklist-section{margin-bottom:28px}
+.checklist-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 24px}
+.checklist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.checklist-title{font-size:13px;font-weight:500;color:var(--text)}
+.checklist-progress{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.progress-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-bottom:16px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease}
+.checklist-item{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.checklist-item:last-child{border-bottom:none;padding-bottom:0}
+.checklist-item:hover .ci-box{border-color:var(--green-border)}
+.ci-box{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s}
+.ci-box.checked{background:var(--green);border-color:var(--green)}
+.ci-box.checked::after{content:'✓';font-size:11px;color:#000;font-weight:600}
+.ci-text{flex:1}
+.ci-label{font-size:13px;color:var(--text);transition:color .2s}
+.ci-label.done{color:var(--text3);text-decoration:line-through}
+.ci-hint{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4}
+.ci-link{font-size:11px;color:var(--accent2);text-decoration:none;margin-left:6px}
+.ci-link:hover{text-decoration:underline}
+.checklist-reset{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:var(--mono);padding:0;margin-top:12px}
+.checklist-reset:hover{color:var(--text2)}
+/* How to apply section */
+.howto-section{margin-bottom:28px}
+.howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.howto-step{background:var(--bg2);padding:16px 18px;position:relative;transition:background .15s}
+.howto-step:hover{background:var(--bg3)}
+.step-num{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.step-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.step-action{margin-top:8px}
+.step-btn{padding:5px 12px;font-size:12px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.step-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+.step-btn.primary-btn{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2)}
+.step-btn.primary-btn:hover{background:rgba(108,99,255,.2)}
+.tip-icon{color:var(--accent2);flex-shrink:0;margin-top:1px}
+footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-size:12px;color:var(--text3);margin-top:24px}
+
+/* ── Featured Filter Buttons ── */
+.filter-type-btn{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text3);font-size:11px;cursor:pointer;font-family:var(--mono);transition:all .15s}
+.filter-type-btn.active{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2)}
+.filter-type-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+
+/* ── Bookmark Feature ── */
+.bookmark-btn{background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:6px;font-size:16px;color:var(--text3);transition:all .15s;flex-shrink:0}
+.bookmark-btn:hover{color:#f59e0b;background:rgba(245,158,11,.12)}
+.bookmark-btn.saved{color:#f59e0b}
+
+/* ── Match Score ── */
+.match-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:20px;font-family:var(--mono);font-weight:600;margin-left:6px}
+.match-high{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80}
+.match-mid{background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24}
+.match-low{background:rgba(148,163,184,.12);border:1px solid rgba(148,163,184,.2);color:var(--text3)}
+
+/* ── Saved Jobs Tab ── */
+.saved-tab-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-family:var(--mono);cursor:pointer;transition:all .15s;margin-bottom:16px}
+.saved-tab-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+.saved-tab-btn .badge{background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent2);padding:1px 7px;border-radius:10px;font-size:11px}
+
+/* ── Email Alert Modal ── */
+.alert-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}
+.alert-modal.open{display:flex}
+.alert-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;width:90%;max-width:420px}
+.alert-box h3{font-size:16px;font-weight:600;margin:0 0 6px;color:var(--text)}
+.alert-box p{font-size:13px;color:var(--text3);margin:0 0 18px;line-height:1.5}
+.alert-input{width:100%;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:var(--font);box-sizing:border-box;margin-bottom:10px}
+.alert-input:focus{outline:none;border-color:var(--accent-border)}
+.alert-submit{width:100%;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.alert-close{float:right;background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1}
+.alert-success{text-align:center;padding:16px 0 8px;color:var(--green);font-size:14px}
+
+/* ── Saved Jobs Panel ── */
+.saved-panel{display:none;margin-bottom:20px}
+.saved-panel.open{display:block}
+.saved-empty{text-align:center;padding:24px;color:var(--text3);font-size:13px;background:var(--bg3);border-radius:11px;border:1px solid var(--border)}
+
+/* Live Jobs */
+.live-jobs-section{margin-bottom:28px}
+.live-jobs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-family:var(--mono)}
+.live-badge::before{content:'●';font-size:8px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.live-count{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.job-card{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:16px 18px;margin-bottom:10px;transition:border-color .15s;cursor:pointer;text-decoration:none;display:block}
+.job-card:hover{border-color:var(--accent-border)}
+.job-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px}
+.job-title{font-size:14px;font-weight:500;color:var(--text);flex:1}
+.job-salary{font-size:12px;color:var(--green);font-family:var(--mono);white-space:nowrap;flex-shrink:0}
+.job-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.job-meta-item{font-size:11px;color:var(--text3);font-family:var(--mono);display:flex;align-items:center;gap:4px}
+.job-company{font-size:13px;color:var(--text2);font-weight:500}
+.company-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.company-name-text{font-size:13px;color:var(--text2);font-weight:500}
+.company-actions{display:flex;gap:5px;opacity:0;transition:opacity .15s}
+.job-card:hover .company-actions{opacity:1}
+.company-action-btn{font-size:11px;padding:2px 9px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);text-decoration:none;white-space:nowrap;transition:all .15s}
+.company-action-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+.job-desc{font-size:12px;color:var(--text3);line-height:1.5;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.job-apply-row{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.job-apply-btn{display:inline-block;padding:5px 12px;font-size:11px;border-radius:7px;font-family:var(--mono);text-decoration:none;transition:all .15s;border:1px solid}
+.btn-li{background:rgba(10,102,194,.12);border-color:rgba(10,102,194,.3);color:#60a8ff}
+.btn-li:hover{background:rgba(10,102,194,.22)}
+.btn-in{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2)}
+.btn-in:hover{background:rgba(108,99,255,.2)}
+.btn-gg{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.btn-gg:hover{background:rgba(34,211,160,.18)}
+.jobs-loading{text-align:center;padding:28px;color:var(--text3);font-size:13px;font-family:var(--mono)}
+.jobs-error{text-align:center;padding:20px;color:var(--text3);font-size:13px;background:var(--bg3);border-radius:11px;border:1px solid var(--border)}
+.load-more-btn{width:100%;padding:10px;font-size:13px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:var(--font);margin-top:4px;transition:all .15s}
+.load-more-btn:hover{border-color:var(--border2);color:var(--text)}
+.country-jobs-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;padding:6px 2px;margin-top:8px;border-top:1px solid var(--border);margin-bottom:8px}
+footer a{color:var(--text2);text-decoration:none}
+footer a:hover{color:var(--accent2)}
+@media(max-width:600px){.visa-box{grid-template-columns:1fr 1fr}h1{font-size:26px}.form-card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <div class="logo"><span class="logo-dot"></span>SponsoreMe</div>
+    <div class="nav-badge">v2.0 · 20 Countries · Free</div>
+  </nav>
+  <div class="hero">
+    <div class="hero-tag">Built for international students</div>
+    <h1>Find your<br>sponsored job</h1>
+    <p class="hero-sub">Smart search queries, visa info, salary data, and 50+ sponsor companies per country. Free forever.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">20</div><div class="stat-label">Countries</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat-item"><div class="stat-num">1000+</div><div class="stat-label">Companies</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Job boards</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat-item"><div class="stat-num">Free</div><div class="stat-label">Always</div></div>
+    </div>
+  </div>
+
+  <div class="form-card" id="form-section">
+    <div class="form-section">
+      <span class="form-label">Role</span>
+      <div class="pill-group" id="role-pills">
+        <button class="pill on" onclick="pick(this,'role','AI/ML Engineer')">AI/ML Engineer</button>
+        <button class="pill" onclick="pick(this,'role','Data Scientist')">Data Scientist</button>
+        <button class="pill" onclick="pick(this,'role','Machine Learning Engineer')">ML Engineer</button>
+        <button class="pill" onclick="pick(this,'role','Data Engineer')">Data Engineer</button>
+        <button class="pill" onclick="pick(this,'role','NLP Engineer')">NLP Engineer</button>
+        <button class="pill" onclick="pick(this,'role','Computer Vision Engineer')">Computer Vision</button>
+        <button class="pill" onclick="pick(this,'role','MLOps Engineer')">MLOps</button>
+        <button class="pill" onclick="pick(this,'role','Software Engineer')">Software Engineer</button>
+        <button class="pill" onclick="pick(this,'role','Data Analyst')">Data Analyst</button>
+        <button class="pill" onclick="pick(this,'role','Business Analyst')">Business Analyst</button>
+        <button class="pill" onclick="pick(this,'role','Finance Analyst')">Finance Analyst</button>
+        <button class="pill" onclick="pick(this,'role','Marketing Analyst')">Marketing Analyst</button>
+        <button class="pill" onclick="pick(this,'role','Product Manager')">Product Manager</button>
+        <button class="pill" onclick="pick(this,'role','Operations Analyst')">Operations Analyst</button>
+        <button class="pill" onclick="pick(this,'role','Supply Chain Analyst')">Supply Chain</button>
+        <button class="pill" onclick="pick(this,'role','HR Analyst')">HR Analyst</button>
+        <button class="pill" onclick="pick(this,'role','UX Designer')">UX Designer</button>
+        <button class="pill" onclick="pick(this,'role','Cybersecurity Analyst')">Cybersecurity</button>
+        <button class="pill" onclick="pick(this,'role','Cloud Engineer')">Cloud Engineer</button>
+        <button class="pill" onclick="pick(this,'role','DevOps Engineer')">DevOps</button>
+        <button class="pill" onclick="pick(this,'role','Research Scientist')">Research Scientist</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <span class="form-label">Country <span style="color:var(--accent2);font-size:10px;margin-left:4px">SELECT MULTIPLE</span></span>
+      <div class="pill-group" id="country-pills">
+        <button class="pill country-on" onclick="toggleCountry(this,'United Kingdom')">🇬🇧 UK</button>
+        <button class="pill" onclick="toggleCountry(this,'United States')">🇺🇸 USA</button>
+        <button class="pill" onclick="toggleCountry(this,'Canada')">🇨🇦 Canada</button>
+        <button class="pill" onclick="toggleCountry(this,'Germany')">🇩🇪 Germany</button>
+        <button class="pill" onclick="toggleCountry(this,'Netherlands')">🇳🇱 Netherlands</button>
+        <button class="pill" onclick="toggleCountry(this,'Australia')">🇦🇺 Australia</button>
+        <button class="pill" onclick="toggleCountry(this,'Sweden')">🇸🇪 Sweden</button>
+        <button class="pill" onclick="toggleCountry(this,'Singapore')">🇸🇬 Singapore</button>
+        <button class="pill" onclick="toggleCountry(this,'France')">🇫🇷 France</button>
+        <button class="pill" onclick="toggleCountry(this,'Switzerland')">🇨🇭 Switzerland</button>
+        <button class="pill" onclick="toggleCountry(this,'Denmark')">🇩🇰 Denmark</button>
+        <button class="pill" onclick="toggleCountry(this,'Norway')">🇳🇴 Norway</button>
+        <button class="pill" onclick="toggleCountry(this,'Finland')">🇫🇮 Finland</button>
+        <button class="pill" onclick="toggleCountry(this,'Ireland')">🇮🇪 Ireland</button>
+        <button class="pill" onclick="toggleCountry(this,'Spain')">🇪🇸 Spain</button>
+        <button class="pill" onclick="toggleCountry(this,'Japan')">🇯🇵 Japan</button>
+        <button class="pill" onclick="toggleCountry(this,'UAE')">🇦🇪 UAE</button>
+        <button class="pill" onclick="toggleCountry(this,'New Zealand')">🇳🇿 New Zealand</button>
+        <button class="pill" onclick="toggleCountry(this,'Portugal')">🇵🇹 Portugal</button>
+        <button class="pill" onclick="toggleCountry(this,'Belgium')">🇧🇪 Belgium</button>
+      </div>
+      <div class="country-hint" id="country-hint">🇬🇧 UK selected — tap more countries to search together</div>
+    </div>
+    <div class="form-section">
+      <span class="form-label">Keyword search <span style="color:var(--text3);font-size:10px;margin-left:4px">OPTIONAL — TYPE ANYTHING</span></span>
+      <div class="keyword-bar-wrap">
+        <svg class="keyword-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="keyword-bar" type="text" id="keyword-bar" placeholder="e.g. PyTorch, NLP, remote, fintech, NHS..." oninput="onKeywordInput()" onkeydown="onKeywordKey(event)">
+        <button class="keyword-bar-clear" id="kw-clear" onclick="clearKeyword()">✕</button>
+        <div class="keyword-suggestions" id="kw-suggestions"></div>
+      </div>
+    </div>
+    <div class="form-section">
+      <span class="form-label">Skills</span>
+      <div class="pill-group" id="skill-pills">
+        <button class="pill" onclick="toggleSkill(this,'Python')">Python</button>
+        <button class="pill" onclick="toggleSkill(this,'PyTorch')">PyTorch</button>
+        <button class="pill" onclick="toggleSkill(this,'TensorFlow')">TensorFlow</button>
+        <button class="pill" onclick="toggleSkill(this,'NLP')">NLP</button>
+        <button class="pill" onclick="toggleSkill(this,'LLM')">LLM</button>
+        <button class="pill" onclick="toggleSkill(this,'Computer Vision')">Computer Vision</button>
+        <button class="pill" onclick="toggleSkill(this,'AWS')">AWS</button>
+        <button class="pill" onclick="toggleSkill(this,'Azure')">Azure</button>
+        <button class="pill" onclick="toggleSkill(this,'Deep Learning')">Deep Learning</button>
+        <button class="pill" onclick="toggleSkill(this,'SQL')">SQL</button>
+        <button class="pill" onclick="toggleSkill(this,'MLOps')">MLOps</button>
+        <button class="pill" onclick="toggleSkill(this,'Kubernetes')">Kubernetes</button>
+        <button class="pill" onclick="toggleSkill(this,'Spark')">Spark</button>
+        <button class="pill" onclick="toggleSkill(this,'Docker')">Docker</button>
+        <button class="pill" onclick="toggleSkill(this,'R')">R</button>
+      </div>
+      <div class="custom-input-row">
+        <input class="custom-input" type="text" id="custom-skill" placeholder="Add custom skill (e.g. LSTM, FHIR, Hugging Face)...">
+        <button class="add-btn" onclick="addSkill()">+ Add</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <span class="form-label">Experience</span>
+      <div class="pill-group" id="exp-pills">
+        <button class="pill on" onclick="pick(this,'exp','entry level')">Entry (0–2 yrs)</button>
+        <button class="pill" onclick="pick(this,'exp','mid level')">Mid (2–5 yrs)</button>
+        <button class="pill" onclick="pick(this,'exp','senior')">Senior (5+ yrs)</button>
+        <button class="pill" onclick="pick(this,'exp','')">Any level</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <span class="form-label">Do you need visa sponsorship?</span>
+      <div class="pill-group" id="visa-need-pills">
+        <button class="pill on" onclick="pickVisa(this,'yes')">🛂 Yes — need full sponsorship</button>
+        <button class="pill" onclick="pickVisa(this,'graduate')">🎓 Graduate Route (UK)</button>
+        <button class="pill" onclick="pickVisa(this,'no')">✅ No — already have right to work</button>
+      </div>
+      <div id="visa-hint" style="margin-top:10px;padding:10px 14px;border-radius:9px;font-size:12px;line-height:1.6;background:var(--bg3);border:1px solid var(--border);color:var(--text2)">
+        🛂 <strong style="color:var(--text)">Full sponsorship:</strong> Employer must be on Gov.uk sponsor register. Filter search strictly — fewer roles but totally achievable.
+      </div>
+    </div>
+    <button class="search-btn" id="search-btn" onclick="search()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Find sponsorship jobs
+    </button>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="loading-ring"></div>
+    <div class="loading-text">Generating smart search queries...</div>
+    <div class="loading-steps">
+      <div class="loading-step" id="step1">✦ Analysing your profile</div>
+      <div class="loading-step" id="step2">✦ Building visa-specific queries</div>
+      <div class="loading-step" id="step3">✦ Finding sponsor companies</div>
+      <div class="loading-step" id="step4">✦ Calculating salary data</div>
+    </div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="results-title"></div>
+        <div class="results-meta" id="results-meta"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="saved-tab-btn" onclick="toggleSavedPanel()">
+          🔖 Saved Jobs <span class="badge" id="saved-count">0</span>
+        </button>
+        <button class="saved-tab-btn" onclick="openAlertModal()" style="color:var(--green);border-color:var(--green-border)">
+          🔔 Job Alerts
+        </button>
+        <button class="reset-btn" onclick="reset()">← New search</button>
+      </div>
+    </div>
+    <div class="profile-strip" id="profile-strip">
+      <div class="profile-items" id="profile-items"></div>
+      <button class="share-card-btn" onclick="openShareCard()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share my profile
+      </button>
+    </div>
+    <div class="visa-box" id="visa-box"></div>
+    <div class="query-box" id="query-box"></div>
+    <div class="copy-row" id="copy-row" style="display:none">
+      <button class="copy-btn" id="copy-li-btn" onclick="copyQuery('linkedin')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        Copy LinkedIn query
+      </button>
+      <button class="copy-btn" id="copy-gg-btn" onclick="copyQuery('google')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Copy Google query
+      </button>
+      <button class="copy-btn" id="copy-plain-btn" onclick="copyQuery('plain')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy plain text
+      </button>
+    </div>
+    <!-- Featured Jobs Section -->
+    <div class="featured-jobs-section" id="featured-jobs-section" style="display:none">
+      <div class="live-jobs-header">
+        <div class="section-label" style="margin:0">⭐ FEATURED SPONSORED JOBS</div>
+        <span class="live-badge" style="background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.3);color:#f59e0b">HAND-PICKED</span>
+        <div style="display:flex;gap:6px;margin-left:auto">
+          <button class="filter-type-btn active" id="filter-all" onclick="filterFeatured('all')">All</button>
+          <button class="filter-type-btn" id="filter-fulltime" onclick="filterFeatured('fulltime')">💼 Full-time</button>
+          <button class="filter-type-btn" id="filter-intern" onclick="filterFeatured('intern')">🎓 Internship</button>
+        </div>
+        <span class="live-count" id="featured-count"></span>
+      </div>
+      <div id="featured-jobs-container"></div>
+    </div>
+
+    <div class="live-jobs-section">
+      <div class="live-jobs-header">
+        <div class="section-label" style="margin:0">LIVE SPONSORED JOBS — ADZUNA</div>
+        <span class="live-badge">LIVE</span>
+        <span class="live-count" id="live-count"></span>
+      </div>
+      <div id="live-jobs-container"><div class="jobs-loading">⏳ Loading live jobs...</div></div>
+    </div>
+
+    <div class="section-label">JOB BOARDS</div>
+    <div class="boards-grid" id="boards-grid"></div>
+    <div class="companies-section">
+      <div class="section-label">TOP SPONSOR COMPANIES — CAREERS PAGE + LINKEDIN</div>
+      <div class="co-grid" id="co-grid"></div>
+    </div>
+    <div class="tips-section" id="tips-section"></div>
+    <div class="howto-section">
+      <div class="section-label">HOW TO APPLY — STEP BY STEP</div>
+      <div class="howto-grid" id="howto-grid"></div>
+    </div>
+  </div>
+
+  <!-- Share Card Modal -->
+<div class="modal-overlay" id="share-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeShareCard()">✕</button>
+    <div class="modal-title">Your profile card</div>
+    <div class="modal-sub">Copy and share anywhere — LinkedIn, WhatsApp, Reddit</div>
+    <div class="card-preview" id="card-preview"></div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" id="copy-card-btn" onclick="copyCard()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy card text
+      </button>
+      <button class="modal-btn" onclick="copyCard('linkedin')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        Copy for LinkedIn
+      </button>
+      <button class="modal-btn" onclick="copyCard('whatsapp')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.849L.057 23.886l6.184-1.622A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.498-5.193-1.37l-.37-.22-3.843 1.008 1.027-3.748-.242-.387A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Copy for WhatsApp
+      </button>
+    </div>
+    <div class="checklist-section">
+      <div class="section-label">APPLICATION CHECKLIST</div>
+      <div class="checklist-box">
+        <div class="checklist-header">
+          <div class="checklist-title">Before you hit Apply</div>
+          <div class="checklist-progress" id="cl-progress">0 / 5 done</div>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="cl-bar" style="width:0%"></div></div>
+        <div id="checklist-items"></div>
+        <button class="checklist-reset" onclick="resetChecklist()">↺ Reset checklist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+    Built with ♥ for international students ·
+    <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank">Verify UK sponsors →</a> ·
+    <a href="https://github.com" target="_blank">Star on GitHub →</a>
+  </footer>
+</div>
+
+<script>
+const state={role:'AI/ML Engineer',countries:['United Kingdom'],exp:'entry level',skills:[],visaNeed:'yes',keyword:''};
+
+const visaData={
+'United Kingdom':{visa:'Skilled Worker Visa',threshold:'£41,700/yr',time:'3–8 weeks',salary:'£45k–£80k',tip:'Check Gov.uk sponsor register before applying'},
+'United States':{visa:'H1B / OPT / STEM',threshold:'No fixed minimum',time:'OPT immediate',salary:'$120k–$180k',tip:'STEM OPT = 3 years — start applying before graduation'},
+'Canada':{visa:'LMIA Exempt / Express Entry',threshold:'No fixed min',time:'2–4 weeks',salary:'CA$90k–$140k',tip:'Global Talent Stream fastest — 2 week processing'},
+'Germany':{visa:'EU Blue Card',threshold:'€45,552/yr',time:'1–3 months',salary:'€55k–€90k',tip:'Job Seeker Visa lets you enter Germany to find work'},
+'Netherlands':{visa:'Highly Skilled Migrant',threshold:'€4,752/month',time:'2–4 weeks',salary:'€55k–€85k',tip:'30% tax ruling = massive financial benefit for expats'},
+'Australia':{visa:'482 TSS / Global Talent',threshold:'AU$70k min',time:'2–6 months',salary:'AU$100k–$150k',tip:'Global Talent Visa = self-sponsor with strong ML credentials'},
+'Sweden':{visa:'Work Permit',threshold:'SEK 27,360/month',time:'1–4 months',salary:'SEK 55k–85k/mo',tip:'Swedish companies value work-life balance — 6 weeks vacation'},
+'Singapore':{visa:'Employment Pass (EP)',threshold:'SGD 5,000/month',time:'3–8 weeks',salary:'SGD 7k–12k/mo',tip:'Tech talent in huge demand — EP approvals are fast'},
+'France':{visa:'Talent Passport',threshold:'€35,000/yr',time:'2–3 months',salary:'€45k–€75k',tip:'Paris Station F ecosystem is world class for AI startups'},
+'Switzerland':{visa:'L/B Work Permit',threshold:'CHF 100k+ typical',time:'4–8 weeks',salary:'CHF 120k–180k',tip:'Highest AI salaries in Europe — Zurich is top hub'},
+'Denmark':{visa:'Pay Limit Scheme / Positive List',threshold:'DKK 465,000/yr',time:'1–3 months',salary:'DKK 550k–800k/yr',tip:'Copenhagen is booming for cleantech + AI startups'},
+'Norway':{visa:'Skilled Worker Permit',threshold:'NOK 600,000/yr',time:'2–4 months',salary:'NOK 700k–1M/yr',tip:'Oil + AI convergence — huge demand in Oslo'},
+'Finland':{visa:'Specialist Residence Permit',threshold:'€3,000/month',time:'1–3 months',salary:'€50k–€75k',tip:'Helsinki is growing AI hub — Nokia, Supercell sponsor'},
+'Ireland':{visa:'Critical Skills Employment Permit',threshold:'€32,000/yr',time:'4–8 weeks',salary:'€55k–€90k',tip:'Dublin = European HQ for Google, Meta, LinkedIn, Stripe'},
+'Spain':{visa:'EU Blue Card / Digital Nomad',threshold:'€37,000/yr',time:'1–3 months',salary:'€35k–€60k',tip:'Barcelona + Madrid growing fast — lower cost than UK/CH'},
+'Japan':{visa:'Highly Skilled Professional',threshold:'¥3M/yr',time:'1–3 months',salary:'¥8M–¥15M/yr',tip:'Japan actively courts foreign AI talent — fast PR pathway'},
+'UAE':{visa:'Golden Visa / Work Permit',threshold:'No fixed min',time:'2–4 weeks',salary:'AED 25k–50k/mo tax-free',tip:'Zero income tax — Dubai is fastest growing AI hub in Middle East'},
+'New Zealand':{visa:'Skilled Migrant / Accredited Employer',threshold:'NZD 55,000/yr',time:'2–4 months',salary:'NZD 90k–130k',tip:'NZ actively recruits AI talent — easier PR than Australia'},
+'Portugal':{visa:'D3 Tech Visa / Digital Nomad',threshold:'€1,070/month',time:'2–3 months',salary:'€30k–€55k',tip:'Lisbon = fastest growing AI hub in Europe — low cost of living'},
+'Belgium':{visa:'EU Blue Card / Single Permit',threshold:'€45,000/yr',time:'4–8 weeks',salary:'€50k–€80k',tip:'Brussels + Antwerp — EU institutions create AI demand'}
+};
+
+const boardData={
+'United Kingdom':[
+{name:'LinkedIn UK',desc:'Filter "visa sponsorship" — daily updated',tag:'Most jobs',tc:'bt-hot',url:s=>`https://www.linkedin.com/jobs/search/?keywords=${s.q}+visa+sponsorship&location=United+Kingdom&f_TPR=r2592000`},
+{name:'Indeed UK',desc:'Add "visa sponsorship" in keyword field',tag:'Free',tc:'bt-free',url:s=>`https://uk.indeed.com/jobs?q=${s.q}+visa+sponsorship&l=United+Kingdom`},
+{name:'UK Visa Jobs',desc:'Dedicated UK visa sponsorship board',tag:'Specialist',tc:'bt-official',url:s=>`https://ukvisajobs.com/jobs?q=${s.q}`},
+{name:'Glassdoor UK',desc:'Salary data + company ratings',tag:'Free',tc:'bt-free',url:s=>`https://www.glassdoor.co.uk/Job/jobs.htm?typedKeyword=${s.q}+visa+sponsorship`},
+{name:'Otta',desc:'UK tech startups — many sponsor visas',tag:'Hot',tc:'bt-hot',url:_=>'https://otta.com'},
+{name:'Google Jobs UK',desc:'All boards aggregated in one search',tag:'Hot',tc:'bt-hot',url:s=>`https://www.google.com/search?q=${s.q}+visa+sponsorship+UK+jobs+2026&ibp=htl;jobs`},
+{name:'Gov.uk Sponsor List',desc:'Verify company sponsors — official register',tag:'Official',tc:'bt-official',url:_=>'https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers'},
+{name:'Workbeyond',desc:'Specifically for international candidates',tag:'Specialist',tc:'bt-official',url:s=>`https://workbeyond.io/jobs?q=${s.q}`}
+],
+'United States':[
+{name:'LinkedIn USA',desc:'"H1B sponsor" filter — most listings',tag:'Most jobs',tc:'bt-hot',url:s=>`https://www.linkedin.com/jobs/search/?keywords=${s.q}+h1b+sponsor&location=United+States`},
+{name:'MyVisaJobs',desc:'H1B sponsorship history by company',tag:'Specialist',tc:'bt-official',url:_=>'https://www.myvisajobs.com'},
+{name:'Indeed USA',desc:'Large volume — filter visa sponsorship',tag:'Free',tc:'bt-free',url:s=>`https://www.indeed.com/jobs?q=${s.q}+visa+sponsorship`},
+{name:'Levels.fyi Jobs',desc:'High-paying ML roles at big tech',tag:'Hot',tc:'bt-hot',url:s=>`https://levels.fyi/jobs?title=${s.q}`},
+{name:'Wellfound',desc:'Startups — many sponsor OPT/H1B',tag:'Free',tc:'bt-free',url:s=>`https://wellfound.com/jobs?q=${s.q}`},
+{name:'Glassdoor USA',desc:'Salary benchmarks + reviews',tag:'Free',tc:'bt-free',url:s=>`https://www.glassdoor.com/Job/jobs.htm?typedKeyword=${s.q}+visa+sponsorship`},
+{name:'Google Jobs USA',desc:'Aggregates all boards',tag:'Hot',tc:'bt-hot',url:s=>`https://www.google.com/search?q=${s.q}+h1b+sponsor+USA+jobs+2026&ibp=htl;jobs`},
+{name:'Dice',desc:'Tech-specific job board USA',tag:'Specialist',tc:'bt-official',url:s=>`https://www.dice.com/jobs?q=${s.q}&countryCode=US`}
+],
+default:[
+{name:'LinkedIn',desc:'Search with "visa sponsorship" filter',tag:'Most jobs',tc:'bt-hot',url:s=>`https://www.linkedin.com/jobs/search/?keywords=${s.q}+visa+sponsorship&location=${encodeURIComponent(s.country)}`},
+{name:'Indeed',desc:'Large volume listings',tag:'Free',tc:'bt-free',url:s=>`https://www.indeed.com/jobs?q=${s.q}+visa+sponsorship&l=${encodeURIComponent(s.country)}`},
+{name:'Glassdoor',desc:'Salary data + company ratings',tag:'Free',tc:'bt-free',url:s=>`https://www.glassdoor.com/Job/jobs.htm?typedKeyword=${s.q}+visa+sponsorship+${encodeURIComponent(s.country)}`},
+{name:'Relocate.me',desc:'Only shows relocation + sponsorship roles',tag:'Specialist',tc:'bt-official',url:s=>`https://relocate.me/jobs?category=${encodeURIComponent(s.rawRole)}&location=${encodeURIComponent(s.country)}`},
+{name:'Google Jobs',desc:'Aggregates all boards in one search',tag:'Hot',tc:'bt-hot',url:s=>`https://www.google.com/search?q=${s.q}+visa+sponsorship+${encodeURIComponent(s.country)}+jobs+2026&ibp=htl;jobs`},
+{name:'Honeypot',desc:'Employers come to YOU — reverse apply',tag:'Hot',tc:'bt-hot',url:_=>'https://www.honeypot.io'},
+{name:'Jooble',desc:'Aggregator — urgent recent openings',tag:'Free',tc:'bt-free',url:s=>`https://jooble.org/jobs-${encodeURIComponent(s.rawRole.toLowerCase().replace(/ /g,'-'))}-visa-sponsorship`},
+{name:'Workbeyond',desc:'International candidates focused',tag:'Specialist',tc:'bt-official',url:s=>`https://workbeyond.io/jobs?q=${s.q}`}
+]
+};
+
+const companyData={
+'United Kingdom':[
+{s:2,n:'Google DeepMind',c:'https://deepmind.google/about/careers/',li:'https://www.linkedin.com/company/googledeepmind/jobs/'},
+{s:2,n:'Amazon UK',c:'https://www.amazon.jobs/en/search?base_query=machine+learning&loc_query=United+Kingdom',li:'https://www.linkedin.com/company/amazon/jobs/'},
+{s:2,n:'Microsoft UK',c:'https://jobs.careers.microsoft.com/global/en/search?q=machine%20learning',li:'https://www.linkedin.com/company/microsoft/jobs/'},
+{s:2,n:'Arm',c:'https://careers.arm.com/search#q=machine%20learning',li:'https://www.linkedin.com/company/arm-holdings/jobs/'},
+{s:2,n:'Wayve',c:'https://wayve.ai/careers/',li:'https://www.linkedin.com/company/wayve-ai/jobs/'},
+{s:2,n:'Graphcore',c:'https://www.graphcore.ai/careers',li:'https://www.linkedin.com/company/graphcore/jobs/'},
+{s:2,n:'BenevolentAI',c:'https://www.benevolent.com/careers',li:'https://www.linkedin.com/company/benevolentai/jobs/'},
+{s:2,n:'Tractable',c:'https://tractable.ai/careers/',li:'https://www.linkedin.com/company/tractable/jobs/'},
+{s:2,n:'AstraZeneca',c:'https://careers.astrazeneca.com/job-search#q=machine+learning',li:'https://www.linkedin.com/company/astrazeneca/jobs/'},
+{s:2,n:'Revolut',c:'https://www.revolut.com/careers/',li:'https://www.linkedin.com/company/revolut/jobs/'},
+{s:2,n:'Wise',c:'https://wise.com/gb/careers/',li:'https://www.linkedin.com/company/wiseaccount/jobs/'},
+{s:2,n:'InstaDeep',c:'https://www.instadeep.com/careers/',li:'https://www.linkedin.com/company/instadeep/jobs/'},
+{s:2,n:'Palantir UK',c:'https://www.palantir.com/careers/',li:'https://www.linkedin.com/company/palantir-technologies/jobs/'},
+{s:1,n:'Sky ML',c:'https://careers.sky.com/search#q=machine+learning',li:'https://www.linkedin.com/company/sky/jobs/'},
+{s:2,n:'Rolls-Royce',c:'https://careers.rolls-royce.com/search#q=machine+learning',li:'https://www.linkedin.com/company/rolls-royce/jobs/'},
+{s:2,n:'BAE Systems',c:'https://www.baesystems.com/en/careers',li:'https://www.linkedin.com/company/bae-systems/jobs/'},
+{s:1,n:'Babylon Health',c:'https://www.linkedin.com/company/babylonhealth/jobs/',li:'https://www.linkedin.com/company/babylonhealth/jobs/'},
+{s:2,n:'Faculty AI',c:'https://faculty.ai/careers/',li:'https://www.linkedin.com/company/faculty-ai/jobs/'},
+{s:1,n:'Deliveroo',c:'https://careers.deliveroo.co.uk/jobs?q=machine+learning',li:'https://www.linkedin.com/company/deliveroo/jobs/'},
+{s:1,n:'Monzo',c:'https://monzo.com/careers/',li:'https://www.linkedin.com/company/monzo-bank/jobs/'},
+{s:2,n:'Improbable',c:'https://improbable.io/careers',li:'https://www.linkedin.com/company/improbable/jobs/'},
+{s:1,n:'Experian',c:'https://www.experianplc.com/careers/',li:'https://www.linkedin.com/company/experian/jobs/'},
+{s:1,n:'Booking.com UK',c:'https://jobs.booking.com/careers?query=machine+learning',li:'https://www.linkedin.com/company/booking.com/jobs/'},
+{s:2,n:'Apple UK',c:'https://jobs.apple.com/en-us/search?search=machine+learning&location=united-kingdom',li:'https://www.linkedin.com/company/apple/jobs/'},
+{s:2,n:'IBM UK',c:'https://www.ibm.com/employment/',li:'https://www.linkedin.com/company/ibm/jobs/'}
+],
+'United States':[
+{s:2,n:'Google',c:'https://careers.google.com/jobs/results/?q=machine%20learning',li:'https://www.linkedin.com/company/google/jobs/'},
+{s:2,n:'Meta',c:'https://www.metacareers.com/jobs?q=machine+learning',li:'https://www.linkedin.com/company/meta/jobs/'},
+{s:2,n:'OpenAI',c:'https://openai.com/careers/',li:'https://www.linkedin.com/company/openai/jobs/'},
+{s:2,n:'Anthropic',c:'https://www.anthropic.com/careers',li:'https://www.linkedin.com/company/anthropicresearch/jobs/'},
+{s:2,n:'Microsoft',c:'https://jobs.careers.microsoft.com/global/en/search?q=machine%20learning',li:'https://www.linkedin.com/company/microsoft/jobs/'},
+{s:2,n:'Nvidia',c:'https://www.nvidia.com/en-us/about-nvidia/careers/',li:'https://www.linkedin.com/company/nvidia/jobs/'},
+{s:2,n:'Apple',c:'https://jobs.apple.com/en-us/search?search=machine+learning',li:'https://www.linkedin.com/company/apple/jobs/'},
+{s:2,n:'Amazon',c:'https://www.amazon.jobs/en/search?base_query=machine+learning',li:'https://www.linkedin.com/company/amazon/jobs/'},
+{s:2,n:'Databricks',c:'https://www.databricks.com/company/careers/open-positions',li:'https://www.linkedin.com/company/databricks/jobs/'},
+{s:2,n:'Scale AI',c:'https://scale.com/careers',li:'https://www.linkedin.com/company/scaleai/jobs/'},
+{s:2,n:'Cohere',c:'https://cohere.com/careers',li:'https://www.linkedin.com/company/cohere-ai/jobs/'},
+{s:2,n:'Tesla',c:'https://www.tesla.com/careers/search#/?keyword=machine+learning',li:'https://www.linkedin.com/company/tesla-motors/jobs/'},
+{s:2,n:'Stripe',c:'https://stripe.com/jobs/search?query=machine+learning',li:'https://www.linkedin.com/company/stripe/jobs/'},
+{s:2,n:'Salesforce',c:'https://careers.salesforce.com/en/jobs/?search=machine+learning',li:'https://www.linkedin.com/company/salesforce/jobs/'},
+{s:2,n:'Adobe',c:'https://careers.adobe.com/us/en/search-results?keywords=machine%20learning',li:'https://www.linkedin.com/company/adobe/jobs/'},
+{s:1,n:'Uber',c:'https://www.uber.com/us/en/careers/list/?query=machine+learning',li:'https://www.linkedin.com/company/uber-com/jobs/'},
+{s:2,n:'Palantir',c:'https://www.palantir.com/careers/',li:'https://www.linkedin.com/company/palantir-technologies/jobs/'},
+{s:2,n:'JPMorganChase',c:'https://careers.jpmorgan.com/us/en/jobs?search=machine+learning',li:'https://www.linkedin.com/company/jpmorgan-chase/jobs/'},
+{s:2,n:'Snowflake',c:'https://careers.snowflake.com/us/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/snowflake-computing/jobs/'},
+{s:1,n:'Lyft',c:'https://www.lyft.com/careers',li:'https://www.linkedin.com/company/lyft/jobs/'},
+{s:2,n:'IBM USA',c:'https://www.ibm.com/employment/',li:'https://www.linkedin.com/company/ibm/jobs/'},
+{s:2,n:'Intel',c:'https://jobs.intel.com/en/search-jobs?keyword=machine+learning',li:'https://www.linkedin.com/company/intel-corporation/jobs/'},
+{s:2,n:'Qualcomm',c:'https://careers.qualcomm.com/careers/search?keyword=machine+learning',li:'https://www.linkedin.com/company/qualcomm/jobs/'},
+{s:2,n:'LinkedIn',c:'https://careers.linkedin.com/jobs',li:'https://www.linkedin.com/company/linkedin/jobs/'},
+{s:2,n:'Netflix',c:'https://jobs.netflix.com/search?q=machine+learning',li:'https://www.linkedin.com/company/netflix/jobs/'}
+],
+'Canada':[
+{s:2,n:'Shopify',c:'https://www.shopify.com/careers/search?q=machine+learning',li:'https://www.linkedin.com/company/shopify/jobs/'},
+{s:2,n:'Cohere',c:'https://cohere.com/careers',li:'https://www.linkedin.com/company/cohere-ai/jobs/'},
+{s:2,n:'Waabi',c:'https://waabi.ai/careers/',li:'https://www.linkedin.com/company/waabi/jobs/'},
+{s:2,n:'Vector Institute',c:'https://vectorinstitute.ai/careers/',li:'https://www.linkedin.com/company/vector-institute/jobs/'},
+{s:2,n:'RBC AI',c:'https://jobs.rbc.com/ca/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/rbc/jobs/'},
+{s:2,n:'Thomson Reuters',c:'https://careers.thomsonreuters.com/us/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/thomson-reuters/jobs/'},
+{s:2,n:'Ada',c:'https://www.ada.cx/careers/',li:'https://www.linkedin.com/company/ada-support/jobs/'},
+{s:2,n:'Layer6 AI',c:'https://layer6.ai/careers/',li:'https://www.linkedin.com/company/layer6-ai/jobs/'},
+{s:2,n:'Microsoft Canada',c:'https://jobs.careers.microsoft.com/global/en/search?q=machine%20learning',li:'https://www.linkedin.com/company/microsoft/jobs/'},
+{s:2,n:'Google Canada',c:'https://careers.google.com/jobs/results/?q=machine%20learning&location=Canada',li:'https://www.linkedin.com/company/google/jobs/'},
+{s:2,n:'Amazon Canada',c:'https://www.amazon.jobs/en/search?base_query=machine+learning&loc_query=Canada',li:'https://www.linkedin.com/company/amazon/jobs/'},
+{s:1,n:'Scotiabank AI',c:'https://jobs.scotiabank.com/search/?q=machine+learning',li:'https://www.linkedin.com/company/scotiabank/jobs/'},
+{s:2,n:'D-Wave',c:'https://www.dwavesys.com/careers/',li:'https://www.linkedin.com/company/d-wave-systems/jobs/'},
+{s:2,n:'Sanctuary AI',c:'https://www.sanctuary.ai/careers',li:'https://www.linkedin.com/company/sanctuary-ai/jobs/'},
+{s:1,n:'Ceridian',c:'https://jobs.ceridian.com/search/?q=machine+learning',li:'https://www.linkedin.com/company/ceridian/jobs/'},
+{s:1,n:'Lightspeed',c:'https://www.lightspeedhq.com/careers/',li:'https://www.linkedin.com/company/lightspeed-pos/jobs/'},
+{s:2,n:'Mila AI Institute',c:'https://mila.quebec/en/hiring/',li:'https://www.linkedin.com/company/mila-quebec-ai-institute/jobs/'},
+{s:1,n:'Element AI',c:'https://www.linkedin.com/company/element-ai/jobs/',li:'https://www.linkedin.com/company/element-ai/jobs/'},
+{s:2,n:'Borealis AI',c:'https://www.borealisai.com/careers/',li:'https://www.linkedin.com/company/borealis-ai/jobs/'},
+{s:2,n:'Cerebras Systems',c:'https://www.cerebras.net/careers/',li:'https://www.linkedin.com/company/cerebras-systems/jobs/'}
+],
+'Germany':[
+{s:2,n:'SAP',c:'https://jobs.sap.com/search/?q=machine+learning',li:'https://www.linkedin.com/company/sap/jobs/'},
+{s:2,n:'Aleph Alpha',c:'https://www.aleph-alpha.com/careers',li:'https://www.linkedin.com/company/aleph-alpha/jobs/'},
+{s:2,n:'DeepL',c:'https://www.deepl.com/en/careers',li:'https://www.linkedin.com/company/deepl/jobs/'},
+{s:2,n:'Siemens AI',c:'https://jobs.siemens.com/careers?query=machine+learning',li:'https://www.linkedin.com/company/siemens/jobs/'},
+{s:2,n:'BMW AI',c:'https://www.bmwgroup.jobs/en/jobs.html?search=machine+learning',li:'https://www.linkedin.com/company/bmw-group/jobs/'},
+{s:2,n:'Celonis',c:'https://www.celonis.com/careers/jobs/?q=machine+learning',li:'https://www.linkedin.com/company/celonis/jobs/'},
+{s:2,n:'Zalando ML',c:'https://jobs.zalando.com/en/',li:'https://www.linkedin.com/company/zalando/jobs/'},
+{s:2,n:'Delivery Hero',c:'https://careers.deliveryhero.com/global/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/delivery-hero/jobs/'},
+{s:2,n:'Bosch AI',c:'https://www.bosch.com/careers/your-future-at-bosch/search-and-apply/?q=machine+learning',li:'https://www.linkedin.com/company/bosch/jobs/'},
+{s:1,n:'N26',c:'https://n26.com/en-eu/careers',li:'https://www.linkedin.com/company/n26/jobs/'},
+{s:1,n:'Auto1 Group',c:'https://www.auto1-group.com/jobs/?q=machine+learning',li:'https://www.linkedin.com/company/auto1-group/jobs/'},
+{s:1,n:'Personio',c:'https://www.personio.com/about-personio/careers/',li:'https://www.linkedin.com/company/personio/jobs/'},
+{s:2,n:'Volkswagen AI',c:'https://www.volkswagenag.com/en/group/careers.html',li:'https://www.linkedin.com/company/volkswagen-ag/jobs/'},
+{s:2,n:'Fraunhofer',c:'https://www.fraunhofer.de/en/careers.html',li:'https://www.linkedin.com/company/fraunhofer-gesellschaft/jobs/'},
+{s:1,n:'Otto Group',c:'https://www.ottogroup.com/en/karriere.php',li:'https://www.linkedin.com/company/otto-group/jobs/'},
+{s:2,n:'Bayer AI',c:'https://career.bayer.com/en/careers/search-jobs.html?keyword=machine+learning',li:'https://www.linkedin.com/company/bayer/jobs/'},
+{s:2,n:'Deutsche Telekom',c:'https://www.telekom.com/en/careers',li:'https://www.linkedin.com/company/deutsche-telekom/jobs/'},
+{s:2,n:'Daimler AI',c:'https://www.mercedes-benz.com/en/career/',li:'https://www.linkedin.com/company/mercedes-benz/jobs/'},
+{s:2,n:'Infineon',c:'https://www.infineon.com/cms/en/careers/',li:'https://www.linkedin.com/company/infineon-technologies/jobs/'},
+{s:0,n:'Wacker AI',c:'https://www.wacker.com/cms/en-us/about-wacker/jobs.html',li:'https://www.linkedin.com/company/wacker-chemie-ag/jobs/'}
+],
+'Netherlands':[
+{s:2,n:'ASML',c:'https://www.asml.com/en/careers/find-your-job#q=machine+learning',li:'https://www.linkedin.com/company/asml/jobs/'},
+{s:2,n:'Booking.com',c:'https://jobs.booking.com/careers?query=machine+learning',li:'https://www.linkedin.com/company/booking.com/jobs/'},
+{s:2,n:'Adyen',c:'https://www.adyen.com/careers',li:'https://www.linkedin.com/company/adyen/jobs/'},
+{s:2,n:'Philips AI',c:'https://www.careers.philips.com/global/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/philips/jobs/'},
+{s:2,n:'TomTom',c:'https://jobs.tomtom.com/en/jobs?query=machine+learning',li:'https://www.linkedin.com/company/tomtom/jobs/'},
+{s:1,n:'bol.com',c:'https://careers.bol.com/en/vacancies/?search=machine+learning',li:'https://www.linkedin.com/company/bol.com/jobs/'},
+{s:2,n:'ING AI',c:'https://www.ing.jobs/netherlands/vacancies/machine-learning.htm',li:'https://www.linkedin.com/company/ing/jobs/'},
+{s:2,n:'Elastic',c:'https://jobs.elastic.co/?q=machine+learning',li:'https://www.linkedin.com/company/elastic-co/jobs/'},
+{s:1,n:'Mollie',c:'https://jobs.mollie.com/?q=machine+learning',li:'https://www.linkedin.com/company/mollie/jobs/'},
+{s:1,n:'Catawiki',c:'https://catawiki.com/careers',li:'https://www.linkedin.com/company/catawiki/jobs/'},
+{s:1,n:'Takeaway.com',c:'https://careers.takeaway.com/',li:'https://www.linkedin.com/company/just-eat-takeaway/jobs/'},
+{s:2,n:'Shell AI',c:'https://www.shell.com/careers.html',li:'https://www.linkedin.com/company/shell/jobs/'},
+{s:1,n:'ABN AMRO AI',c:'https://www.abnamro.com/en/careers',li:'https://www.linkedin.com/company/abn-amro/jobs/'},
+{s:1,n:'Randstad AI',c:'https://www.randstad.com/careers/',li:'https://www.linkedin.com/company/randstad/jobs/'},
+{s:1,n:'Dataminr',c:'https://www.dataminr.com/careers',li:'https://www.linkedin.com/company/dataminr/jobs/'}
+],
+'Australia':[
+{s:2,n:'Atlassian',c:'https://www.atlassian.com/company/careers/all-jobs?search=machine+learning',li:'https://www.linkedin.com/company/atlassian/jobs/'},
+{s:2,n:'Canva',c:'https://www.canva.com/careers/jobs/?search=machine+learning',li:'https://www.linkedin.com/company/canva/jobs/'},
+{s:2,n:'CSIRO Data61',c:'https://jobs.csiro.au/search/?q=machine+learning',li:'https://www.linkedin.com/company/data61/jobs/'},
+{s:1,n:'REA Group',c:'https://www.rea-group.com/careers/',li:'https://www.linkedin.com/company/rea-group/jobs/'},
+{s:1,n:'SafetyCulture',c:'https://safetaculture.com/careers/',li:'https://www.linkedin.com/company/safetyculture/jobs/'},
+{s:1,n:'Afterpay',c:'https://careers.afterpay.com/jobs?q=machine+learning',li:'https://www.linkedin.com/company/afterpay/jobs/'},
+{s:2,n:'Commonwealth Bank',c:'https://careers.commbank.com.au/global/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/commonwealth-bank/jobs/'},
+{s:2,n:'Cochlear',c:'https://careers.cochlear.com/cw/en/listing/?q=machine+learning',li:'https://www.linkedin.com/company/cochlear/jobs/'},
+{s:1,n:'Telstra AI',c:'https://careers.telstra.com/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/telstra/jobs/'},
+{s:0,n:'Airtasker',c:'https://www.airtasker.com/careers/',li:'https://www.linkedin.com/company/airtasker/jobs/'},
+{s:0,n:'Zip Co',c:'https://zip.co/careers',li:'https://www.linkedin.com/company/zip-co/jobs/'},
+{s:1,n:'Macquarie AI',c:'https://www.macquarie.com/au/en/careers.html',li:'https://www.linkedin.com/company/macquarie-group/jobs/'},
+{s:1,n:'Westpac AI',c:'https://www.westpac.com.au/about-westpac/careers/',li:'https://www.linkedin.com/company/westpac/jobs/'},
+{s:2,n:'BHP AI',c:'https://www.bhp.com/careers',li:'https://www.linkedin.com/company/bhp/jobs/'},
+{s:1,n:'ANZ AI',c:'https://www.anz.com.au/about-us/careers/',li:'https://www.linkedin.com/company/anz/jobs/'}
+]
+};
+
+// Default companies for countries without specific data
+const defaultCompanies=(country)=>[
+{s:2,n:'Google',c:`https://careers.google.com/jobs/results/?q=machine+learning&location=${encodeURIComponent(country)}`,li:'https://www.linkedin.com/company/google/jobs/'},
+{s:2,n:'Microsoft',c:`https://jobs.careers.microsoft.com/global/en/search?q=machine%20learning`,li:'https://www.linkedin.com/company/microsoft/jobs/'},
+{s:2,n:'Amazon',c:`https://www.amazon.jobs/en/search?base_query=machine+learning&loc_query=${encodeURIComponent(country)}`,li:'https://www.linkedin.com/company/amazon/jobs/'},
+{s:1,n:'IBM',c:'https://www.ibm.com/employment/',li:'https://www.linkedin.com/company/ibm/jobs/'},
+{s:1,n:'Accenture AI',c:'https://www.accenture.com/us-en/careers',li:'https://www.linkedin.com/company/accenture/jobs/'},
+{s:2,n:'SAP',c:'https://jobs.sap.com/search/?q=machine+learning',li:'https://www.linkedin.com/company/sap/jobs/'},
+{s:1,n:'Oracle AI',c:'https://www.oracle.com/corporate/careers/',li:'https://www.linkedin.com/company/oracle/jobs/'},
+{s:1,n:'Siemens',c:'https://jobs.siemens.com/careers?query=machine+learning',li:'https://www.linkedin.com/company/siemens/jobs/'},
+{s:1,n:'Philips',c:'https://www.careers.philips.com/global/en/search-results?keywords=machine+learning',li:'https://www.linkedin.com/company/philips/jobs/'},
+{s:1,n:'Deloitte AI',c:'https://www2.deloitte.com/global/en/careers.html',li:'https://www.linkedin.com/company/deloitte/jobs/'},
+{s:1,n:'PwC AI',c:'https://www.pwc.com/gx/en/careers.html',li:'https://www.linkedin.com/company/pwc/jobs/'},
+{s:1,n:'KPMG AI',c:'https://home.kpmg/xx/en/home/careers.html',li:'https://www.linkedin.com/company/kpmg/jobs/'},
+{s:1,n:'McKinsey QuantumBlack',c:'https://www.mckinsey.com/careers',li:'https://www.linkedin.com/company/mckinsey/jobs/'},
+{s:1,n:'Capgemini AI',c:'https://www.capgemini.com/careers/',li:'https://www.linkedin.com/company/capgemini/jobs/'},
+{s:1,n:'Ericsson AI',c:'https://jobs.ericsson.com/careers?query=machine+learning',li:'https://www.linkedin.com/company/ericsson/jobs/'}
+];
+
+const tipsData={
+'United Kingdom':['🔍 Search "visa sponsorship" in quotes on LinkedIn — removes 80% irrelevant listings','📋 Check Gov.uk sponsor register before every application','⏰ Graduate Route visa = 2 years post-study — use it now','🚀 UK AI startups sponsor more readily than large corps','📧 Cold email hiring managers after applying — 40% interviews from follow-ups'],
+'United States':['⏰ STEM OPT = 3 years — start applying final semester','🏢 Big tech (Google, Meta, Microsoft) almost always sponsor','📅 H1B lottery in April for October start — plan carefully','📊 Use H1BGrader.com to check company H1B history','🎓 Campus recruiting events fastest path to OPT offers'],
+'Canada':['⚡ Global Talent Stream = 2 week processing for AI/ML','🏙️ Toronto, Montreal, Vancouver are the 3 main AI hubs','🌟 Canada PR much easier than US Green Card','🤝 Cohere, Waabi, Ada actively recruit internationally','💰 Lower salaries than US but more achievable PR'],
+default:['🔍 Always include "visa sponsorship" in your search keywords','📋 Verify employer is registered to sponsor before applying','⏰ Apply early — sponsored roles fill faster than regular ones','🤝 Reach out to alumni from your university in target country','📧 Tailor your CV to each role — ATS filters most applications']
+};
+
+const roleTipsData={
+'Business Analyst':['🏦 Big 4 (Deloitte, PwC, KPMG, EY) actively sponsor international BAs','📋 CBAP or PMI-PBA certification boosts visa sponsorship chances','💡 Finance & banking sector sponsors most BAs in UK/Germany','🤝 Consulting firms (Accenture, Capgemini, McKinsey) sponsor globally','📊 SQL + Power BI + Stakeholder management = top BA skill combo'],
+'Finance Analyst':['🏦 Investment banks (Goldman, JP Morgan, Barclays) have strong sponsorship programs','📈 CFA Level 1 significantly increases sponsorship chances','🇬🇧 UK Financial Services sector is top sponsor for international graduates','💱 FinTech (Revolut, Wise, Monzo) sponsor and pay well','📊 Bloomberg + Excel/SQL skills are must-haves for sponsored roles'],
+'Marketing Analyst':['📱 Tech companies (Google, Meta, Amazon) sponsor Marketing Analysts globally','📊 Google Analytics + Tableau certifications increase visibility','🎯 Performance/Growth Marketing roles sponsor more than brand roles','🌍 Netherlands, Germany have growing demand for multilingual marketers','💡 SQL + Python basics separate you from competition'],
+'Data Analyst':['📊 SQL + Python + Tableau = most requested skills for sponsored DA roles','🏦 Banking, healthcare, retail sectors sponsor Data Analysts heavily','🇬🇧 UK has 2000+ sponsored DA roles per month','💼 Entry level DA roles easiest to get sponsorship for','🔍 Search "data analyst" + "tier 2" on LinkedIn UK for direct results'],
+'Product Manager':['🚀 Tech PM roles (Google, Amazon, Meta) almost always sponsor globally','📱 Start with APM programs — Google APM, Microsoft PM are great entry points','💡 MBA from top UK/EU university significantly helps sponsorship','🎯 B2B SaaS companies sponsor PMs more readily than consumer apps','📊 Technical PM skills (SQL, APIs) double your sponsorship chances'],
+'Operations Analyst':['🏭 Supply chain disruptions = massive demand for Ops Analysts globally','📦 Amazon, DHL, Maersk sponsor Operations roles internationally','🇩🇪 Germany + Netherlands = top countries for Operations/Logistics roles','📊 ERP skills (SAP, Oracle) highly valued for sponsorship','🎓 APICS CSCP certification boosts chances significantly'],
+'HR Analyst':['💼 Multinationals (Unilever, P&G, Shell) sponsor HR Analysts','📊 HRIS skills (Workday, SAP SuccessFactors) = strong sponsorship signal','🌍 Amsterdam, Dublin, London are top hubs for international HR roles','🔍 Search "People Analytics" — higher salary + more sponsorship','📋 CIPD qualification very valuable for UK HR sponsorship'],
+'Supply Chain Analyst':['🚢 Global logistics boom = strong demand + sponsorship in EU/UK/Canada','📦 Amazon, Unilever, P&G have dedicated international graduate programs','🇩🇪 Germany manufacturing sector sponsors Supply Chain heavily','📊 SAP + Power BI = strongest combination for sponsorship','⚡ Sustainability/Green Supply Chain = fastest growing sponsored niche'],
+'UX Designer':['🎨 Figma proficiency is non-negotiable for sponsored UX roles','🏢 Big tech (Google, Microsoft, Apple) sponsor UX Designers globally','🇬🇧 UK + Netherlands strongest for international UX sponsorship','💡 UX Research skills alongside design doubles sponsorship chances','📱 3 strong case studies beats 10 weak ones in portfolio'],
+'Cybersecurity Analyst':['🔐 Cyber skills shortage = employers actively sponsor internationally','🏆 CompTIA Security+, CISSP, CEH = fast-track to sponsorship','🇬🇧 UK NCSC certified companies sponsor heavily','💰 Cybersecurity pays 20-30% more than other IT roles','🌍 All major countries have critical cyber skills shortage'],
+'Cloud Engineer':['☁️ AWS/Azure/GCP certifications = almost guaranteed sponsorship path','🏢 Every Fortune 500 is cloud migrating — massive demand globally','💰 Cloud roles pay 30-40% premium over on-prem roles','🇩🇪 Germany + Netherlands = most cloud engineering sponsorship in EU','🚀 DevOps + Cloud combo = highest sponsorship rate in tech'],
+'DevOps Engineer':['🔧 DevOps shortage is global — sponsorship rate 65%+','☁️ Kubernetes + Terraform + CI/CD = must-have for sponsored roles','🏢 Every tech company expanding DevOps team internationally','💰 Senior DevOps in UK/Germany earn £80-120k with sponsorship','🎯 Open source contributions boost visibility to international employers'],
+default:['🔍 Always include "visa sponsorship" in your search keywords','📋 Verify employer is registered to sponsor before applying','⏰ Apply early — sponsored roles fill faster than regular ones','🤝 Reach out to alumni from your university in target country','📧 Tailor your CV to each role — ATS filters most applications']
+};
+
+function pick(el,type,val){
+  state[type]=val;
+  const map={role:'role-pills',exp:'exp-pills'};
+  if(map[type]) document.getElementById(map[type]).querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function toggleCountry(el,country){
+  const idx=state.countries.indexOf(country);
+  if(idx===-1){
+    state.countries.push(country);
+    el.classList.add('country-on');
+  } else {
+    if(state.countries.length===1){return;} // keep at least 1
+    state.countries.splice(idx,1);
+    el.classList.remove('country-on');
+  }
+  const n=state.countries.length;
+  const hint = n===1
+    ? `${el.textContent.trim().split(' ')[0]} ${state.countries[0]} selected — tap more countries to search together`
+    : `${n} countries selected: ${state.countries.join(', ')}`;
+  document.getElementById('country-hint').textContent=hint;
+}
+
+const kwSuggestions=['PyTorch','TensorFlow','NLP','LLM','Computer Vision','Remote','Hybrid','NHS','Fintech','Healthcare AI','Deep Learning','MLOps','Kubernetes','AWS','Azure','GCP','Startup','Research','PhD','Graduate'];
+function onKeywordInput(){
+  const val=document.getElementById('keyword-bar').value.trim();
+  state.keyword=val;
+  document.getElementById('kw-clear').classList.toggle('show',val.length>0);
+  const sugg=document.getElementById('kw-suggestions');
+  if(val.length<1){sugg.classList.remove('show');return;}
+  const matches=kwSuggestions.filter(s=>s.toLowerCase().includes(val.toLowerCase())).slice(0,5);
+  if(matches.length){
+    sugg.innerHTML=matches.map(m=>`<div class="kw-sugg-item" onclick="selectSugg('${m}')">${m}</div>`).join('');
+    sugg.classList.add('show');
+  } else {sugg.classList.remove('show');}
+}
+function selectSugg(val){
+  document.getElementById('keyword-bar').value=val;
+  state.keyword=val;
+  document.getElementById('kw-suggestions').classList.remove('show');
+  document.getElementById('kw-clear').classList.add('show');
+}
+function clearKeyword(){
+  document.getElementById('keyword-bar').value='';
+  state.keyword='';
+  document.getElementById('kw-clear').classList.remove('show');
+  document.getElementById('kw-suggestions').classList.remove('show');
+}
+function onKeywordKey(e){if(e.key==='Escape')clearKeyword();}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.keyword-bar-wrap')) document.getElementById('kw-suggestions').classList.remove('show');
+});
+function toggleSkill(el,skill){
+  if(state.skills.includes(skill)){state.skills=state.skills.filter(s=>s!==skill);el.classList.remove('skill-on');}
+  else{state.skills.push(skill);el.classList.add('skill-on');}
+}
+function addSkill(){
+  const input=document.getElementById('custom-skill');
+  const val=input.value.trim();
+  if(!val||state.skills.includes(val)){input.value='';return;}
+  state.skills.push(val);
+  const btn=document.createElement('button');
+  btn.className='pill skill-on';btn.textContent=val;
+  btn.onclick=function(){toggleSkill(this,val);};
+  document.getElementById('skill-pills').appendChild(btn);
+  input.value='';
+}
+document.getElementById('custom-skill').addEventListener('keydown',e=>{if(e.key==='Enter')addSkill();});
+function buildQ(country){
+  const c=country||state.countries[0];
+  const parts=[state.role.replace(/ /g,'+')];
+  if(state.exp)parts.push(state.exp.replace(/ /g,'+'));
+  if(state.keyword)parts.push(state.keyword.trim().replace(/ /g,'+'));
+  if(state.skills.length)parts.push(state.skills.slice(0,3).join('+'));
+  if(state.visaNeed==='yes')parts.push('visa+sponsorship');
+  else if(state.visaNeed==='graduate')parts.push('graduate+route');
+  return parts.join('+');
+}
+async function search(){
+  const btn=document.getElementById('search-btn');
+  btn.disabled=true;
+  document.getElementById('form-section').style.display='none';
+  document.getElementById('results').classList.remove('show');
+  const loading=document.getElementById('loading');
+  loading.classList.add('show');
+  ['step1','step2','step3','step4'].forEach((s,i)=>setTimeout(()=>document.getElementById(s).classList.add('show'),i*600));
+  await new Promise(r=>setTimeout(r,2800));
+  loading.classList.remove('show');
+  renderResults();
+  btn.disabled=false;
+}
+function renderResults(){
+  const rawRole=state.role;
+  const firstCountry=state.countries[0];
+  const multiCountry=state.countries.length>1;
+
+  // Build queries for first country (used for copy buttons)
+  const q=buildQ(firstCountry);
+  const s={q,rawRole,country:firstCountry};
+  const skillStr=state.skills.length?` + ${state.skills.slice(0,3).join(', ')}`:'';
+  const kwStr=state.keyword?` ${state.keyword}`:'';
+  const visaStr=state.visaNeed==='yes'?'visa sponsorship':state.visaNeed==='graduate'?'graduate route':'right to work';
+  const plainQuery=`${rawRole}${state.exp?' '+state.exp:''}${kwStr}${skillStr} ${visaStr} ${firstCountry}${multiCountry?' + '+( state.countries.length-1)+' more':''} 2026`;
+  const linkedinQuery=`${rawRole}${kwStr} ${visaStr}`;
+  const googleQuery=`"${rawRole}"${kwStr} "${visaStr}" site:linkedin.com OR site:indeed.com ${state.countries.join(' OR ')} 2026`;
+  window._queries={plain:plainQuery,linkedin:linkedinQuery,google:googleQuery};
+
+  const countryLabel=multiCountry?state.countries.join(' + '):firstCountry;
+  document.getElementById('results-title').textContent=`${rawRole} jobs in ${countryLabel}`;
+  document.getElementById('results-meta').textContent=`${state.countries.length} ${multiCountry?'countries':'country'} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+
+  // Visa boxes — one per country
+  document.getElementById('visa-box').innerHTML=state.countries.map(c=>{
+    const visa=visaData[c]||{visa:'Work Permit',threshold:'Varies',time:'4–12 weeks',salary:'Varies',tip:'Check official immigration website'};
+    return `<div class="visa-item"><div class="visa-item-label">${c}</div><div class="visa-item-val green">${visa.visa}</div></div>
+    <div class="visa-item"><div class="visa-item-label">Min salary</div><div class="visa-item-val amber">${visa.threshold}</div></div>
+    <div class="visa-item"><div class="visa-item-label">Expected pay</div><div class="visa-item-val green">${visa.salary}</div></div>`;
+  }).join('<div style="grid-column:1/-1;height:1px;background:var(--border)"></div>');
+
+  document.getElementById('query-box').innerHTML=`<span style="color:var(--text3)">AI query → </span><span style="color:var(--accent2)">"${plainQuery}"</span>`;
+  document.getElementById('copy-row').style.display='flex';
+
+  const companies=companyData[state.countries[0]]||defaultCompanies(state.countries[0]);
+  const tips=roleTipsData[state.role]||(tipsData[state.countries[0]]||tipsData['default']);
+
+  // Job boards — one section per country
+  document.getElementById('boards-grid').innerHTML=state.countries.map(c=>{
+    const cBoards=boardData[c]||boardData['default'];
+    const cQ=buildQ(c);
+    const cs={q:cQ,rawRole,country:c};
+    let html='';
+    if(multiCountry) html+='<div style="grid-column:1/-1;font-size:11px;color:var(--text3);font-family:var(--mono);padding:6px 2px;margin-top:4px;border-top:1px solid rgba(255,255,255,0.08)">'+c.toUpperCase()+'</div>';
+    html+=cBoards.map(b=>'<a class="board-card" href="'+b.url(cs)+'" target="_blank" rel="noopener"><div class="board-card-top"><div class="board-name">'+b.name+'</div><div class="board-arrow">↗</div></div><div class="board-desc">'+b.desc+'</div><span class="board-tag '+b.tc+'">'+b.tag+'</span></a>').join('');
+    return html;
+  }).join('');
+
+  const badgeMap={
+    2:['sb-confirmed','✅ Sponsors'],
+    1:['sb-likely','⚠ Likely'],
+    0:['sb-unknown','❓ Unknown']
+  };
+  document.getElementById('co-grid').innerHTML=companies.map(c=>{
+    const sl=c.s!==undefined?c.s:1;
+    const [bc,bl]=badgeMap[sl]||badgeMap[0];
+    return `<div class="co-card">
+      <div class="co-card-top">
+        <div class="co-name">${c.n}</div>
+        <span class="sponsor-badge ${bc}">${bl}</span>
+      </div>
+      <div class="co-links">
+        <a class="co-link careers" href="${c.c}" target="_blank" rel="noopener">Careers ↗</a>
+        <a class="co-link linkedin" href="${c.li}" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('tips-section').innerHTML=`
+    <div class="tips-title">INSIDER TIPS FOR ${state.countries[0].toUpperCase()}</div>
+    ${tips.map(t=>`<div class="tip-row"><span class="tip-icon">→</span><span>${t}</span></div>`).join('')}`;
+
+  updateProfileStrip();
+  renderHowTo();
+  renderChecklist();
+  renderFeaturedJobs();
+  document.getElementById('results').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+  loadLiveJobs();
+}
+function copyQuery(type){
+  const q=window._queries;
+  const text=type==='linkedin'?q.linkedin:type==='google'?q.google:q.plain;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btnId=type==='linkedin'?'copy-li-btn':type==='google'?'copy-gg-btn':'copy-plain-btn';
+    const btn=document.getElementById(btnId);
+    const orig=btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML=btn.innerHTML.replace(/Copy .*/,'Copied ✓');
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  }).catch(()=>{
+    // fallback for older browsers
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    alert('Copied: '+text);
+  });
+}
+const visaHints={
+  yes:'🛂 <strong style="color:var(--text)">Full sponsorship needed:</strong> Employer must be on Gov.uk sponsor register. Search adds "visa sponsorship" keyword. Check register before applying.',
+  graduate:'🎓 <strong style="color:var(--text)">Graduate Route:</strong> You have 2 years to work freely in the UK post-MSc. Many employers prefer this — broader job pool available to you!',
+  no:'✅ <strong style="color:var(--text)">Right to work:</strong> Full job market open to you. Remove sponsorship filter for more results.'
+};
+function pickVisa(el,val){
+  state.visaNeed=val;
+  document.getElementById('visa-need-pills').querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('visa-hint').innerHTML=visaHints[val];
+}
+function renderHowTo(){
+  const exp = state.exp||'';
+  const expFilter = exp==='entry level'?'Entry Level':exp==='mid level'?'Mid-Senior Level':exp==='senior'?'Director':null;
+  const visaNeed = state.visaNeed;
+  const liQuery = window._queries ? window._queries.linkedin : state.role+' visa sponsorship';
+  const liUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(liQuery)}&location=${encodeURIComponent(state.country)}&f_TPR=r86400${expFilter?'&f_E='+{'Entry Level':'2','Mid-Senior Level':'3','Director':'4'}[expFilter]:''}`;
+  const indeedUrl = `https://uk.indeed.com/jobs?q=${encodeURIComponent(liQuery)}&l=${encodeURIComponent(state.country)}&fromage=1`;
+  const googleUrl = window._queries ? `https://www.google.com/search?q=${encodeURIComponent(window._queries.google)}&ibp=htl;jobs` : '#';
+
+  const steps = [
+    {
+      num:'Step 01',
+      title:'Copy your search query',
+      desc:'Use the copy buttons above to grab your personalised query.',
+      action:`<button class="step-btn primary-btn" onclick="copyQuery('linkedin')">Copy LinkedIn query</button>`
+    },
+    {
+      num:'Step 02',
+      title:'Open LinkedIn Jobs',
+      desc:`Search for "${state.role}" with visa sponsorship filter active.`,
+      action:`<a class="step-btn primary-btn" href="${liUrl}" target="_blank" rel="noopener">Open LinkedIn ↗</a>`
+    },
+    {
+      num:'Step 03',
+      title:'Set filters inside LinkedIn',
+      desc:`Date posted → <strong style="color:var(--text)">Past 24 hours</strong> · Experience → <strong style="color:var(--text)">${expFilter||'Any'}</strong>`,
+      action:`<a class="step-btn" href="https://www.linkedin.com/help/linkedin/answer/a507508" target="_blank" rel="noopener">How to filter →</a>`
+    },
+    {
+      num:'Step 04',
+      title:'Try Indeed & Google too',
+      desc:'More boards = more chances. Run the same query on Indeed and Google Jobs.',
+      action:`<a class="step-btn" href="${indeedUrl}" target="_blank" rel="noopener">Indeed ↗</a> <a class="step-btn" href="${googleUrl}" target="_blank" rel="noopener" style="margin-left:4px">Google Jobs ↗</a>`
+    },
+    {
+      num:'Step 05',
+      title:'Verify sponsorship',
+      desc:`${state.countries.includes('United Kingdom')?'Check Gov.uk sponsor register before spending time on the application.':'Confirm with HR that they sponsor your visa type before applying.'}`,
+      action:`${state.countries.includes('United Kingdom')?'<a class="step-btn" href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank" rel="noopener">Gov.uk register ↗</a>':'<a class="step-btn" href="https://www.linkedin.com/jobs/search/?keywords=visa+sponsorship+confirmed" target="_blank" rel="noopener">Search confirmed ↗</a>'}`
+    },
+    {
+      num:'Step 06',
+      title:'Apply & follow up',
+      desc:'Apply within 24hrs of posting — early applicants get 3x more responses. Follow up after 5–7 days.',
+      action:`<button class="step-btn" onclick="openShareCard()">Share your profile card</button>`
+    }
+  ];
+
+  document.getElementById('howto-grid').innerHTML = steps.map(s=>`
+    <div class="howto-step">
+      <div class="step-num">${s.num}</div>
+      <div class="step-title">${s.title}</div>
+      <div class="step-desc">${s.desc}</div>
+      <div class="step-action">${s.action}</div>
+    </div>`).join('');
+}
+
+const checklistItems=[
+  {id:'ats',label:'ATS-friendly Resume ready',hint:'Use simple formatting — no tables, no columns. Keywords from the JD.',link:'https://www.jobscan.co/',linkText:'Check with Jobscan'},
+  {id:'cover',label:'Cover Letter written',hint:'Tailor it to this specific role. Mention visa status clearly.',link:null},
+  {id:'linkedin',label:'LinkedIn profile updated',hint:'Match headline to role. Turn on "Open to Work" (visible to recruiters only).',link:'https://www.linkedin.com/in/me/',linkText:'Open LinkedIn'},
+  {id:'sponsor',label:'Sponsorship verified',hint:'Confirm company is on Gov.uk register or has confirmed sponsorship.',link:'https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers',linkText:'Check register'},
+  {id:'applied',label:'Applied & noted down',hint:'Track date, job ID, and recruiter name. Follow up in 5–7 days.',link:null},
+];
+
+let clState = JSON.parse(sessionStorage.getItem('cl_state')||'{}');
+
+function renderChecklist(){
+  const done = checklistItems.filter(i=>clState[i.id]).length;
+  document.getElementById('cl-progress').textContent = done+' / '+checklistItems.length+' done';
+  document.getElementById('cl-bar').style.width = (done/checklistItems.length*100)+'%';
+  document.getElementById('checklist-items').innerHTML = checklistItems.map(item=>`
+    <div class="checklist-item" onclick="toggleCheck('${item.id}')">
+      <div class="ci-box${clState[item.id]?' checked':''}"></div>
+      <div class="ci-text">
+        <div class="ci-label${clState[item.id]?' done':''}">${item.label}</div>
+        <div class="ci-hint">${item.hint}${item.link?`<a class="ci-link" href="${item.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${item.linkText} ↗</a>`:''}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleCheck(id){
+  clState[id]=!clState[id];
+  try{sessionStorage.setItem('cl_state',JSON.stringify(clState));}catch(e){}
+  renderChecklist();
+}
+
+function resetChecklist(){
+  clState={};
+  try{sessionStorage.removeItem('cl_state');}catch(e){}
+  renderChecklist();
+}
+
+function buildProfileCard(){
+  const visaNeedLabel={yes:'🛂 Need full sponsorship',graduate:'🎓 Graduate Route (UK)',no:'✅ Right to work'};
+  const expLabel={'':"Any level",'entry level':'Entry level (0–2 yrs)','mid level':'Mid level (2–5 yrs)','senior':'Senior (5+ yrs)'};
+  return {
+    role: state.role,
+    country: state.countries[0],
+    exp: expLabel[state.exp]||state.exp,
+    visa: visaNeedLabel[state.visaNeed]||state.visaNeed,
+    skills: state.skills.length?state.skills.join(', '):'Not specified'
+  };
+}
+
+function updateProfileStrip(){
+  const p=buildProfileCard();
+  const visaNeedLabel={yes:'🛂 Need full sponsorship',graduate:'🎓 Graduate Route (UK)',no:'✅ Right to work'};
+  document.getElementById('profile-items').innerHTML=`
+    <div class="profile-item">🎓 <span>International Student</span></div>
+    <div class="profile-item">💼 <span>${p.role}</span></div>
+    <div class="profile-item">📍 <span>${p.country}</span></div>
+    <div class="profile-item">📊 <span>${p.exp}</span></div>
+    <div class="profile-item">${p.visa.split(' ')[0]} <span>${p.visa.substring(p.visa.indexOf(' ')+1)}</span></div>
+    ${state.skills.length?`<div class="profile-item">🛠 <span>${state.skills.slice(0,3).join(', ')}${state.skills.length>3?' +'+( state.skills.length-3)+' more':''}</span></div>`:''}
+  `;
+}
+
+function getCardText(format='plain'){
+  const p=buildProfileCard();
+  const lines=[
+    '━━━━━━━━━━━━━━━━━━',
+    'I am:',
+    '🎓 International Student',
+    `📍 Looking in ${state.countries.join(' + ')}`,
+    `💼 ${p.role} — ${p.exp}`,
+    p.visa,
+    state.skills.length?`🛠 Skills: ${p.skills}`:'',
+    '━━━━━━━━━━━━━━━━━━',
+  ].filter(Boolean);
+
+  if(format==='linkedin'){
+    return [
+      "Hi connections 👋",
+      "",
+      "I'm an international student actively looking for opportunities in "+p.country+".",
+      "",
+      lines.join('\n'),
+      "",
+      "If you're a recruiter or know someone hiring for "+p.role+" roles with visa sponsorship, I'd love to connect!",
+      "",
+      "#OpenToWork #"+p.role.replace(/ /g,'')+" #VisaSponsorship #InternationalStudent #"+p.country.replace(/ /g,'')
+    ].join('\n');
+  }
+  if(format==='whatsapp'){
+    return lines.join('\n')+'\n\nIf you know any sponsored '+p.role+' openings in '+p.country+', please share! 🙏';
+  }
+  return lines.join('\n');
+}
+
+function openShareCard(){
+  const p=buildProfileCard();
+  const lines=[
+    '<div class="card-header-line">MY JOB SEARCH PROFILE</div>',
+    '<hr class="card-divider">',
+    `<div class="card-line">🎓 <span>International Student</span></div>`,
+    `<div class="card-line">📍 Looking in <span>${p.country}</span></div>`,
+    `<div class="card-line">💼 <span>${p.role}</span> · ${p.exp}</div>`,
+    `<div class="card-line">${p.visa.split(' ')[0]} <span>${p.visa.substring(p.visa.indexOf(' ')+1)}</span></div>`,
+    state.skills.length?`<div class="card-line">🛠 <span>${p.skills}</span></div>`:'',
+    '<hr class="card-divider">',
+  ].filter(Boolean);
+  document.getElementById('card-preview').innerHTML=lines.join('');
+  document.getElementById('share-modal').classList.add('open');
+}
+
+function closeShareCard(){
+  document.getElementById('share-modal').classList.remove('open');
+}
+
+function copyCard(format='plain'){
+  const text=getCardText(format);
+  const btnId='copy-card-btn';
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById(btnId);
+    const orig=btn.innerHTML;
+    btn.classList.add('done');
+    btn.textContent='Copied ✓';
+    setTimeout(()=>{btn.classList.remove('done');btn.innerHTML=orig;},2000);
+  }).catch(()=>{alert('Copy this:\n\n'+text);});
+}
+
+function reset(){
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('form-section').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('share-modal').addEventListener('click',function(e){if(e.target===this)closeShareCard();});
+
+// ── Live Jobs via Adzuna ──────────────────────────────────────────
+const ADZUNA_ID  = '8af35b08';
+const ADZUNA_KEY = '2f9b8b74c803d556df33d1b23f71661b';
+
+const countryMeta = {
+  'United Kingdom': {cc:'gb', cur:'£', sym:'k'},
+  'United States':  {cc:'us', cur:'$', sym:'k'},
+  'Canada':         {cc:'ca', cur:'CA$', sym:'k'},
+  'Germany':        {cc:'de', cur:'€', sym:'k'},
+  'Netherlands':    {cc:'nl', cur:'€', sym:'k'},
+  'Australia':      {cc:'au', cur:'AU$', sym:'k'},
+  'Sweden':         {cc:'se', cur:'SEK ', sym:'k'},
+  'Singapore':      {cc:'sg', cur:'S$', sym:'k'},
+  'France':         {cc:'fr', cur:'€', sym:'k'},
+  'Switzerland':    {cc:'ch', cur:'CHF ', sym:'k'},
+  'Norway':         {cc:'no', cur:'NOK ', sym:'k'},
+  'Finland':        {cc:'fi', cur:'€', sym:'k'},
+  'Ireland':        {cc:'ie', cur:'€', sym:'k'},
+  'Spain':          {cc:'es', cur:'€', sym:'k'},
+  'Belgium':        {cc:'be', cur:'€', sym:'k'},
+  'Denmark':        {cc:'dk', cur:'DKK ', sym:'k'},
+  'New Zealand':    {cc:'nz', cur:'NZ$', sym:'k'},
+  'Portugal':       {cc:'pt', cur:'€', sym:'k'},
+};
+
+function buildJobQuery(){
+  const parts = [state.role];
+  if(state.keyword) parts.push(state.keyword);
+  if(state.skills.length) parts.push(state.skills.slice(0,2).join(' '));
+  return parts.join(' ');
+}
+
+function fetchJobs(country, page=1){
+  return new Promise((resolve) => {
+    const meta = countryMeta[country];
+    if(!meta){ resolve(null); return; }
+    const q = encodeURIComponent(buildJobQuery());
+    const cbName = 'adzuna_cb_' + country.replace(/\s/g,'_') + '_' + page;
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      const s = document.getElementById(cbName);
+      if(s) s.remove();
+      resolve(null);
+    }, 8000);
+    window[cbName] = function(data){
+      clearTimeout(timeout);
+      delete window[cbName];
+      const s = document.getElementById(cbName);
+      if(s) s.remove();
+      resolve(data);
+    };
+    const url = `https://api.adzuna.com/v1/api/jobs/${meta.cc}/search/${page}?app_id=${ADZUNA_ID}&app_key=${ADZUNA_KEY}&results_per_page=5&what=${q}&sort_by=date&content-type=application/jsonp&callback=${cbName}`;
+    const script = document.createElement('script');
+    script.id = cbName;
+    script.src = url;
+    script.onerror = () => { clearTimeout(timeout); resolve(null); };
+    document.head.appendChild(script);
+  });
+}
+
+function formatSalary(job, country){
+  const min = job.salary_min, max = job.salary_max;
+  if(!min && !max) return '';
+  const meta = countryMeta[country] || {cur:'£'};
+  const fmt = n => meta.cur + Math.round(n/1000) + 'k';
+  if(min && max) return fmt(min) + ' – ' + fmt(max);
+  if(max) return 'up to ' + fmt(max);
+  return fmt(min) + '+';
+}
+
+function timeSince(dateStr){
+  const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+  if(days === 0) return 'Today';
+  if(days === 1) return '1 day ago';
+  if(days < 7)  return days + ' days ago';
+  if(days < 30) return Math.floor(days/7) + ' wks ago';
+  return Math.floor(days/30) + ' months ago';
+}
+
+function getSearchUrls(job, country){
+  const title   = job.title || '';
+  const loc     = country || '';
+  const titleClean = title.replace(/[IVXLCDM]{2,}$/,'').trim();
+  return {
+    linkedin: 'https://www.linkedin.com/jobs/search/?keywords='+encodeURIComponent(titleClean)+'&location='+encodeURIComponent(loc)+'&f_TPR=r2592000',
+    indeed:   'https://www.indeed.com/jobs?q='+encodeURIComponent(titleClean)+'&l='+encodeURIComponent(loc)+'&fromage=30',
+    google:   'https://www.google.com/search?q='+encodeURIComponent(titleClean+' visa sponsorship '+loc+' jobs')+'&ibp=htl;jobs'
+  };
+}
+
+function renderJobCards(data, container, country, append=false){
+  if(!append) container.innerHTML = '';
+  if(!data || !data.results || data.results.length === 0){
+    if(!append) container.innerHTML = '<div class="jobs-error">No live listings found. Try a different role or fewer skills.</div>';
+    return;
+  }
+  data.results.forEach(job => {
+    const salary  = formatSalary(job, country);
+    const loc     = job.location?.display_name || country;
+    const posted  = job.created ? timeSince(job.created) : '';
+    const company = job.company?.display_name || 'Company not listed';
+    const desc    = (job.description || '').replace(/<[^>]+>/g, '').substring(0, 200);
+    const urls    = getSearchUrls(job, country);
+
+    const jobId = (job.title+company).replace(/[^a-zA-Z0-9]/g,'').substring(0,30);
+    const score  = calcMatchScore(job);
+    const saved  = isJobSaved(jobId);
+    // Store job data globally to avoid JSON stringify issues in template
+    window._jobCache = window._jobCache || {};
+    window._jobCache[jobId] = {id:jobId, title:job.title, company, loc, urls};
+
+    const card = document.createElement('div');
+    card.className = 'job-card';
+    card.id = 'jc-'+jobId;
+    card.innerHTML = `
+      <div class="job-card-top">
+        <div class="job-title">${job.title}${matchBadge(score)}</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          ${salary ? `<div class="job-salary">${salary}</div>` : ''}
+          <button class="bookmark-btn ${saved?'saved':''}" id="bm-${jobId}" onclick="toggleBookmark('${jobId}')" title="${saved?'Unsave':'Save job'}">
+            ${saved?'🔖':'🏷️'}
+          </button>
+        </div>
+      </div>
+      <div class="company-row">
+        <span class="company-name-text">${company}</span>
+        <div class="company-actions">
+          <a class="company-action-btn" href="https://www.linkedin.com/company/search/results/?keywords=${encodeURIComponent(company)}&origin=SWITCH_SEARCH_VERTICAL" target="_blank" rel="noopener" title="Company Profile">🏢 Profile</a>
+          <a class="company-action-btn" href="https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(job.title)}&f_C=${encodeURIComponent(company)}&location=${encodeURIComponent(loc)}" target="_blank" rel="noopener" title="Jobs at this company">💼 Their Jobs</a>
+        </div>
+      </div>
+      <div class="job-meta">
+        <span class="job-meta-item">📍 ${loc}</span>
+        ${posted ? `<span class="job-meta-item">🕐 ${posted}</span>` : ''}
+        <span class="job-meta-item" style="color:var(--green)">✅ Visa Sponsored</span>
+      </div>
+      <div class="job-desc">${desc}...</div>
+      <div class="job-apply-row">
+        <a class="job-apply-btn btn-li" href="${urls.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="job-apply-btn btn-in" href="${urls.indeed}"   target="_blank" rel="noopener">Indeed ↗</a>
+        <a class="job-apply-btn btn-gg" href="${urls.google}"   target="_blank" rel="noopener">Google Jobs ↗</a>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+let _jobPages = {};
+async function loadLiveJobs(){
+  const container = document.getElementById('live-jobs-container');
+  container.innerHTML = '<div class="jobs-loading">⏳ Fetching live jobs for '+state.countries.join(', ')+'...</div>';
+  document.getElementById('live-count').textContent = '';
+  _jobPages = {};
+  let totalFound = 0;
+  container.innerHTML = '';
+
+  for(const country of state.countries){
+    _jobPages[country] = 1;
+    // Country header label (only for multi-country)
+    if(state.countries.length > 1){
+      const lbl = document.createElement('div');
+      lbl.className = 'country-jobs-label';
+      lbl.textContent = '🌍 ' + country.toUpperCase();
+      container.appendChild(lbl);
+    }
+    const wrap = document.createElement('div');
+    wrap.id = 'jobs-' + country.replace(/\s/g, '_');
+    container.appendChild(wrap);
+
+    const data = await fetchJobs(country, 1);
+    if(data && data.results && data.results.length > 0){
+      totalFound += data.results.length;
+      renderJobCards(data, wrap, country, false);
+      const total = data.count || 0;
+      if(total > 5){
+        const btn = document.createElement('button');
+        btn.className = 'load-more-btn';
+        btn.textContent = `Load more ${country} jobs (${total.toLocaleString()} total) →`;
+        btn.onclick = async () => {
+          btn.textContent = 'Loading...';
+          btn.disabled = true;
+          _jobPages[country]++;
+          const more = await fetchJobs(country, _jobPages[country]);
+          renderJobCards(more, wrap, country, true);
+          btn.remove();
+        };
+        wrap.appendChild(btn);
+      }
+    } else {
+      const _q = encodeURIComponent(buildJobQuery()+' visa sponsorship');
+      const _l = encodeURIComponent(country);
+      wrap.innerHTML = `<div class="jobs-error" style="padding:16px 18px">
+        <div style="margin-bottom:10px;font-size:12px">No live listings for ${country} right now. Search directly:</div>
+        <div class="job-apply-row">
+          <a class="job-apply-btn btn-li" href="https://www.linkedin.com/jobs/search/?keywords=${_q}&location=${_l}&f_TPR=r2592000" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="job-apply-btn btn-in" href="https://www.indeed.com/jobs?q=${_q}&l=${_l}&fromage=30" target="_blank" rel="noopener">Indeed ↗</a>
+          <a class="job-apply-btn btn-gg" href="https://www.google.com/search?q=${_q}+${_l}+jobs&ibp=htl;jobs" target="_blank" rel="noopener">Google Jobs ↗</a>
+        </div>
+      </div>`;
+    }
+  }
+  document.getElementById('live-count').textContent = totalFound > 0 ? totalFound + ' live jobs loaded' : '';
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Featured Jobs (Google Sheets) ────────────────────────────────
+const SHEET_ID   = '1QjbXoed-nMaYC6OB4eq529v4qXnXCgr9WlBoByX52zc';
+const SHEET_NAME = 'Sheet1';
+const SHEET_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+const SHEET_JSON_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+async function fetchFeaturedJobs(){
+  try{
+    // Try JSON format first (gviz API)
+    const r = await fetch(SHEET_JSON_URL);
+    const text = await r.text();
+    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+    if(!match) throw new Error('No match');
+    const json = JSON.parse(match[1]);
+    const rows = json.table.rows;
+    const cols = json.table.cols.map(c => c.label.toLowerCase().trim());
+    return rows.map(row => {
+      const obj = {};
+      cols.forEach((col, i) => { obj[col] = row.c[i]?.v ?? ''; });
+      return obj;
+    }).filter(job => job.title && job.link);
+  } catch(e){
+    console.log('JSON fetch failed:', e.message, 'trying CSV...');
+    try{
+      // CSV fallback
+      const r2 = await fetch(SHEET_CSV_URL);
+      const text = await r2.text();
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.replace(/"/g,'').toLowerCase().trim());
+      return lines.slice(1).map(line => {
+        const vals = line.match(/(".*?"|[^,]+)/g) || [];
+        const obj = {};
+        headers.forEach((h,i) => { obj[h] = (vals[i]||'').replace(/"/g,'').trim(); });
+        return obj;
+      }).filter(job => job.title && job.link);
+    } catch(e2){
+      console.error('Sheet fetch error:', e2.message);
+      return [];
+    }
+  }
+}
+
+function renderFeaturedCard(job){
+  const daysAgo = job.date ? Math.floor((Date.now() - new Date(job.date).getTime()) / 86400000) : 0;
+  const posted  = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : daysAgo + ' days ago';
+  const tag     = job.tag || '✅ Sponsored';
+  const card    = document.createElement('a');
+  card.className = 'job-card';
+  card.href      = job.link;
+  card.target    = '_blank';
+  card.rel       = 'noopener noreferrer';
+  card.style.display = 'block';
+  const typeLabel = job.type ? job.type.toLowerCase() : 'full-time';
+  const isIntern  = typeLabel.includes('intern');
+  const typeBadge = isIntern
+    ? `<span class="match-badge" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:#a78bfa;font-size:10px">🎓 Internship</span>`
+    : `<span class="match-badge match-low" style="font-size:10px">💼 Full-time</span>`;
+  const yearBadge = job.year ? `<span class="job-meta-item">📅 ${job.year}</span>` : '';
+
+  card.innerHTML = `
+    <div class="job-card-top">
+      <div class="job-title">${job.title} <span class="match-badge match-high" style="font-size:10px">${tag}</span></div>
+      ${typeBadge}
+    </div>
+    <div class="company-row">
+      <span class="company-name-text">${job.company || ''}</span>
+    </div>
+    <div class="job-meta">
+      <span class="job-meta-item">📍 ${job.location || ''}</span>
+      <span class="job-meta-item">🕐 ${posted}</span>
+      ${yearBadge}
+      <span class="job-meta-item" style="color:var(--green)">✅ Visa Sponsored</span>
+    </div>
+    <span class="job-apply-btn btn-in" style="display:inline-block;margin-top:10px">Apply Directly ↗</span>`;
+  return card;
+}
+
+async function renderFeaturedJobs(){
+  const container = document.getElementById('featured-jobs-container');
+  const section   = document.getElementById('featured-jobs-section');
+  if(!container || !section) return;
+
+  container.innerHTML = '<div class="jobs-loading">⏳ Loading featured jobs...</div>';
+  section.style.display = 'block';
+
+  const jobs = await fetchFeaturedJobs();
+  const filtered = jobs.filter(j => !j.country || state.countries.includes(j.country));
+
+  if(filtered.length === 0){
+    section.style.display = 'none';
+    return;
+  }
+
+  _allFeatured = filtered;
+  container.innerHTML = '';
+  document.getElementById('featured-count').textContent = filtered.length + ' jobs';
+  filtered.forEach(job => container.appendChild(renderFeaturedCard(job)));
+}
+// ─────────────────────────────────────────────────────────────────
+function getSavedJobs(){ try{ return JSON.parse(localStorage.getItem('sponsoreme_saved')||'[]'); } catch(e){ return []; } }
+function saveJob(job){ const saved=getSavedJobs(); if(!saved.find(j=>j.id===job.id)){ saved.push(job); localStorage.setItem('sponsoreme_saved',JSON.stringify(saved)); } updateSavedCount(); }
+function unsaveJob(id){ const saved=getSavedJobs().filter(j=>j.id!==id); localStorage.setItem('sponsoreme_saved',JSON.stringify(saved)); updateSavedCount(); renderSavedPanel(); }
+function isJobSaved(id){ return getSavedJobs().some(j=>j.id===id); }
+function updateSavedCount(){ const n=getSavedJobs().length; const el=document.getElementById('saved-count'); if(el) el.textContent=n; }
+function toggleSavedPanel(){ const p=document.getElementById('saved-panel'); p.classList.toggle('open'); if(p.classList.contains('open')) renderSavedPanel(); }
+function toggleBookmark(id){
+  const jobData=(window._jobCache||{})[id];
+  const btn=document.getElementById('bm-'+id);
+  if(isJobSaved(id)){
+    unsaveJob(id);
+    if(btn){ btn.textContent='🏷️'; btn.classList.remove('saved'); btn.title='Save job'; }
+  } else {
+    if(jobData) saveJob(jobData);
+    if(btn){ btn.textContent='🔖'; btn.classList.add('saved'); btn.title='Unsave'; }
+  }
+}
+function renderSavedPanel(){
+  const list=document.getElementById('saved-jobs-list');
+  const saved=getSavedJobs();
+  if(!saved.length){ list.innerHTML='<div class="saved-empty">No saved jobs yet. Click 🔖 on any job to save it!</div>'; return; }
+  list.innerHTML='';
+  saved.forEach(job=>{
+    const d=document.createElement('div');
+    d.className='job-card';
+    d.innerHTML=`
+      <div class="job-card-top"><div class="job-title">${job.title}</div><button onclick="unsaveJob('${job.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px">🗑️</button></div>
+      <div class="job-company">${job.company}</div>
+      <div class="job-meta"><span class="job-meta-item">📍 ${job.loc}</span><span class="job-meta-item" style="color:var(--green)">✅ Visa Sponsored</span></div>
+      <div class="job-apply-row">
+        <a class="job-apply-btn btn-li" href="${job.urls.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="job-apply-btn btn-in" href="${job.urls.indeed}" target="_blank" rel="noopener">Indeed ↗</a>
+        <a class="job-apply-btn btn-gg" href="${job.urls.google}" target="_blank" rel="noopener">Google Jobs ↗</a>
+      </div>`;
+    list.appendChild(d);
+  });
+}
+
+// ── FEATURE 2: Match Score ────────────────────────────────────────
+function calcMatchScore(job){
+  const skills=(state.skills||[]).map(s=>s.toLowerCase());
+  const role=(state.role||'').toLowerCase();
+  const desc=((job.title||'')+' '+(job.description||'')).toLowerCase();
+  let score=0;
+  if(desc.includes(role)) score+=40;
+  skills.forEach(s=>{ if(desc.includes(s)) score+=Math.floor(60/Math.max(skills.length,1)); });
+  return Math.min(score,100);
+}
+function matchBadge(score){
+  if(score>=70) return `<span class="match-badge match-high">⚡ ${score}% match</span>`;
+  if(score>=40) return `<span class="match-badge match-mid">✦ ${score}% match</span>`;
+  return `<span class="match-badge match-low">${score}% match</span>`;
+}
+
+// ── FEATURE 3: Email Alerts ────────────────────────────────────────
+function openAlertModal(){ document.getElementById('alert-modal').classList.add('open'); document.getElementById('alert-role').value=state.role||''; }
+function closeAlertModal(){ document.getElementById('alert-modal').classList.remove('open'); document.getElementById('alert-success').style.display='none'; }
+function submitAlert(){
+  const email=document.getElementById('alert-email').value.trim();
+  const role=document.getElementById('alert-role').value.trim();
+  if(!email||!email.includes('@')){ alert('Please enter a valid email!'); return; }
+  const alerts=JSON.parse(localStorage.getItem('sponsoreme_alerts')||'[]');
+  alerts.push({email,role,countries:state.countries,date:new Date().toISOString()});
+  localStorage.setItem('sponsoreme_alerts',JSON.stringify(alerts));
+  document.getElementById('alert-success').style.display='block';
+  if(typeof gtag!=='undefined') gtag('event','alert_subscribe',{role,countries:state.countries.join(',')});
+  setTimeout(closeAlertModal,2500);
+}
+const _alertModal = document.getElementById('alert-modal');
+if(_alertModal) _alertModal.addEventListener('click',function(e){ if(e.target===this) closeAlertModal(); });
+updateSavedCount();
+</script>
+
+<!-- Saved Jobs Panel -->
+<div class="saved-panel" id="saved-panel">
+  <div class="section-label">SAVED JOBS</div>
+  <div id="saved-jobs-list"><div class="saved-empty">No saved jobs yet. Click 🔖 on any job to save it!</div></div>
+</div>
+
+<!-- Email Alert Modal -->
+<div class="alert-modal" id="alert-modal">
+  <div class="alert-box">
+    <button class="alert-close" onclick="closeAlertModal()">✕</button>
+    <h3>🔔 Daily Job Alerts</h3>
+    <p>Get fresh visa-sponsored jobs in your inbox every day — matching your role and countries.</p>
+    <input class="alert-input" id="alert-email" type="email" placeholder="your@email.com" />
+    <input class="alert-input" id="alert-role" type="text" placeholder="Role (e.g. Data Scientist)" />
+    <button class="alert-submit" onclick="submitAlert()">Subscribe — it's free!</button>
+    <div class="alert-success" id="alert-success" style="display:none">
+      ✅ Subscribed! Check your inbox for confirmation.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
