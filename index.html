@@ -260,6 +260,15 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .btn-gg:hover{background:rgba(34,211,160,.18)}
 .jobs-loading{text-align:center;padding:28px;color:var(--text3);font-size:13px;font-family:var(--mono)}
 .jobs-error{text-align:center;padding:20px;color:var(--text3);font-size:13px;background:var(--bg3);border-radius:11px;border:1px solid var(--border)}
+.skill-category-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:8px 2px 4px;width:100%;font-weight:500}
+.cv-upload-box{border:1.5px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg3)}
+.cv-upload-box:hover{border-color:var(--accent-border);background:var(--accent-bg)}
+.cv-ai-section{margin-bottom:4px}
+.cv-ai-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.cv-ai-btn{padding:4px 12px;border-radius:7px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:11px;cursor:pointer;font-family:var(--mono);margin:2px;transition:all .15s}
+.cv-ai-btn:hover{background:rgba(108,99,255,.2)}
+.cv-skill-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent2);margin:3px;cursor:pointer;font-family:var(--mono)}
+.cv-skill-tag:hover{background:rgba(108,99,255,.2)}
 .load-more-btn{width:100%;padding:10px;font-size:13px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:var(--font);margin-top:4px;transition:all .15s}
 .load-more-btn:hover{border-color:var(--border2);color:var(--text)}
 .country-jobs-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;padding:6px 2px;margin-top:8px;border-top:1px solid var(--border);margin-bottom:8px}
@@ -267,6 +276,7 @@ footer a{color:var(--text2);text-decoration:none}
 footer a:hover{color:var(--accent2)}
 @media(max-width:600px){.visa-box{grid-template-columns:1fr 1fr}h1{font-size:26px}.form-card{padding:18px}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -354,6 +364,7 @@ footer a:hover{color:var(--accent2)}
     <div class="form-section">
       <span class="form-label">Skills</span>
       <div class="pill-group" id="skill-pills">
+        <div class="skill-category-label">💻 Tech / AI</div>
         <button class="pill" onclick="toggleSkill(this,'Python')">Python</button>
         <button class="pill" onclick="toggleSkill(this,'PyTorch')">PyTorch</button>
         <button class="pill" onclick="toggleSkill(this,'TensorFlow')">TensorFlow</button>
@@ -369,12 +380,44 @@ footer a:hover{color:var(--accent2)}
         <button class="pill" onclick="toggleSkill(this,'Spark')">Spark</button>
         <button class="pill" onclick="toggleSkill(this,'Docker')">Docker</button>
         <button class="pill" onclick="toggleSkill(this,'R')">R</button>
+        <div class="skill-category-label">📊 Data / Business</div>
+        <button class="pill" onclick="toggleSkill(this,'Advanced Excel')">Advanced Excel</button>
+        <button class="pill" onclick="toggleSkill(this,'Power BI')">Power BI</button>
+        <button class="pill" onclick="toggleSkill(this,'Tableau')">Tableau</button>
+        <button class="pill" onclick="toggleSkill(this,'VBA')">VBA</button>
+        <button class="pill" onclick="toggleSkill(this,'Google Sheets')">Google Sheets</button>
+        <button class="pill" onclick="toggleSkill(this,'SAP')">SAP</button>
+        <button class="pill" onclick="toggleSkill(this,'Salesforce')">Salesforce</button>
+        <button class="pill" onclick="toggleSkill(this,'Power Automate')">Power Automate</button>
+        <button class="pill" onclick="toggleSkill(this,'Business Intelligence')">Business Intelligence</button>
+        <div class="skill-category-label">📈 Finance / Marketing</div>
+        <button class="pill" onclick="toggleSkill(this,'Financial Modelling')">Financial Modelling</button>
+        <button class="pill" onclick="toggleSkill(this,'Bloomberg')">Bloomberg</button>
+        <button class="pill" onclick="toggleSkill(this,'Google Analytics')">Google Analytics</button>
+        <button class="pill" onclick="toggleSkill(this,'SEO')">SEO</button>
+        <button class="pill" onclick="toggleSkill(this,'CRM')">CRM</button>
+        <button class="pill" onclick="toggleSkill(this,'Figma')">Figma</button>
+        <button class="pill" onclick="toggleSkill(this,'JIRA')">JIRA</button>
+        <button class="pill" onclick="toggleSkill(this,'Agile')">Agile</button>
       </div>
       <div class="custom-input-row">
         <input class="custom-input" type="text" id="custom-skill" placeholder="Add custom skill (e.g. LSTM, FHIR, Hugging Face)...">
         <button class="add-btn" onclick="addSkill()">+ Add</button>
       </div>
     </div>
+    <div class="form-section">
+      <span class="form-label">📄 Upload CV <span style="font-size:11px;color:var(--text3);font-weight:400">(auto-detects skills)</span></span>
+      <div class="cv-upload-box" id="cv-upload-box" onclick="document.getElementById('cv-input').click()">
+        <input type="file" id="cv-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleCVUpload(event)">
+        <div id="cv-upload-content">
+          <div style="font-size:24px;margin-bottom:6px">📄</div>
+          <div style="font-size:13px;color:var(--text2)">Click to upload CV</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">PDF, DOC, DOCX, TXT • Skills auto-detected</div>
+        </div>
+      </div>
+      <div id="cv-detected-skills" style="display:none;margin-top:10px"></div>
+    </div>
+
     <div class="form-section">
       <span class="form-label">Experience</span>
       <div class="pill-group" id="exp-pills">
@@ -1459,6 +1502,174 @@ async function renderFeaturedJobs(){
   filtered.forEach(job => container.appendChild(renderFeaturedCard(job)));
 }
 // ─────────────────────────────────────────────────────────────────
+// ── CV Upload & Skill Detection (PDF.js) ─────────────────────────
+const CV_SKILLS = {
+  'Tech/AI': ['python','pytorch','tensorflow','keras','scikit-learn','sklearn','numpy','pandas','matplotlib','seaborn','nlp','llm','bert','gpt','transformers','hugging face','computer vision','opencv','aws','azure','gcp','google cloud','docker','kubernetes','spark','hadoop','hive','mlops','airflow','dbt','snowflake','databricks','git','github','linux','bash','rest api','graphql','fastapi','flask','django','react','node','javascript','typescript','java','scala','c++','matlab','r programming'],
+  'Data/Business': ['power bi','tableau','looker','qlik','excel','advanced excel','vba','power automate','power query','google sheets','business intelligence','sap','salesforce','oracle','workday','dynamics','jira','confluence','agile','scrum','kanban','six sigma','lean','erp'],
+  'Finance/Marketing': ['financial modelling','financial modeling','bloomberg','dcf','valuation','equity research','risk management','google analytics','seo','sem','ppc','social media','crm','hubspot','marketo','adobe analytics'],
+  'Design/PM': ['figma','sketch','adobe xd','wireframing','prototyping','user research','ux','ui design','product roadmap','okrs','stakeholder management'],
+  'Certifications': ['aws certified','azure certified','gcp certified','cfa','acca','cpa','pmp','prince2','cissp','comptia','google certified']
+};
+
+const ROLE_SIGNALS = {
+  'AI/ML Engineer': ['machine learning engineer','ml engineer','ai engineer','mlops','model deployment','pytorch','tensorflow','llm','transformers','deep learning','neural network','computer vision','nlp engineer'],
+  'Data Scientist': ['data scientist','data science','predictive model','statistical model','feature engineering','regression','classification','clustering','hypothesis testing'],
+  'Data Analyst': ['data analyst','sql analyst','business reporting','kpi','power bi','tableau','data visualization','analytics analyst','reporting analyst'],
+  'Business Analyst': ['business analyst','requirements gathering','stakeholder management','process improvement','user stories','brd','gap analysis','functional analyst'],
+  'Finance Analyst': ['finance analyst','financial analyst','investment analyst','equity analyst','portfolio','risk analyst','cfa','bloomberg','dcf','valuation','investment banking'],
+  'Software Engineer': ['software engineer','software developer','full stack','backend developer','frontend developer','web developer','platform engineer','site reliability'],
+  'DevOps Engineer': ['devops engineer','site reliability engineer','sre','infrastructure engineer','ci/cd','jenkins','terraform','ansible','kubernetes engineer','reliability engineering'],
+  'Marketing Analyst': ['marketing analyst','digital marketing','seo specialist','social media manager','campaign manager','growth marketer','performance marketing'],
+  'Product Manager': ['product manager','product owner','product lead','product strategy','go-to-market','product roadmap'],
+  'UX Designer': ['ux designer','ui designer','product designer','interaction designer','user researcher','figma designer'],
+  'HR Analyst': ['hr analyst','human resources','talent acquisition','people analyst','recruitment','hr manager','hris analyst'],
+  'Operations Analyst': ['operations analyst','supply chain','logistics analyst','procurement analyst','operations manager','process analyst'],
+  'Cloud Engineer': ['cloud engineer','aws engineer','azure engineer','gcp engineer','infrastructure engineer','platform engineer'],
+  'Cybersecurity Analyst': ['security analyst','cybersecurity','information security','soc analyst','penetration tester','security engineer']
+};
+
+function detectRole(text){
+  const scores = {};
+  Object.entries(ROLE_SIGNALS).forEach(([role, signals]) => {
+    scores[role] = 0;
+    signals.forEach(s => {
+      if(text.includes(s)){
+        scores[role] += (s.includes('analyst') || s.includes('engineer') || s.includes('scientist') || s.includes('manager') || s.includes('designer')) ? 3 : 1;
+      }
+    });
+  });
+  let best = 'Data Analyst', bestScore = 0;
+  Object.entries(scores).forEach(([role, score]) => {
+    if(score > bestScore){ bestScore = score; best = role; }
+  });
+  return best;
+}
+
+function processCV(text, filename){
+  const contentEl = document.getElementById('cv-upload-content');
+  const detectedEl = document.getElementById('cv-detected-skills');
+  const lowerText = text.toLowerCase();
+
+  const found = {};
+  let total = 0;
+  const acronyms = ['nlp','llm','gpt','aws','gcp','azure','sql','vba','erp','sap','crm','sem','ppc','seo','ux','ui','cfa','cpa','pmp','api','dbt','sre'];
+
+  Object.entries(CV_SKILLS).forEach(([cat, skills]) => {
+    const matches = skills.filter(s => lowerText.includes(s)).map(s =>
+      s.split(' ').map(w => acronyms.includes(w.toLowerCase()) ? w.toUpperCase() : w.charAt(0).toUpperCase()+w.slice(1)).join(' ')
+    );
+    if(matches.length){ found[cat] = matches; total += matches.length; }
+  });
+
+  const suggestedRole = detectRole(lowerText);
+  window._cvAllSkills = Object.values(found).flat();
+
+  contentEl.innerHTML = `<div style="font-size:13px;color:var(--green)">✅ ${filename}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${total} skills detected • Role: ${suggestedRole}</div>`;
+
+  detectedEl.style.display = 'block';
+  let html = '<div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px">DETECTED FROM YOUR CV:</div>';
+  html += `<div style="margin-bottom:10px"><div style="font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;margin-bottom:4px">Suggested Role</div><button class="cv-ai-btn" onclick="applyAISuggestion('${suggestedRole}')">${suggestedRole} → Apply</button></div>`;
+
+  Object.entries(found).forEach(([cat, skills]) => {
+    html += `<div style="margin-bottom:8px"><div style="font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;margin-bottom:4px">${cat}</div>`;
+    skills.forEach(s => { html += `<span class="cv-skill-tag" onclick="addCVSkill(this,'${s.replace(/'/g,"\'")}')">+ ${s}</span>`; });
+    html += '</div>';
+  });
+
+  if(total > 0){
+    html += `<button onclick="addAllCVSkills()" style="margin-top:6px;padding:5px 14px;border-radius:8px;border:1px solid var(--green-border);background:var(--green-bg);color:var(--green);font-size:11px;cursor:pointer;font-family:var(--mono);display:block">+ Add all ${total} skills</button>`;
+  } else {
+    html += '<div style="font-size:12px;color:var(--text3)">No skills detected. Make sure CV has readable text.</div>';
+  }
+  detectedEl.innerHTML = html;
+}
+
+async function handleCVUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const contentEl = document.getElementById('cv-upload-content');
+  document.getElementById('cv-detected-skills').style.display = 'none';
+  contentEl.innerHTML = '<div style="font-size:13px;color:var(--accent2)">⏳ Reading CV...</div>';
+
+  if(file.name.toLowerCase().endsWith('.pdf')){
+    try{
+      // Use PDF.js to extract text
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+      let fullText = '';
+      for(let i = 1; i <= pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const tc = await page.getTextContent();
+        fullText += tc.items.map(item => item.str).join(' ') + ' ';
+      }
+      if(fullText.trim().length < 50){
+        contentEl.innerHTML = '<div style="font-size:12px;color:#f87171">❌ PDF has no readable text (scanned image). Try .docx or .txt version.</div>';
+        return;
+      }
+      processCV(fullText, file.name);
+    } catch(err){
+      contentEl.innerHTML = '<div style="font-size:12px;color:#f87171">❌ Could not read PDF. Try .txt or .docx version.</div>';
+    }
+  } else {
+    // TXT/DOC fallback
+    const reader = new FileReader();
+    reader.onload = e => processCV(e.target.result, file.name);
+    reader.readAsText(file);
+  }
+}
+
+function addCVSkill(el, skill){
+  if(!state.skills.includes(skill)){
+    state.skills.push(skill);
+    const btn = document.createElement('button');
+    btn.className = 'pill skill-on';
+    btn.textContent = skill;
+    btn.onclick = () => toggleSkill(btn, skill);
+    document.getElementById('skill-pills').appendChild(btn);
+  }
+  el.style.opacity = '0.4';
+  el.style.pointerEvents = 'none';
+  el.textContent = '✓ ' + skill;
+}
+
+function addAllCVSkills(){
+  (window._cvAllSkills||[]).forEach(s => {
+    if(!state.skills.includes(s)){
+      state.skills.push(s);
+      const btn = document.createElement('button');
+      btn.className = 'pill skill-on';
+      btn.textContent = s;
+      btn.onclick = () => toggleSkill(btn, s);
+      document.getElementById('skill-pills').appendChild(btn);
+    }
+  });
+  document.querySelectorAll('.cv-skill-tag').forEach(t => { t.style.opacity='0.4'; t.style.pointerEvents='none'; });
+}
+
+function applyAISuggestion(role){
+  state.role = role;
+  document.querySelectorAll('#role-pills .pill').forEach(p => {
+    p.classList.remove('on');
+    if(p.textContent.trim() === role) p.classList.add('on');
+  });
+  const btn = event.target;
+  btn.textContent = '✓ Applied!';
+  btn.style.background = 'var(--green-bg)';
+  btn.style.borderColor = 'var(--green-border)';
+  btn.style.color = 'var(--green)';
+}
+
+function applyAICountry(country){
+  if(!state.countries.includes(country)){
+    state.countries.push(country);
+    document.querySelectorAll('#country-pills .pill').forEach(p => {
+      if(p.getAttribute('onclick')?.includes(country)) p.classList.add('on');
+    });
+  }
+}
+// ─────────────────────────────────────────────────────────────────
+
 function getSavedJobs(){ try{ return JSON.parse(localStorage.getItem('sponsoreme_saved')||'[]'); } catch(e){ return []; } }
 function saveJob(job){ const saved=getSavedJobs(); if(!saved.find(j=>j.id===job.id)){ saved.push(job); localStorage.setItem('sponsoreme_saved',JSON.stringify(saved)); } updateSavedCount(); }
 function unsaveJob(id){ const saved=getSavedJobs().filter(j=>j.id!==id); localStorage.setItem('sponsoreme_saved',JSON.stringify(saved)); updateSavedCount(); renderSavedPanel(); }
