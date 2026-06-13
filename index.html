@@ -264,6 +264,27 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .cv-upload-box{border:1.5px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg3)}
 .cv-upload-box:hover{border-color:var(--accent-border);background:var(--accent-bg)}
 .cv-ai-section{margin-bottom:4px}
+/* Sponsorship Score */
+.score-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-top:14px}
+.score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.score-title{font-size:12px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.score-number{font-size:32px;font-weight:700;line-height:1}
+.score-high{color:#4ade80}
+.score-mid{color:#fbbf24}
+.score-low{color:#f87171}
+.score-bar-wrap{background:var(--bg3);border-radius:20px;height:8px;margin:10px 0 14px;overflow:hidden}
+.score-bar{height:100%;border-radius:20px;transition:width 1s ease}
+.score-bar-high{background:linear-gradient(90deg,#22c55e,#4ade80)}
+.score-bar-mid{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.score-bar-low{background:linear-gradient(90deg,#ef4444,#f87171)}
+.score-section{margin-bottom:10px}
+.score-section-title{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.score-tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;margin:2px;font-family:var(--mono)}
+.score-tag-missing{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#f87171}
+.score-tag-good{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#4ade80}
+.score-tag-country{background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent2)}
+.score-share-btn{width:100%;padding:9px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:10px;transition:opacity .15s}
+.score-share-btn:hover{opacity:.85}
 .cv-ai-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
 .cv-ai-btn{padding:4px 12px;border-radius:7px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:11px;cursor:pointer;font-family:var(--mono);margin:2px;transition:all .15s}
 .cv-ai-btn:hover{background:rgba(108,99,255,.2)}
@@ -1581,7 +1602,13 @@ function processCV(text, filename){
   } else {
     html += '<div style="font-size:12px;color:var(--text3)">No skills detected. Make sure CV has readable text.</div>';
   }
+  // Add sponsorship score
+  const { score, feedback } = calcSponsorshipScore(text, total, suggestedRole);
+  html = renderScoreCard(score, feedback, suggestedRole) + '<div style="margin-top:14px;font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px">DETECTED FROM YOUR CV:</div>' + html.replace('<div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px">DETECTED FROM YOUR CV:</div>','');
+
   detectedEl.innerHTML = html;
+  // Animate score bar
+  setTimeout(()=>{ const bar=detectedEl.querySelector('.score-bar'); if(bar) bar.style.width=score+'%'; },100);
 }
 
 async function handleCVUpload(event){
@@ -1616,6 +1643,127 @@ async function handleCVUpload(event){
     const reader = new FileReader();
     reader.onload = e => processCV(e.target.result, file.name);
     reader.readAsText(file);
+  }
+}
+
+function calcSponsorshipScore(text, detectedSkills, role){
+  const lowerText = text.toLowerCase();
+  let score = 0;
+  const feedback = { good:[], missing:[], keywords:[], countries:[] };
+
+  // 1. Skills score (max 30)
+  const highValueSkills = ['python','sql','machine learning','deep learning','pytorch','tensorflow','aws','azure','power bi','tableau','excel','react','kubernetes','docker'];
+  const foundHigh = highValueSkills.filter(s => lowerText.includes(s));
+  score += Math.min(foundHigh.length * 3, 30);
+  if(foundHigh.length >= 3) feedback.good.push('Strong technical skills');
+  else feedback.missing.push('Add more in-demand tech skills');
+
+  // 2. Keywords score (max 20)
+  const sponsorKeywords = ['visa sponsorship','skilled worker','tier 2','work permit','authorized to work','sponsorship required','open to relocation','relocation'];
+  const foundKW = sponsorKeywords.filter(s => lowerText.includes(s));
+  score += foundKW.length * 4;
+  if(foundKW.length === 0){
+    feedback.keywords.push('"Visa sponsorship considered"');
+    feedback.keywords.push('"Open to relocation"');
+    feedback.keywords.push('"Skilled Worker Visa"');
+  } else {
+    feedback.good.push('Sponsorship keywords present');
+  }
+
+  // 3. Experience keywords (max 15)
+  const expWords = ['years of experience','led','managed','delivered','built','developed','increased','reduced','improved','deployed'];
+  const foundExp = expWords.filter(s => lowerText.includes(s));
+  score += Math.min(foundExp.length * 2, 15);
+  if(foundExp.length >= 3) feedback.good.push('Strong action verbs & impact');
+  else feedback.missing.push('Add impact metrics (e.g. "Increased accuracy by 20%")');
+
+  // 4. Education (max 10)
+  if(lowerText.includes('master') || lowerText.includes('msc') || lowerText.includes('phd')){ score += 10; feedback.good.push('Postgraduate qualification'); }
+  else if(lowerText.includes('bachelor') || lowerText.includes('btech') || lowerText.includes('b.tech') || lowerText.includes('degree')){ score += 6; }
+  else feedback.missing.push('Add your degree details clearly');
+
+  // 5. Certifications (max 10)
+  const certs = ['aws certified','azure certified','gcp certified','cfa','pmp','cissp','comptia','google certified','coursera','udemy'];
+  const foundCerts = certs.filter(s => lowerText.includes(s));
+  score += Math.min(foundCerts.length * 4, 10);
+  if(foundCerts.length > 0) feedback.good.push('Certifications detected');
+  else feedback.missing.push('Add relevant certifications');
+
+  // 6. Skills count bonus (max 15)
+  score += Math.min(detectedSkills * 2, 15);
+
+  // Cap at 100
+  score = Math.min(score, 100);
+
+  // Country recommendations based on role
+  const countryMap = {
+    'AI/ML Engineer': ['United Kingdom','Canada','Germany','Netherlands','Singapore'],
+    'Data Scientist': ['United Kingdom','United States','Canada','Germany','Australia'],
+    'Data Analyst': ['United Kingdom','Australia','Canada','Ireland','Netherlands'],
+    'Business Analyst': ['United Kingdom','Australia','Ireland','Canada','Germany'],
+    'Finance Analyst': ['United Kingdom','Singapore','Ireland','Luxembourg','Switzerland'],
+    'Software Engineer': ['United Kingdom','Germany','Netherlands','Canada','Australia'],
+    'DevOps Engineer': ['United Kingdom','Germany','Netherlands','Canada','Australia'],
+    'Marketing Analyst': ['United Kingdom','Australia','Ireland','Canada','Netherlands'],
+    'Product Manager': ['United Kingdom','Germany','Netherlands','Canada','Singapore'],
+    'UX Designer': ['United Kingdom','Netherlands','Germany','Australia','Canada'],
+    'default': ['United Kingdom','Canada','Germany','Australia','Netherlands']
+  };
+  feedback.countries = (countryMap[role] || countryMap['default']).slice(0,3);
+
+  return { score, feedback };
+}
+
+function renderScoreCard(score, feedback, role){
+  const scoreClass = score >= 70 ? 'score-high' : score >= 45 ? 'score-mid' : 'score-low';
+  const barClass = score >= 70 ? 'score-bar-high' : score >= 45 ? 'score-bar-mid' : 'score-bar-low';
+  const emoji = score >= 70 ? '🏆' : score >= 45 ? '📈' : '💪';
+  const msg = score >= 70 ? 'Strong profile!' : score >= 45 ? 'Good foundation' : 'Room to improve';
+
+  return `<div class="score-card">
+    <div class="score-header">
+      <div>
+        <div class="score-title">🎯 AI Sponsorship Score</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">${role} • ${msg}</div>
+      </div>
+      <div class="score-number ${scoreClass}">${score}<span style="font-size:16px;font-weight:400">%</span></div>
+    </div>
+    <div class="score-bar-wrap"><div class="score-bar ${barClass}" style="width:${score}%"></div></div>
+    
+    ${feedback.good.length ? `<div class="score-section">
+      <div class="score-section-title">✅ What's working</div>
+      ${feedback.good.map(g=>`<span class="score-tag score-tag-good">${g}</span>`).join('')}
+    </div>` : ''}
+
+    ${feedback.missing.length ? `<div class="score-section">
+      <div class="score-section-title">❌ Missing / Improve</div>
+      ${feedback.missing.map(m=>`<span class="score-tag score-tag-missing">${m}</span>`).join('')}
+    </div>` : ''}
+
+    ${feedback.keywords.length ? `<div class="score-section">
+      <div class="score-section-title">🔑 Add these keywords to CV</div>
+      ${feedback.keywords.map(k=>`<span class="score-tag score-tag-missing">${k}</span>`).join('')}
+    </div>` : ''}
+
+    <div class="score-section">
+      <div class="score-section-title">🌍 Best countries for you</div>
+      ${feedback.countries.map(c=>`<span class="score-tag score-tag-country" onclick="applyAICountry('${c}')" style="cursor:pointer">${c} +</span>`).join('')}
+    </div>
+
+    <button class="score-share-btn" onclick="shareScore(${score}, '${role}')">📤 Share my score</button>
+  </div>`;
+}
+
+function shareScore(score, role){
+  const text = `🎯 My AI Sponsorship Score: ${score}% for ${role} roles!
+
+Check yours free at SponsoreMe 👇
+https://sponsoreme-beta.netlify.app`;
+  if(navigator.share){
+    navigator.share({ title: 'My Sponsorship Score', text });
+  } else {
+    navigator.clipboard.writeText(text);
+    alert('Score copied! Share it on Instagram, LinkedIn or WhatsApp 🚀');
   }
 }
 
