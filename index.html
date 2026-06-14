@@ -1475,25 +1475,50 @@ async function fetchFeaturedJobs(){
 }
 
 function renderFeaturedCard(job, matchScore){
-  const daysAgo = job.date ? Math.floor((Date.now() - new Date(job.date).getTime()) / 86400000) : 0;
-  const posted  = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : daysAgo + ' days ago';
-  const tag     = job.tag || '✅ Sponsored';
-  const card    = document.createElement('a');
+  // Fix date - handle various formats from Google Sheets
+  let posted = '';
+  if(job.date && job.date !== 'NaN' && job.date !== ''){
+    let d;
+    // Google Sheets serial number (days since 1899-12-30)
+    if(typeof job.date === 'number' || (!isNaN(job.date) && String(job.date).length < 6)){
+      d = new Date((Number(job.date) - 25569) * 86400 * 1000);
+    } else {
+      d = new Date(String(job.date).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$2-$1'));
+    }
+    if(d && !isNaN(d.getTime())){
+      const daysAgo = Math.floor((Date.now() - d.getTime()) / 86400000);
+      posted = daysAgo <= 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : daysAgo < 30 ? daysAgo + ' days ago' : 'This month';
+    }
+  }
+
+  // Tag — only show if it's a short label (not skill list)
+  const tagRaw = job.tag || '';
+  const isShortTag = tagRaw.length < 20 && !tagRaw.includes(',');
+  const tagHtml = isShortTag && tagRaw ? `<span class="match-badge match-high" style="font-size:10px">${tagRaw}</span>` : '';
+
+  const card = document.createElement('a');
   card.className = 'job-card';
-  card.href      = job.link;
-  card.target    = '_blank';
-  card.rel       = 'noopener noreferrer';
+  card.href = job.link || '#';
+  card.target = '_blank';
+  card.rel = 'noopener noreferrer';
   card.style.display = 'block';
+
   const typeLabel = job.type ? job.type.toLowerCase() : 'full-time';
-  const isIntern  = typeLabel.includes('intern');
+  const isIntern = typeLabel.includes('intern') || typeLabel.includes('graduate');
   const typeBadge = isIntern
-    ? `<span class="match-badge" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:#a78bfa;font-size:10px">🎓 Internship</span>`
-    : `<span class="match-badge match-low" style="font-size:10px">💼 Full-time</span>`;
+    ? `<span class="match-badge" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:#a78bfa;font-size:10px">🎓 ${job.type}</span>`
+    : `<span class="match-badge match-low" style="font-size:10px">💼 ${job.type || 'Full-time'}</span>`;
+
   const yearBadge = job.year ? `<span class="job-meta-item">📅 ${job.year}</span>` : '';
+
+  // Match score badge
+  const matchBadgeHtml = (matchScore !== null && matchScore !== undefined)
+    ? `<span class="match-pct ${matchScore>=70?'match-pct-high':matchScore>=40?'match-pct-mid':'match-pct-low'}">${matchScore}% match</span>`
+    : '';
 
   card.innerHTML = `
     <div class="job-card-top">
-      <div class="job-title">${job.title} <span class="match-badge match-high" style="font-size:10px">${tag}</span></div>
+      <div class="job-title">${matchBadgeHtml}${job.title} ${tagHtml}</div>
       ${typeBadge}
     </div>
     <div class="company-row">
@@ -1501,7 +1526,7 @@ function renderFeaturedCard(job, matchScore){
     </div>
     <div class="job-meta">
       <span class="job-meta-item">📍 ${job.location || ''}</span>
-      <span class="job-meta-item">🕐 ${posted}</span>
+      ${posted ? `<span class="job-meta-item">🕐 ${posted}</span>` : ''}
       ${yearBadge}
       <span class="job-meta-item" style="color:var(--green)">✅ Visa Sponsored</span>
     </div>
