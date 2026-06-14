@@ -264,6 +264,14 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .cv-upload-box{border:1.5px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg3)}
 .cv-upload-box:hover{border-color:var(--accent-border);background:var(--accent-bg)}
 .cv-ai-section{margin-bottom:4px}
+/* CV Match */
+.match-score-header{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.match-score-title{font-size:13px;font-weight:500;color:var(--text)}
+.match-score-count{font-size:12px;color:var(--green);font-family:var(--mono)}
+.match-pct{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-family:var(--mono);font-weight:600;margin-right:6px;flex-shrink:0}
+.match-pct-high{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80}
+.match-pct-mid{background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24}
+.match-pct-low{background:rgba(148,163,184,.12);border:1px solid rgba(148,163,184,.2);color:var(--text3)}
 /* Sponsorship Score */
 .score-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-top:14px}
 .score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -1466,7 +1474,7 @@ async function fetchFeaturedJobs(){
   }
 }
 
-function renderFeaturedCard(job){
+function renderFeaturedCard(job, matchScore){
   const daysAgo = job.date ? Math.floor((Date.now() - new Date(job.date).getTime()) / 86400000) : 0;
   const posted  = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : daysAgo + ' days ago';
   const tag     = job.tag || '✅ Sponsored';
@@ -1499,6 +1507,23 @@ function renderFeaturedCard(job){
     </div>
     <span class="job-apply-btn btn-in" style="display:inline-block;margin-top:10px">Apply Directly ↗</span>`;
   return card;
+}
+
+function calcJobMatch(job, cvSkills, cvRole){
+  let score = 0;
+  const jobText = (job.title + ' ' + (job.company||'') + ' ' + (job.tag||'') + ' ' + (job.type||'')).toLowerCase();
+  
+  // Role match (40 points)
+  const roleWords = (cvRole||'').toLowerCase().split(' ');
+  const roleMatches = roleWords.filter(w => w.length > 3 && jobText.includes(w));
+  score += Math.min(roleMatches.length * 15, 40);
+
+  // Skills match (60 points)  
+  const skills = (cvSkills||[]).map(s => s.toLowerCase());
+  const skillMatches = skills.filter(s => jobText.includes(s));
+  score += Math.min(skillMatches.length * 10, 60);
+
+  return Math.min(score, 99);
 }
 
 async function renderFeaturedJobs(){
@@ -1609,6 +1634,10 @@ function processCV(text, filename){
   detectedEl.innerHTML = html;
   // Animate score bar
   setTimeout(()=>{ const bar=detectedEl.querySelector('.score-bar'); if(bar) bar.style.width=score+'%'; },100);
+  // Refresh featured jobs with CV match scores
+  if(document.getElementById('featured-jobs-section')?.style.display !== 'none'){
+    renderFeaturedJobs();
+  }
 }
 
 async function handleCVUpload(event){
@@ -1797,6 +1826,7 @@ function addAllCVSkills(){
 
 function applyAISuggestion(role){
   state.role = role;
+  window._cvRole = role;
   document.querySelectorAll('#role-pills .pill').forEach(p => {
     p.classList.remove('on');
     if(p.textContent.trim() === role) p.classList.add('on');
