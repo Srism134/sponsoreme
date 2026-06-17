@@ -710,6 +710,31 @@ const companyData={
 {s:2,n:'Skyscanner',c:'https://www.skyscanner.net/jobs',li:'https://www.linkedin.com/company/skyscanner/jobs/'},
 {s:2,n:'Wayve',c:'https://wayve.ai/careers/',li:'https://www.linkedin.com/company/wayve-ai/jobs/'},
 {s:2,n:'Faculty AI',c:'https://faculty.ai/careers/',li:'https://www.linkedin.com/company/faculty-ai/jobs/'},
+{s:2,n:'Synthesia 🎬',t:'AI Video • Engineers',c:'https://www.synthesia.io/careers',li:'https://www.linkedin.com/company/synthesia/jobs/'},
+{s:2,n:'Stability AI 🎨',t:'Generative AI • ML Engineers',c:'https://stability.ai/careers',li:'https://www.linkedin.com/company/stability-ai/jobs/'},
+{s:2,n:'Graphcore 🧠',t:'AI Hardware • ML/HW Engineers',c:'https://www.graphcore.ai/careers',li:'https://www.linkedin.com/company/graphcore/jobs/'},
+{s:2,n:'BenevolentAI 💊',t:'Drug Discovery AI • Data Scientists',c:'https://www.benevolent.com/careers',li:'https://www.linkedin.com/company/benevolentai/jobs/'},
+{s:2,n:'Darktrace 🔐',t:'Cybersecurity AI • ML/Security',c:'https://www.darktrace.com/en/careers/',li:'https://www.linkedin.com/company/darktrace/jobs/'},
+{s:2,n:'Improbable 🌐',t:'Metaverse/Sim • Engineers',c:'https://improbable.io/careers',li:'https://www.linkedin.com/company/improbable/jobs/'},
+{s:2,n:'Atlassian 🛠',t:'Dev Tools • SWE/PM/DA',c:'https://www.atlassian.com/company/careers/all-jobs',li:'https://www.linkedin.com/company/atlassian/jobs/'},
+{s:2,n:'HubSpot 📣',t:'MarTech • Marketing/DA/SWE',c:'https://www.hubspot.com/careers/jobs',li:'https://www.linkedin.com/company/hubspot/jobs/'},
+{s:2,n:'Cloudflare ☁️',t:'Cloud/Security • SWE/DevOps',c:'https://www.cloudflare.com/careers/jobs/',li:'https://www.linkedin.com/company/cloudflare/jobs/'},
+{s:2,n:'MongoDB 🗄',t:'Database • SWE/Data Engineers',c:'https://www.mongodb.com/company/careers',li:'https://www.linkedin.com/company/mongodb/jobs/'},
+{s:2,n:'GitHub UK',c:'https://github.com/about/careers',li:'https://www.linkedin.com/company/github/jobs/'},
+{s:2,n:'Red Hat 🎩',t:'Open Source • SWE/DevOps',c:'https://www.redhat.com/en/jobs',li:'https://www.linkedin.com/company/red-hat/jobs/'},
+{s:2,n:'Experian 📊',t:'Data/Credit • DA/DS/Risk Analysts',c:'https://www.experianplc.com/careers/',li:'https://www.linkedin.com/company/experian/jobs/'},
+{s:2,n:'RELX 📰',t:'Analytics/Publishing • DA/DS',c:'https://www.relx.com/careers',li:'https://www.linkedin.com/company/relx/jobs/'},
+{s:2,n:'NielsenIQ 📈',t:'Market Data • DA/Analysts',c:'https://nielseniq.com/global/en/careers/',li:'https://www.linkedin.com/company/nielseniq/jobs/'},
+{s:2,n:'Starling Bank 🌟',t:'FinTech • SWE/DA/Risk',c:'https://www.starlingbank.com/careers/',li:'https://www.linkedin.com/company/starling-bank/jobs/'},
+{s:2,n:'Checkout.com 💳',t:'Payments • SWE/DA/Risk',c:'https://www.checkout.com/careers',li:'https://www.linkedin.com/company/checkout-com/jobs/'},
+{s:2,n:'ClearBank 🏦',t:'Banking API • SWE/DA',c:'https://clear.bank/careers',li:'https://www.linkedin.com/company/clearbank/jobs/'},
+{s:2,n:'Zopa 💰',t:'FinTech • SWE/Risk/DA',c:'https://www.zopa.com/careers',li:'https://www.linkedin.com/company/zopa/jobs/'},
+{s:2,n:'Illumina 🧬',t:'Genomics • Bioinformatics/DS',c:'https://www.illumina.com/company/careers.html',li:'https://www.linkedin.com/company/illumina/jobs/'},
+{s:2,n:'IQVIA 🏥',t:'Healthcare Data • DA/DS/BA',c:'https://jobs.iqvia.com/',li:'https://www.linkedin.com/company/iqvia/jobs/'},
+{s:2,n:'Medpace 💉',t:'Clinical Research • DA/Analysts',c:'https://www.medpace.com/careers/',li:'https://www.linkedin.com/company/medpace/jobs/'},
+{s:2,n:'Multiverse 🎓',t:'EdTech • SWE/DS/PM',c:'https://www.multiverse.io/en-GB/careers',li:'https://www.linkedin.com/company/multiverse-hq/jobs/'},
+{s:2,n:'Octopus Energy ⚡',t:'GreenTech • SWE/DA/DS',c:'https://octopus.energy/careers/',li:'https://www.linkedin.com/company/octopus-energy/jobs/'},
+{s:2,n:'Snyk 🔒',t:'DevSecOps • SWE/Security',c:'https://snyk.io/careers/',li:'https://www.linkedin.com/company/snyk/jobs/'},
 ],
 'United States':[
 {s:2,n:'Google',c:'https://careers.google.com/jobs/results/?q=machine%20learning',li:'https://www.linkedin.com/company/google/jobs/'},
@@ -1010,6 +1035,7 @@ function renderResults(){
         <div class="co-name">${c.n}</div>
         <span class="sponsor-badge ${bc}">${bl}</span>
       </div>
+      ${c.t ? `<div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin:2px 0 6px;line-height:1.4">${c.t}</div>` : ''}
       <div class="co-links">
         <a class="co-link careers" href="${c.c}" target="_blank" rel="noopener">Careers ↗</a>
         <a class="co-link linkedin" href="${c.li}" target="_blank" rel="noopener">LinkedIn ↗</a>
