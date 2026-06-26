@@ -251,6 +251,43 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .company-action-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
 .job-desc{font-size:12px;color:var(--text3);line-height:1.5;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .job-apply-row{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+/* Find Recruiter */
+.recruiter-btn{background:#F0EEFB;border-color:#D9D4F5;color:#534AB7}
+.recruiter-btn:hover{background:#E5E0F9}
+.recruiter-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.recruiter-modal.open{display:flex}
+.recruiter-box{background:var(--bg2);border:1px solid var(--border);border-radius:18px;width:100%;max-width:560px;margin:auto;box-shadow:0 12px 40px rgba(44,44,42,.18);max-height:90vh;overflow-y:auto}
+.recruiter-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 22px 14px;border-bottom:1px solid var(--border)}
+.recruiter-title{font-size:16px;font-weight:600;color:var(--text)}
+.recruiter-sub{font-size:12px;color:var(--text3);margin-top:3px;font-family:var(--mono)}
+.recruiter-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:20px;line-height:1;padding:2px}
+.recruiter-body{padding:18px 22px 22px}
+.recruiter-section{margin-bottom:18px}
+.recruiter-section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.recruiter-search-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:6px;gap:10px}
+.recruiter-search-text{font-size:12.5px;color:var(--text2);flex:1;word-break:break-word}
+.recruiter-search-go{flex-shrink:0;padding:5px 12px;border-radius:8px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:11px;font-weight:500;text-decoration:none;white-space:nowrap}
+.recruiter-search-go:hover{background:#D5E7F8}
+.contact-role-card{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:11px 14px;margin-bottom:7px;gap:10px}
+.contact-role-info{display:flex;align-items:center;gap:10px;min-width:0}
+.contact-role-icon{width:34px;height:34px;border-radius:9px;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.contact-role-name{font-size:13px;font-weight:500;color:var(--text)}
+.contact-role-desc{font-size:11px;color:var(--text3);margin-top:1px}
+.contact-role-link{flex-shrink:0;padding:5px 12px;border-radius:8px;border:1px solid #B5D4F4;background:#E6F1FB;color:#185FA5;font-size:11px;font-weight:500;text-decoration:none;white-space:nowrap}
+.contact-role-link:hover{background:#D5E7F8}
+.recruiter-action-btn{width:100%;padding:11px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.recruiter-action-btn:hover{border-color:var(--accent-border);background:var(--accent-bg);color:var(--accent2)}
+.recruiter-action-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff}
+.recruiter-action-primary:hover{opacity:.9;color:#fff}
+.recruiter-generated-box{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-top:6px;font-size:12.5px;line-height:1.6;color:var(--text2);white-space:pre-wrap;position:relative}
+.recruiter-generated-box.open{display:block}
+.recruiter-copy-btn{position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:11px;cursor:pointer;font-family:var(--mono)}
+.recruiter-copy-btn:hover{border-color:var(--accent-border);color:var(--accent2)}
+.recruiter-loading{text-align:center;padding:30px 0;color:var(--text3);font-size:13px}
+.recruiter-spin{width:26px;height:26px;border:2.5px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.recruiter-error{text-align:center;padding:18px;color:#A32D2D;font-size:12.5px;background:#FCEBEB;border-radius:10px;border:1px solid #F0B8B8}
+.recruiter-cv-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .job-apply-btn{display:inline-block;padding:5px 12px;font-size:11px;border-radius:7px;font-family:var(--mono);text-decoration:none;transition:all .15s;border:1px solid}
 .btn-li{background:#E6F1FB;border-color:#B5D4F4;color:#185FA5}
 .btn-li:hover{background:#D5E7F8}
@@ -3279,6 +3316,7 @@ function renderJobCards(data, container, country, append=false){
         <a class="job-apply-btn btn-li" href="${urls.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
         <a class="job-apply-btn btn-in" href="${urls.indeed}"   target="_blank" rel="noopener">Indeed ↗</a>
         <a class="job-apply-btn btn-gg" href="${urls.google}"   target="_blank" rel="noopener">Google Jobs ↗</a>
+        <button class="job-apply-btn recruiter-btn" onclick="openRecruiterFinder('${jobId}')">📧 Find Recruiter</button>
       </div>`;
     container.appendChild(card);
   });
@@ -3428,6 +3466,11 @@ function renderFeaturedCard(job, matchScore){
     ? `<span class="match-pct ${matchScore>=70?'match-pct-high':matchScore>=40?'match-pct-mid':'match-pct-low'}">${matchScore}% match</span>`
     : '';
 
+  // Cache for Find Recruiter feature
+  const featJobId = ('feat'+(job.title||'')+(job.company||'')).replace(/[^a-zA-Z0-9]/g,'').substring(0,34);
+  window._jobCache = window._jobCache || {};
+  window._jobCache[featJobId] = {id:featJobId, title:job.title, company:job.company||'', loc:job.location||'', urls:{linkedin:'',indeed:'',google:''}};
+
   card.innerHTML = `
     <div class="job-card-top">
       <div class="job-title">${matchBadgeHtml}${job.title} ${tagHtml}</div>
@@ -3442,7 +3485,10 @@ function renderFeaturedCard(job, matchScore){
       ${yearBadge}
       <span class="job-meta-item" style="color:var(--green)">✅ Visa Sponsored</span>
     </div>
-    <span class="job-apply-btn btn-in" style="display:inline-block;margin-top:10px">Apply Directly ↗</span>`;
+    <div class="job-apply-row">
+      <span class="job-apply-btn btn-in">Apply Directly ↗</span>
+      <button class="job-apply-btn recruiter-btn" onclick="event.preventDefault();event.stopPropagation();openRecruiterFinder('${featJobId}')">📧 Find Recruiter</button>
+    </div>`;
   return card;
 }
 
@@ -3878,6 +3924,180 @@ updateSavedCount();
     </div>
   </div>
 </div>
+
+<!-- Find Recruiter Modal -->
+<div class="recruiter-modal" id="recruiter-modal">
+  <div class="recruiter-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">📧 Find Recruiter</div>
+        <div class="recruiter-sub" id="recruiter-sub">Loading...</div>
+      </div>
+      <button class="recruiter-close" onclick="closeRecruiterFinder()">✕</button>
+    </div>
+    <div class="recruiter-body" id="recruiter-body"></div>
+  </div>
+</div>
+
+<script>
+// ── Find Recruiter Feature ────────────────────────────────────────
+const CONTACT_ROLE_TYPES = [
+  { icon:'🧑‍💼', role:'Recruiter',                   desc:'Sources & screens candidates for this role' },
+  { icon:'🎯',   role:'Talent Acquisition Partner',   desc:'Owns hiring strategy for the team/department' },
+  { icon:'👔',   role:'Hiring Manager',                desc:'The person this role would report to' },
+  { icon:'🤝',   role:'HR Business Partner',           desc:'Supports HR policy & sponsorship process' }
+];
+
+function buildRecruiterSearchQueries(company, title, location){
+  const shortTitle = title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+  return [
+    { label: 'Recruiter at ' + company,                query: `${company} Recruiter ${location}` },
+    { label: 'Talent Acquisition at ' + company,       query: `${company} Talent Acquisition ${location}` },
+    { label: shortTitle + ' Hiring Manager',           query: `${company} ${shortTitle} Hiring Manager` },
+    { label: 'HR Business Partner at ' + company,      query: `${company} HR Business Partner ${location}` }
+  ];
+}
+
+function recruiterLinkedInUrl(query){
+  return 'https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(query);
+}
+function recruiterGoogleUrl(query){
+  return 'https://www.google.com/search?q=' + encodeURIComponent('site:linkedin.com/in ' + query);
+}
+
+function getJobForRecruiter(jobId){
+  const cached = (window._jobCache || {})[jobId];
+  if(!cached) return null;
+  return {
+    title: cached.title || 'this role',
+    company: cached.company || 'the company',
+    location: cached.loc || (state.countries && state.countries[0]) || ''
+  };
+}
+
+function openRecruiterFinder(jobId){
+  const modal = document.getElementById('recruiter-modal');
+  const body  = document.getElementById('recruiter-body');
+  const sub   = document.getElementById('recruiter-sub');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const job = getJobForRecruiter(jobId);
+  if(!job){
+    sub.textContent = '';
+    body.innerHTML = '<div class="recruiter-error">Could not load this job\u2019s details. Please try again from the job card.</div>';
+    return;
+  }
+
+  sub.textContent = job.company + ' • ' + job.title;
+  body.innerHTML = '<div class="recruiter-loading"><div class="recruiter-spin"></div>Building recruiter search...</div>';
+
+  // Small delay purely for perceived-loading UX; all data here is generated client-side, nothing is fetched/scraped
+  setTimeout(() => renderRecruiterResults(jobId, job), 450);
+}
+
+function closeRecruiterFinder(){
+  document.getElementById('recruiter-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('recruiter-modal').addEventListener('click', function(e){ if(e.target === this) closeRecruiterFinder(); });
+
+function renderRecruiterResults(jobId, job){
+  const body = document.getElementById('recruiter-body');
+  try {
+    const queries = buildRecruiterSearchQueries(job.company, job.title, job.location);
+    const careersUrl = 'https://www.google.com/search?q=' + encodeURIComponent(job.company + ' careers contact page');
+
+    const hasCv = (window._cvAllSkills || []).length > 0;
+
+    let html = '';
+
+    if(!hasCv){
+      html += `<div class="recruiter-cv-note">💡 Upload your CV above for personalised outreach messages — works fine without it too.</div>`;
+    }
+
+    // Suggested searches
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">🔍 Suggested searches</div>
+      ${queries.map(q => `
+        <div class="recruiter-search-row">
+          <span class="recruiter-search-text">${q.query}</span>
+          <a class="recruiter-search-go" href="${recruiterLinkedInUrl(q.query)}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      `).join('')}
+      <div class="recruiter-search-row">
+        <span class="recruiter-search-text">${job.company} careers / contact page</span>
+        <a class="recruiter-search-go" href="${careersUrl}" target="_blank" rel="noopener">Google ↗</a>
+      </div>
+    </div>`;
+
+    // Likely contact roles
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">👥 Likely contacts to reach out to</div>
+      ${CONTACT_ROLE_TYPES.map(c => {
+        const q = `${job.company} ${c.role} ${job.location}`;
+        return `<div class="contact-role-card">
+          <div class="contact-role-info">
+            <div class="contact-role-icon">${c.icon}</div>
+            <div>
+              <div class="contact-role-name">${c.role}</div>
+              <div class="contact-role-desc">${c.desc}</div>
+            </div>
+          </div>
+          <a class="contact-role-link" href="${recruiterLinkedInUrl(q)}" target="_blank" rel="noopener">Search ↗</a>
+        </div>`;
+      }).join('')}
+      <div style="font-size:10.5px;color:var(--text3);margin-top:4px;line-height:1.5">These are search suggestions only — no personal data is looked up or stored. Click through to LinkedIn/Google to see who actually appears.</div>
+    </div>`;
+
+    // Action buttons
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">✉️ Outreach</div>
+      <button class="recruiter-action-btn recruiter-action-primary" onclick="generateRecruiterOutreach('${jobId}','connection')">🤝 Generate LinkedIn Connection Message</button>
+      <button class="recruiter-action-btn" onclick="generateRecruiterOutreach('${jobId}','email')">📧 Generate Recruiter Outreach Email</button>
+      <div class="recruiter-generated-box" id="recruiter-generated"></div>
+    </div>`;
+
+    body.innerHTML = html;
+  } catch(err){
+    body.innerHTML = '<div class="recruiter-error">⚠️ Something went wrong building the recruiter search. Please close and try again.</div>';
+  }
+}
+
+function generateRecruiterOutreach(jobId, type){
+  const job = getJobForRecruiter(jobId);
+  const box = document.getElementById('recruiter-generated');
+  if(!job || !box) return;
+
+  const skills = (window._cvAllSkills || state.skills || []).slice(0, 4);
+  const role   = window._cvRole || state.role || job.title;
+  const skillsLine = skills.length ? skills.join(', ') : (role || 'this field');
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+
+  let text = '';
+  if(type === 'connection'){
+    text = `Hi! I'm really interested in the ${shortTitle} role at ${job.company} and would love to connect. I have hands-on experience with ${skillsLine}, and I'm currently looking for visa-sponsored opportunities in ${job.location || 'this market'}. Would be great to stay in touch — thank you!`;
+  } else {
+    text = `Subject: Interest in ${shortTitle} role at ${job.company}\n\nHi,\n\nI came across the ${shortTitle} opening at ${job.company} and wanted to reach out directly. I have experience with ${skillsLine}${role ? ` and am currently focused on ${role} roles` : ''}. I'm an international candidate looking for visa sponsorship, and ${job.company} stood out to me for this opportunity.\n\nI'd welcome the chance to share my CV and discuss how I could contribute to the team. Thank you for your time — happy to follow whatever process works best for you.\n\nBest regards`;
+  }
+
+  box.textContent = text;
+  box.classList.add('open');
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'recruiter-copy-btn';
+  copyBtn.textContent = 'Copy';
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(text);
+    copyBtn.textContent = 'Copied ✓';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+  };
+  box.appendChild(copyBtn);
+
+  if(typeof gtag !== 'undefined') gtag('event','recruiter_outreach_generated',{type, company: job.company});
+}
+// ─────────────────────────────────────────────────────────────────
+</script>
 
 </body>
 </html>
