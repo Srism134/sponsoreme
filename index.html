@@ -378,6 +378,25 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .ts-offer{background:#EAF3DE;color:#3B6D11}
 .tracker-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;padding:2px 4px}
 .tracker-empty{text-align:center;padding:30px 20px;color:var(--text3);font-size:13px}
+
+/* ── Apply with AI Assistant ── */
+.apply-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.apply-modal.open{display:flex}
+.apply-box{background:var(--bg2);border-radius:18px;max-width:560px;width:100%;margin-top:20px;box-shadow:0 20px 60px rgba(44,44,42,.25)}
+.apply-head{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 20px 14px;border-bottom:1px solid var(--border)}
+.apply-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.apply-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.apply-body{padding:16px 20px 20px}
+.apply-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.apply-tab{padding:7px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-family:var(--mono);cursor:pointer;transition:all .15s}
+.apply-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.apply-content-box{background:var(--bg3);border-radius:12px;padding:16px;font-size:13px;line-height:1.65;color:var(--text);white-space:pre-wrap;position:relative;min-height:140px;max-height:360px;overflow-y:auto}
+.apply-copy-btn{position:sticky;float:right;margin-left:8px;margin-bottom:8px;padding:5px 12px;border-radius:7px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:11px;cursor:pointer;font-family:var(--mono)}
+.apply-resume-bullet{display:flex;gap:8px;margin-bottom:9px;font-size:13px;line-height:1.55}
+.apply-bullet-dot{flex-shrink:0;color:var(--accent2)}
+.apply-empty{text-align:center;padding:30px 20px;color:var(--text3);font-size:13px;line-height:1.6}
+.apply-loading{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
+.apply-disclaimer{font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5}
 .cv-ai-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
 .cv-ai-btn{padding:4px 12px;border-radius:7px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:11px;cursor:pointer;font-family:var(--mono);margin:2px;transition:all .15s}
 .cv-ai-btn:hover{background:#D5E7F8}
@@ -3335,7 +3354,7 @@ function renderJobCards(data, container, country, append=false){
     const saved  = isJobSaved(jobId);
     // Store job data globally to avoid JSON stringify issues in template
     window._jobCache = window._jobCache || {};
-    window._jobCache[jobId] = {id:jobId, title:job.title, company, loc, urls};
+    window._jobCache[jobId] = {id:jobId, title:job.title, company, loc, urls, fullDesc: (job.description || '').replace(/<[^>]+>/g, '')};
 
     const card = document.createElement('div');
     card.className = 'job-card';
@@ -3369,6 +3388,7 @@ function renderJobCards(data, container, country, append=false){
         <a class="job-apply-btn btn-gg" href="${urls.google}"   target="_blank" rel="noopener">Google Jobs ↗</a>
         <button class="job-apply-btn recruiter-btn" onclick="openRecruiterFinder('${jobId}')">📧 Find Recruiter</button>
         <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="addJobToTracker('${jobId}')">📋 Add to Tracker</button>
+        <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="openApplyAssistant('${jobId}')">🤖 Apply with AI</button>
       </div>`;
     container.appendChild(card);
   });
@@ -3541,6 +3561,7 @@ function renderFeaturedCard(job, matchScore){
       <span class="job-apply-btn btn-in">Apply Directly ↗</span>
       <button class="job-apply-btn recruiter-btn" onclick="event.preventDefault();event.stopPropagation();openRecruiterFinder('${featJobId}')">📧 Find Recruiter</button>
       <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="event.preventDefault();event.stopPropagation();addJobToTracker('${featJobId}')">📋 Add to Tracker</button>
+      <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="event.preventDefault();event.stopPropagation();openApplyAssistant('${featJobId}')">🤖 Apply with AI</button>
     </div>`;
   return card;
 }
@@ -4017,6 +4038,20 @@ updateSavedCount();
   </div>
 </div>
 
+<!-- Apply with AI Assistant Modal -->
+<div class="apply-modal" id="apply-modal">
+  <div class="apply-box">
+    <div class="apply-head">
+      <div>
+        <div class="apply-title">🤖 Apply with AI</div>
+        <div class="apply-sub" id="apply-sub">Loading...</div>
+      </div>
+      <button class="roast-close" onclick="closeApplyAssistant()">✕</button>
+    </div>
+    <div class="apply-body" id="apply-body"></div>
+  </div>
+</div>
+
 <script>
 // ── Find Recruiter Feature ────────────────────────────────────────
 const CONTACT_ROLE_TYPES = [
@@ -4395,6 +4430,182 @@ function addJobToTracker(jobId){
 }
 
 updateTrackerCount();
+// ─────────────────────────────────────────────────────────────────
+
+// ── One-Click Apply Assistant ───────────────────────────────────
+let _applyCurrentJobId = null;
+let _applyCurrentTab = 'resume';
+
+function getJobForApply(jobId){
+  const cached = (window._jobCache || {})[jobId];
+  if(!cached) return null;
+  return {
+    title: cached.title || 'this role',
+    company: cached.company || 'the company',
+    location: cached.loc || (state.countries && state.countries[0]) || ''
+  };
+}
+
+function openApplyAssistant(jobId){
+  const modal = document.getElementById('apply-modal');
+  const sub = document.getElementById('apply-sub');
+  const body = document.getElementById('apply-body');
+  const job = getJobForApply(jobId);
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  if(!job){
+    sub.textContent = '';
+    body.innerHTML = `<div class="apply-empty">Could not load this job's details. Please try again from the job card.</div>`;
+    return;
+  }
+
+  _applyCurrentJobId = jobId;
+  _applyCurrentTab = 'resume';
+  sub.textContent = `${job.company} • ${job.title}`;
+
+  if(!window._cvAllSkills || !window._cvAllSkills.length){
+    body.innerHTML = `<div class="apply-empty">📄 Upload your CV first (above) so I can tailor your resume, cover letter, and outreach messages to this specific job.<br><br>Once it's uploaded, click "Apply with AI" on this job again.</div>`;
+    return;
+  }
+
+  body.innerHTML = `<div class="apply-loading">🤖 Tailoring your application for ${job.company}...</div>`;
+  setTimeout(() => renderApplyAssistant(jobId), 500);
+}
+
+function closeApplyAssistant(){
+  document.getElementById('apply-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('apply-modal').addEventListener('click', function(e){ if(e.target === this) closeApplyAssistant(); });
+
+function buildTailoredResumeBullets(job, skills, role){
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+  const topSkills = skills.slice(0, 6);
+  const bullets = [];
+
+  if(topSkills.length){
+    bullets.push(`Applied ${topSkills.slice(0,3).join(', ')} to deliver measurable results directly relevant to the ${shortTitle} role at ${job.company}.`);
+  }
+  bullets.push(`Experience aligned with ${job.company}'s ${shortTitle} requirements, with hands-on exposure to ${topSkills.slice(0,4).join(', ') || (role || 'the core tech stack')}.`);
+  if(topSkills.length > 3){
+    bullets.push(`Additional working knowledge of ${topSkills.slice(3).join(', ')}, supporting cross-functional delivery in fast-paced teams.`);
+  }
+  bullets.push(`Open to relocation and visa sponsorship — ready to contribute to ${job.company}'s team in ${job.location || 'this role\u2019s location'} from day one.`);
+  bullets.push(`Strong track record of translating ${role || shortTitle} fundamentals into practical, production-ready outcomes.`);
+
+  return bullets;
+}
+
+function buildCoverLetter(job, skills, role){
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+  const skillsLine = skills.slice(0,4).join(', ') || (role || 'this field');
+  return `Dear Hiring Manager,
+
+I am writing to express my interest in the ${shortTitle} position at ${job.company}. With hands-on experience in ${skillsLine}, I believe I can contribute meaningfully to your team from day one.
+
+${role ? `My background is focused on ${role} roles, and ` : ''}I am particularly drawn to ${job.company} because of its reputation in the industry and the opportunity to work on impactful, real-world problems. I am an international candidate currently seeking visa sponsorship, and I am fully open to relocating for the right opportunity${job.location ? ` in ${job.location}` : ''}.
+
+I would welcome the opportunity to discuss how my skills in ${skillsLine} align with what your team is building. Thank you for considering my application — I have attached my CV for your review and look forward to hearing from you.
+
+Best regards`;
+}
+
+function buildApplyEmail(job, skills, role){
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+  const skillsLine = skills.slice(0,4).join(', ') || (role || 'this field');
+  return `Subject: Application for ${shortTitle} role at ${job.company}
+
+Hi,
+
+I came across the ${shortTitle} opening at ${job.company} and wanted to reach out directly to express my interest. I have experience with ${skillsLine}${role ? ` and am currently focused on ${role} roles` : ''}. I'm an international candidate looking for visa sponsorship, and ${job.company} stood out to me for this opportunity.
+
+I'd welcome the chance to share my CV and discuss how I could contribute to the team. Thank you for your time — happy to follow whatever process works best for you.
+
+Best regards`;
+}
+
+function buildApplyLinkedInMessage(job, skills, role){
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+  const skillsLine = skills.slice(0,3).join(', ') || (role || 'this field');
+  return `Hi! I'm really interested in the ${shortTitle} role at ${job.company} and just submitted my application. I have hands-on experience with ${skillsLine}, and I'm currently looking for visa-sponsored opportunities${job.location ? ` in ${job.location}` : ''}. Would be great to connect — thank you!`;
+}
+
+function renderApplyAssistant(jobId){
+  const job = getJobForApply(jobId);
+  const body = document.getElementById('apply-body');
+  if(!job) return;
+
+  const skills = window._cvAllSkills || state.skills || [];
+  const role = window._cvRole || state.role || '';
+
+  const content = {
+    resume: buildTailoredResumeBullets(job, skills, role),
+    cover: buildCoverLetter(job, skills, role),
+    email: buildApplyEmail(job, skills, role),
+    linkedin: buildApplyLinkedInMessage(job, skills, role)
+  };
+  window._applyContent = content;
+
+  const tabs = [
+    {key:'resume', label:'📄 Resume Bullets'},
+    {key:'cover', label:'✉️ Cover Letter'},
+    {key:'email', label:'📧 Recruiter Email'},
+    {key:'linkedin', label:'💬 LinkedIn Message'}
+  ];
+
+  let html = `<div class="apply-tabs">`;
+  tabs.forEach(t => {
+    html += `<button class="apply-tab ${t.key==='resume'?'active':''}" data-apply-tab="${t.key}" onclick="switchApplyTab('${t.key}')">${t.label}</button>`;
+  });
+  html += `</div><div id="apply-content-area"></div>
+  <div class="apply-disclaimer">Generated from your uploaded CV and this job's details — review before sending, this isn't a substitute for proofreading.</div>`;
+
+  body.innerHTML = html;
+  renderApplyTabContent('resume');
+  if(typeof gtag !== 'undefined') gtag('event','apply_assistant_opened', {company: job.company});
+}
+
+function switchApplyTab(tabKey){
+  _applyCurrentTab = tabKey;
+  document.querySelectorAll('.apply-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-apply-tab') === tabKey);
+  });
+  renderApplyTabContent(tabKey);
+}
+
+function renderApplyTabContent(tabKey){
+  const area = document.getElementById('apply-content-area');
+  const content = window._applyContent;
+  if(!area || !content) return;
+
+  if(tabKey === 'resume'){
+    let html = `<div class="apply-content-box" style="white-space:normal">`;
+    content.resume.forEach(b => {
+      html += `<div class="apply-resume-bullet"><span class="apply-bullet-dot">▸</span><span>${b}</span></div>`;
+    });
+    html += `</div><button class="apply-copy-btn" style="float:none;display:block;margin-top:10px" onclick="copyApplyContent('resume')">Copy all bullets</button>`;
+    area.innerHTML = html;
+  } else {
+    const text = content[tabKey];
+    area.innerHTML = `<div class="apply-content-box">${text}</div><button class="apply-copy-btn" style="float:none;display:block;margin-top:10px" onclick="copyApplyContent('${tabKey}')">Copy</button>`;
+  }
+}
+
+function copyApplyContent(tabKey){
+  const content = window._applyContent;
+  if(!content) return;
+  const text = tabKey === 'resume' ? content.resume.map(b => '• ' + b).join('\n') : content[tabKey];
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.apply-copy-btn');
+  if(btn){
+    const original = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => { btn.textContent = original; }, 1500);
+  }
+  if(typeof gtag !== 'undefined') gtag('event','apply_content_copied', {type: tabKey});
+}
 // ─────────────────────────────────────────────────────────────────
 </script>
 
