@@ -379,6 +379,41 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .tracker-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;padding:2px 4px}
 .tracker-empty{text-align:center;padding:30px 20px;color:var(--text3);font-size:13px}
 
+/* ── Salary Predictor ── */
+.salary-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.salary-modal.open{display:flex}
+.salary-box{background:var(--bg2);border-radius:18px;max-width:480px;width:100%;margin-top:30px;box-shadow:0 20px 60px rgba(44,44,42,.25)}
+.salary-head{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 20px 14px;border-bottom:1px solid var(--border)}
+.salary-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.salary-body{padding:16px 20px 20px}
+.salary-field-label{font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 6px}
+.salary-field-label:first-child{margin-top:0}
+.salary-select{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:var(--font)}
+.salary-result{text-align:center;padding:22px 18px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:14px;margin-top:16px}
+.salary-range{font-size:26px;font-weight:700;color:var(--green)}
+.salary-range-label{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:4px}
+.salary-note{font-size:11px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5}
+.salary-go-btn{width:100%;padding:10px;border-radius:9px;border:none;background:#3B6D11;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:14px}
+
+/* ── Visa Checker ── */
+.visa-check-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.visa-check-modal.open{display:flex}
+.visa-check-box{background:var(--bg2);border-radius:18px;max-width:480px;width:100%;margin-top:30px;box-shadow:0 20px 60px rgba(44,44,42,.25)}
+.visa-check-head{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 20px 14px;border-bottom:1px solid var(--border)}
+.visa-check-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.visa-check-body{padding:16px 20px 20px}
+.visa-result-card{background:var(--bg3);border-radius:14px;padding:16px;margin-top:14px}
+.visa-result-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.visa-result-row:last-child{border-bottom:none}
+.visa-result-label{font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;flex-shrink:0;padding-top:1px}
+.visa-result-value{font-size:13px;color:var(--text);text-align:right;font-weight:500}
+.visa-doc-list{margin-top:14px}
+.visa-doc-item{display:flex;gap:8px;font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.5}
+.visa-go-btn{width:100%;padding:10px;border-radius:9px;border:none;background:#854F0B;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:14px}
+.visa-swap-btn{background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--text2);flex-shrink:0;margin-top:18px}
+.visa-from-to{display:flex;align-items:flex-end;gap:8px}
+.visa-from-to>div{flex:1}
+
 /* ── Apply with AI Assistant ── */
 .apply-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .apply-modal.open{display:flex}
@@ -603,6 +638,12 @@ footer a:hover{color:var(--accent2)}
         </button>
         <button class="saved-tab-btn" onclick="openTrackerPanel()" style="color:#534AB7;border-color:#D5D2F5">
           📋 Tracker <span class="badge" id="tracker-count">0</span>
+        </button>
+        <button class="saved-tab-btn" onclick="openSalaryPredictor()" style="color:#3B6D11;border-color:#C0DD97">
+          💰 Salary Predictor
+        </button>
+        <button class="saved-tab-btn" onclick="openVisaChecker()" style="color:#854F0B;border-color:#FAC775">
+          🛂 Visa Checker
         </button>
         <button class="reset-btn" onclick="reset()">← New search</button>
       </div>
@@ -4038,6 +4079,28 @@ updateSavedCount();
   </div>
 </div>
 
+<!-- Salary Predictor Modal -->
+<div class="salary-modal" id="salary-modal">
+  <div class="salary-box">
+    <div class="salary-head">
+      <div class="salary-title">💰 Salary Predictor</div>
+      <button class="roast-close" onclick="closeSalaryPredictor()">✕</button>
+    </div>
+    <div class="salary-body" id="salary-body"></div>
+  </div>
+</div>
+
+<!-- Visa Checker Modal -->
+<div class="visa-check-modal" id="visa-check-modal">
+  <div class="visa-check-box">
+    <div class="visa-check-head">
+      <div class="visa-check-title">🛂 Visa Checker</div>
+      <button class="roast-close" onclick="closeVisaChecker()">✕</button>
+    </div>
+    <div class="visa-check-body" id="visa-check-body"></div>
+  </div>
+</div>
+
 <!-- Apply with AI Assistant Modal -->
 <div class="apply-modal" id="apply-modal">
   <div class="apply-box">
@@ -4605,6 +4668,187 @@ function copyApplyContent(tabKey){
     setTimeout(() => { btn.textContent = original; }, 1500);
   }
   if(typeof gtag !== 'undefined') gtag('event','apply_content_copied', {type: tabKey});
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Salary Predictor ─────────────────────────────────────────────
+const SALARY_ROLE_MULTIPLIER = {
+  'AI/ML Engineer': 1.15, 'Machine Learning Engineer': 1.15, 'NLP Engineer': 1.12, 'Computer Vision Engineer': 1.12,
+  'MLOps Engineer': 1.10, 'Research Scientist': 1.20, 'Data Scientist': 1.08, 'Data Engineer': 1.05,
+  'Data Analyst': 0.80, 'Business Analyst': 0.82, 'Finance Analyst': 0.95, 'Marketing Analyst': 0.78,
+  'HR Analyst': 0.72, 'Operations Analyst': 0.78, 'Supply Chain Analyst': 0.80, 'Software Engineer': 1.0,
+  'DevOps Engineer': 1.05, 'Cloud Engineer': 1.08, 'Cybersecurity Analyst': 1.06, 'Product Manager': 1.10,
+  'UX Designer': 0.85
+};
+const SALARY_EXP_MULTIPLIER = {
+  'entry level': 0.72, 'mid level': 1.0, 'senior level': 1.45, 'any level': 1.0
+};
+
+function parseSalaryRange(rangeStr){
+  // Extracts currency symbol/prefix and two numbers from strings like "£45k–£80k" or "SEK 55k–85k/mo" or "¥8M–¥15M/yr"
+  const cleaned = rangeStr.replace(/\s*\/(yr|mo)\s*$/i, '');
+  const suffix = /\/mo\b/i.test(rangeStr) ? '/month' : '/yr';
+  const nums = cleaned.match(/[\d.]+/g) || ['0','0'];
+  const isMillion = /M\b/.test(cleaned);
+  const unit = isMillion ? 1000000 : 1000;
+  const prefixMatch = cleaned.match(/^[^\d]+/);
+  const prefix = prefixMatch ? prefixMatch[0].trim() : '';
+  const low = parseFloat(nums[0]) * unit;
+  const high = parseFloat(nums[1] !== undefined ? nums[1] : nums[0]) * unit;
+  return { low, high, prefix, unit, suffix };
+}
+
+function formatSalaryNum(n, unit, prefix){
+  const display = unit === 1000000 ? (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M' : Math.round(n/1000) + 'k';
+  return prefix + display;
+}
+
+function openSalaryPredictor(){
+  document.getElementById('salary-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderSalaryPredictor();
+}
+function closeSalaryPredictor(){
+  document.getElementById('salary-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('salary-modal').addEventListener('click', function(e){ if(e.target === this) closeSalaryPredictor(); });
+
+function renderSalaryPredictor(){
+  const body = document.getElementById('salary-body');
+  const roles = Object.keys(SALARY_ROLE_MULTIPLIER);
+  const countries = Object.keys(visaData);
+  const currentRole = window._cvRole || state.role || roles[0];
+  const currentCountry = (state.countries && state.countries[0]) || countries[0];
+  const currentExp = state.exp || 'entry level';
+
+  body.innerHTML = `
+    <div class="salary-field-label">Role</div>
+    <select class="salary-select" id="sp-role">
+      ${roles.map(r => `<option value="${r}" ${r===currentRole?'selected':''}>${r}</option>`).join('')}
+    </select>
+    <div class="salary-field-label">Country</div>
+    <select class="salary-select" id="sp-country">
+      ${countries.map(c => `<option value="${c}" ${c===currentCountry?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <div class="salary-field-label">Experience level</div>
+    <select class="salary-select" id="sp-exp">
+      <option value="entry level" ${currentExp==='entry level'?'selected':''}>Entry level (0–2 yrs)</option>
+      <option value="mid level" ${currentExp==='mid level'?'selected':''}>Mid level (2–5 yrs)</option>
+      <option value="senior level" ${currentExp==='senior level'?'selected':''}>Senior level (5+ yrs)</option>
+    </select>
+    <div id="sp-result"></div>
+    <div class="salary-note">Estimate based on country salary bands and role/experience adjustment — actual offers vary by company, city, and your negotiation. Always cross-check on Glassdoor/Levels.fyi for the specific company.</div>
+  `;
+
+  ['sp-role','sp-country','sp-exp'].forEach(id => {
+    document.getElementById(id).addEventListener('change', calcSalaryPrediction);
+  });
+  calcSalaryPrediction();
+}
+
+function calcSalaryPrediction(){
+  const role = document.getElementById('sp-role').value;
+  const country = document.getElementById('sp-country').value;
+  const exp = document.getElementById('sp-exp').value;
+  const resultEl = document.getElementById('sp-result');
+
+  const base = visaData[country];
+  if(!base || !base.salary){
+    resultEl.innerHTML = `<div class="salary-result"><div class="salary-range">N/A</div><div class="salary-range-label">No salary data for this country yet</div></div>`;
+    return;
+  }
+
+  const { low, high, prefix, unit, suffix } = parseSalaryRange(base.salary);
+  const roleMult = SALARY_ROLE_MULTIPLIER[role] || 1.0;
+  const expMult = SALARY_EXP_MULTIPLIER[exp] || 1.0;
+  const adjLow = low * roleMult * expMult;
+  const adjHigh = high * roleMult * expMult;
+
+  resultEl.innerHTML = `
+    <div class="salary-result">
+      <div class="salary-range">${formatSalaryNum(adjLow, unit, prefix)} – ${formatSalaryNum(adjHigh, unit, prefix)}${suffix}</div>
+      <div class="salary-range-label">${role} · ${exp.replace(' level','')} · ${country}</div>
+    </div>
+    <button class="salary-go-btn" onclick="closeSalaryPredictor()">Got it, back to search</button>`;
+  if(typeof gtag !== 'undefined') gtag('event','salary_predicted', {role, country, exp});
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Visa Checker ─────────────────────────────────────────────────
+const VISA_DOC_TEMPLATES = {
+  default: ['Valid passport', 'Job offer letter / Certificate of Sponsorship', 'Proof of qualifications (degree certificates)', 'Proof of funds / bank statements', 'English (or local language) proficiency test results', 'Passport-sized photographs', 'Visa application fee payment'],
+};
+
+function openVisaChecker(){
+  document.getElementById('visa-check-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderVisaChecker();
+}
+function closeVisaChecker(){
+  document.getElementById('visa-check-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('visa-check-modal').addEventListener('click', function(e){ if(e.target === this) closeVisaChecker(); });
+
+const COMMON_HOME_COUNTRIES = ['India','Pakistan','Nigeria','Philippines','Bangladesh','China','Brazil','Indonesia','Kenya','Vietnam','Other / Not listed'];
+
+function renderVisaChecker(){
+  const body = document.getElementById('visa-check-body');
+  const destinations = Object.keys(visaData);
+  const currentDest = (state.countries && state.countries[0]) || destinations[0];
+
+  body.innerHTML = `
+    <div class="visa-from-to">
+      <div>
+        <div class="salary-field-label" style="margin-top:0">From (home country)</div>
+        <select class="salary-select" id="vc-from">
+          ${COMMON_HOME_COUNTRIES.map(c => `<option value="${c}">${c}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <div class="salary-field-label" style="margin-top:0">Destination</div>
+        <select class="salary-select" id="vc-to">
+          ${destinations.map(c => `<option value="${c}" ${c===currentDest?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div id="vc-result"></div>
+  `;
+
+  document.getElementById('vc-from').addEventListener('change', calcVisaCheck);
+  document.getElementById('vc-to').addEventListener('change', calcVisaCheck);
+  calcVisaCheck();
+}
+
+function calcVisaCheck(){
+  const from = document.getElementById('vc-from').value;
+  const to = document.getElementById('vc-to').value;
+  const resultEl = document.getElementById('vc-result');
+  const info = visaData[to];
+
+  if(!info){
+    resultEl.innerHTML = `<div class="visa-result-card">No visa data available for this destination yet.</div>`;
+    return;
+  }
+
+  const docs = VISA_DOC_TEMPLATES.default;
+
+  resultEl.innerHTML = `
+    <div class="visa-result-card">
+      <div class="visa-result-row"><span class="visa-result-label">Visa type</span><span class="visa-result-value">${info.visa}</span></div>
+      <div class="visa-result-row"><span class="visa-result-label">Salary threshold</span><span class="visa-result-value">${info.threshold}</span></div>
+      <div class="visa-result-row"><span class="visa-result-label">Avg. processing time</span><span class="visa-result-value">${info.time}</span></div>
+      <div class="visa-result-row"><span class="visa-result-label">Typical salary band</span><span class="visa-result-value">${info.salary}</span></div>
+      <div class="visa-doc-list">
+        <div class="salary-field-label" style="margin-top:0">Documents typically required</div>
+        ${docs.map(d => `<div class="visa-doc-item"><span>📄</span><span>${d}</span></div>`).join('')}
+      </div>
+      <div class="salary-note" style="margin-top:12px">💡 ${info.tip}</div>
+      <div class="salary-note">Requirements vary by individual case and nationality (${from}) — always confirm with the destination country's official immigration website before applying.</div>
+    </div>
+    <button class="visa-go-btn" onclick="closeVisaChecker()">Got it, back to search</button>`;
+  if(typeof gtag !== 'undefined') gtag('event','visa_checked', {from, to});
 }
 // ─────────────────────────────────────────────────────────────────
 </script>
