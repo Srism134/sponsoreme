@@ -222,6 +222,15 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .alert-submit{width:100%;padding:11px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font)}
 .alert-close{float:right;background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1}
 .alert-success{text-align:center;padding:16px 0 8px;color:var(--green);font-size:14px}
+.alert-tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--bg3);border-radius:9px;padding:3px}
+.alert-tab{flex:1;padding:8px 6px;border-radius:7px;border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:.15s}
+.alert-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.alert-channel-pane{display:none}
+.alert-channel-pane.active{display:block}
+.alert-join-btn{width:100%;padding:11px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.alert-join-btn.wa{color:#1F7A1F;border-color:#bfe3bf;background:#EAF6EA}
+.alert-join-btn.tg{color:#1B7FC4;border-color:#bcdcf2;background:#E8F4FC}
+.alert-or-divider{text-align:center;font-size:11px;color:var(--text3);margin:4px 0 12px;font-family:var(--mono)}
 
 /* ── Saved Jobs Panel ── */
 .saved-panel{display:none;margin-bottom:20px}
@@ -4022,18 +4031,72 @@ function matchBadge(score){
   return `<span class="match-badge match-low">${score}% match</span>`;
 }
 
-// ── FEATURE 3: Email Alerts ────────────────────────────────────────
-function openAlertModal(){ document.getElementById('alert-modal').classList.add('open'); document.getElementById('alert-role').value=state.role||''; }
+// ── FEATURE 3: Job Alerts (Email / WhatsApp / Telegram) ───────────
+// TODO: replace these with your real channel invite links once created
+const WA_CHANNEL_URL = 'https://whatsapp.com/channel/REPLACE_WITH_YOUR_CHANNEL_ID';
+const TG_CHANNEL_URL = 'https://t.me/REPLACE_WITH_YOUR_CHANNEL_NAME';
+// Your own WhatsApp number (with country code, no + or spaces) to receive personalised subscribe requests
+const WA_OWNER_NUMBER = '91XXXXXXXXXX';
+
+let activeAlertTab = 'email';
+function switchAlertTab(tab){
+  activeAlertTab = tab;
+  ['email','whatsapp','telegram'].forEach(t=>{
+    document.getElementById('alert-tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('alert-pane-'+t).classList.toggle('active', t===tab);
+  });
+  document.getElementById('alert-success').style.display='none';
+}
+function openAlertModal(){
+  document.getElementById('alert-modal').classList.add('open');
+  document.getElementById('alert-role').value=state.role||'';
+  document.getElementById('alert-whatsapp-role').value=state.role||'';
+  document.getElementById('alert-telegram-role').value=state.role||'';
+  const waLink=document.getElementById('wa-channel-link');
+  const tgLink=document.getElementById('tg-channel-link');
+  if(waLink) waLink.href=WA_CHANNEL_URL;
+  if(tgLink) tgLink.href=TG_CHANNEL_URL;
+  switchAlertTab('email');
+}
 function closeAlertModal(){ document.getElementById('alert-modal').classList.remove('open'); document.getElementById('alert-success').style.display='none'; }
-function submitAlert(){
-  const email=document.getElementById('alert-email').value.trim();
-  const role=document.getElementById('alert-role').value.trim();
-  if(!email||!email.includes('@')){ alert('Please enter a valid email!'); return; }
+
+function saveAlertLocally(entry){
   const alerts=JSON.parse(localStorage.getItem('sponsoreme_alerts')||'[]');
-  alerts.push({email,role,countries:state.countries,date:new Date().toISOString()});
+  alerts.push(entry);
   localStorage.setItem('sponsoreme_alerts',JSON.stringify(alerts));
+}
+
+function submitAlert(channel){
+  channel = channel || activeAlertTab;
+
+  if(channel==='email'){
+    const email=document.getElementById('alert-email').value.trim();
+    const role=document.getElementById('alert-role').value.trim();
+    if(!email||!email.includes('@')){ alert('Please enter a valid email!'); return; }
+    saveAlertLocally({channel:'email',email,role,countries:state.countries,date:new Date().toISOString()});
+    if(typeof gtag!=='undefined') gtag('event','alert_subscribe',{channel:'email',role,countries:state.countries.join(',')});
+  }
+
+  else if(channel==='whatsapp'){
+    let number=document.getElementById('alert-whatsapp-number').value.trim().replace(/[^0-9]/g,'');
+    const role=document.getElementById('alert-whatsapp-role').value.trim();
+    if(!number||number.length<8){ alert('Please enter a valid WhatsApp number with country code!'); return; }
+    saveAlertLocally({channel:'whatsapp',number,role,countries:state.countries,date:new Date().toISOString()});
+    if(typeof gtag!=='undefined') gtag('event','alert_subscribe',{channel:'whatsapp',role,countries:state.countries.join(',')});
+    // Open WhatsApp chat to the site owner with a pre-filled subscribe request
+    const msg=encodeURIComponent(`Hi! Subscribe me for daily SponsoreMe job alerts.\nRole: ${role||'Any'}\nCountries: ${(state.countries||[]).join(', ')||'Any'}\nMy number: ${number}`);
+    window.open(`https://wa.me/${WA_OWNER_NUMBER}?text=${msg}`, '_blank');
+  }
+
+  else if(channel==='telegram'){
+    const username=document.getElementById('alert-telegram-username').value.trim();
+    const role=document.getElementById('alert-telegram-role').value.trim();
+    if(!username){ alert('Please enter your Telegram @username!'); return; }
+    saveAlertLocally({channel:'telegram',username,role,countries:state.countries,date:new Date().toISOString()});
+    if(typeof gtag!=='undefined') gtag('event','alert_subscribe',{channel:'telegram',role,countries:state.countries.join(',')});
+  }
+
   document.getElementById('alert-success').style.display='block';
-  if(typeof gtag!=='undefined') gtag('event','alert_subscribe',{role,countries:state.countries.join(',')});
   setTimeout(closeAlertModal,2500);
 }
 const _alertModal = document.getElementById('alert-modal');
@@ -4052,12 +4115,38 @@ updateSavedCount();
   <div class="alert-box">
     <button class="alert-close" onclick="closeAlertModal()">✕</button>
     <h3>🔔 Daily Job Alerts</h3>
-    <p>Get fresh visa-sponsored jobs in your inbox every day — matching your role and countries.</p>
-    <input class="alert-input" id="alert-email" type="email" placeholder="your@email.com" />
-    <input class="alert-input" id="alert-role" type="text" placeholder="Role (e.g. Data Scientist)" />
-    <button class="alert-submit" onclick="submitAlert()">Subscribe — it's free!</button>
+    <p>Get fresh visa-sponsored jobs every day — matching your role and countries.</p>
+
+    <div class="alert-tabs">
+      <button class="alert-tab active" id="alert-tab-email" onclick="switchAlertTab('email')">📧 Email</button>
+      <button class="alert-tab" id="alert-tab-whatsapp" onclick="switchAlertTab('whatsapp')">💬 WhatsApp</button>
+      <button class="alert-tab" id="alert-tab-telegram" onclick="switchAlertTab('telegram')">✈️ Telegram</button>
+    </div>
+
+    <div class="alert-channel-pane active" id="alert-pane-email">
+      <input class="alert-input" id="alert-email" type="email" placeholder="your@email.com" />
+      <input class="alert-input" id="alert-role" type="text" placeholder="Role (e.g. Data Scientist)" />
+      <button class="alert-submit" onclick="submitAlert('email')">Subscribe — it's free!</button>
+    </div>
+
+    <div class="alert-channel-pane" id="alert-pane-whatsapp">
+      <a class="alert-join-btn wa" id="wa-channel-link" href="#" target="_blank" rel="noopener">💬 Join WhatsApp Channel</a>
+      <div class="alert-or-divider">— or get personalised alerts —</div>
+      <input class="alert-input" id="alert-whatsapp-number" type="tel" placeholder="WhatsApp number (with country code)" />
+      <input class="alert-input" id="alert-whatsapp-role" type="text" placeholder="Role (e.g. Data Scientist)" />
+      <button class="alert-submit" onclick="submitAlert('whatsapp')">Subscribe via WhatsApp</button>
+    </div>
+
+    <div class="alert-channel-pane" id="alert-pane-telegram">
+      <a class="alert-join-btn tg" id="tg-channel-link" href="#" target="_blank" rel="noopener">✈️ Join Telegram Channel</a>
+      <div class="alert-or-divider">— or get personalised alerts —</div>
+      <input class="alert-input" id="alert-telegram-username" type="text" placeholder="Telegram @username" />
+      <input class="alert-input" id="alert-telegram-role" type="text" placeholder="Role (e.g. Data Scientist)" />
+      <button class="alert-submit" onclick="submitAlert('telegram')">Subscribe via Telegram</button>
+    </div>
+
     <div class="alert-success" id="alert-success" style="display:none">
-      ✅ Subscribed! Check your inbox for confirmation.
+      ✅ Subscribed! You'll start getting alerts soon.
     </div>
   </div>
 </div>
