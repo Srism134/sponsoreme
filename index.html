@@ -414,6 +414,22 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .visa-from-to{display:flex;align-items:flex-end;gap:8px}
 .visa-from-to>div{flex:1}
 
+/* ── Interview Question Generator ── */
+.iqg-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.iqg-modal.open{display:flex}
+.iqg-box{background:var(--bg2);border-radius:18px;max-width:540px;width:100%;margin-top:24px;box-shadow:0 20px 60px rgba(44,44,42,.25)}
+.iqg-head{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 20px 14px;border-bottom:1px solid var(--border)}
+.iqg-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.iqg-body{padding:16px 20px 20px}
+.iqg-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.iqg-tab{padding:7px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12px;font-family:var(--mono);cursor:pointer;transition:all .15s}
+.iqg-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.iqg-list{max-height:380px;overflow-y:auto}
+.iqg-q{display:flex;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:10px;margin-bottom:7px;font-size:13px;color:var(--text);line-height:1.55}
+.iqg-q-num{flex-shrink:0;font-family:var(--mono);font-size:11px;color:var(--text3);padding-top:1px}
+.iqg-copy-all{width:100%;padding:9px;border-radius:9px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:6px}
+.iqg-disclaimer{font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5}
+
 /* ── Apply with AI Assistant ── */
 .apply-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .apply-modal.open{display:flex}
@@ -644,6 +660,9 @@ footer a:hover{color:var(--accent2)}
         </button>
         <button class="saved-tab-btn" onclick="openVisaChecker()" style="color:#854F0B;border-color:#FAC775">
           🛂 Visa Checker
+        </button>
+        <button class="saved-tab-btn" onclick="openInterviewQGen()" style="color:#185FA5;border-color:#B5D4F4">
+          ❓ Interview Questions
         </button>
         <button class="reset-btn" onclick="reset()">← New search</button>
       </div>
@@ -4101,6 +4120,20 @@ updateSavedCount();
   </div>
 </div>
 
+<!-- Interview Question Generator Modal -->
+<div class="iqg-modal" id="iqg-modal">
+  <div class="iqg-box">
+    <div class="iqg-head">
+      <div>
+        <div class="iqg-title">❓ Interview Question Generator</div>
+        <div class="visa-result-label" id="iqg-sub" style="text-transform:none;font-size:11px;margin-top:3px">Pick a role to get started</div>
+      </div>
+      <button class="roast-close" onclick="closeInterviewQGen()">✕</button>
+    </div>
+    <div class="iqg-body" id="iqg-body"></div>
+  </div>
+</div>
+
 <!-- Apply with AI Assistant Modal -->
 <div class="apply-modal" id="apply-modal">
   <div class="apply-box">
@@ -4849,6 +4882,142 @@ function calcVisaCheck(){
     </div>
     <button class="visa-go-btn" onclick="closeVisaChecker()">Got it, back to search</button>`;
   if(typeof gtag !== 'undefined') gtag('event','visa_checked', {from, to});
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Interview Question Generator ─────────────────────────────────
+const IQG_TECHNICAL = {
+  'AI/ML Engineer': ['Explain the bias-variance tradeoff and how you manage it in production models.','How do you handle class imbalance in a classification problem?','Walk through how you would design a feature store for a real-time ML system.','What is the difference between L1 and L2 regularization, and when would you use each?','How do you detect and handle data drift in a deployed model?','Explain gradient descent and the role of learning rate.','What is the difference between bagging and boosting?','How would you debug a model that performs well in training but poorly in production?','Describe a time you had to choose between model accuracy and inference latency.','What metrics would you use to evaluate a recommendation system?'],
+  'Machine Learning Engineer': ['How do you take a model from notebook to production?','Explain the difference between batch and online inference.','How do you version models and datasets in an MLOps pipeline?','What is model drift and how do you monitor for it?','Describe your approach to A/B testing a new model against a baseline.','How would you reduce inference latency for a large model?','What is the difference between TensorFlow Serving and a custom Flask API for serving models?','How do you handle reproducibility in ML experiments?','Explain the CI/CD pipeline you would set up for a model retraining workflow.','How do you decide when a model needs retraining?'],
+  'NLP Engineer': ['Explain how transformer attention mechanisms work.','What is the difference between BERT and GPT-style architectures?','How would you fine-tune a pretrained language model for a domain-specific task?','Explain tokenization strategies (BPE, WordPiece) and their tradeoffs.','How do you evaluate the quality of a text summarization model?','What is the difference between extractive and abstractive summarization?','How would you handle multilingual NLP tasks?','Explain how you would reduce hallucination in an LLM-based application.','What is RAG and when would you use it over fine-tuning?','How do you measure semantic similarity between two pieces of text?'],
+  'Computer Vision Engineer': ['Explain the difference between object detection and image segmentation.','How does a convolutional neural network differ from a fully connected network?','What is non-max suppression and why is it needed?','How would you handle a dataset with very few labeled images?','Explain transfer learning in the context of computer vision.','What is the difference between YOLO and Faster R-CNN approaches?','How do you evaluate an object detection model (mAP, IoU)?','How would you optimize a CV model for edge deployment?','Explain data augmentation techniques you would use for image classification.','How do you handle occlusion and lighting variance in real-world CV systems?'],
+  'MLOps Engineer': ['How would you design a model monitoring system in production?','Explain the difference between a feature store and a data warehouse.','What is model versioning and why does it matter?','How do you orchestrate a multi-step ML pipeline (e.g. with Airflow or Kubeflow)?','Describe how you would set up canary deployment for a new model.','What is concept drift, and how do you detect it automatically?','How do you manage GPU resource allocation across multiple training jobs?','Explain how you would containerize a model for deployment.','How do you ensure reproducibility across training environments?','What logging and alerting would you set up for a production ML system?'],
+  'Data Scientist': ['Walk me through how you would approach a new dataset with no documentation.','Explain p-values and statistical significance to a non-technical stakeholder.','How do you decide which features to engineer for a model?','Describe a time your analysis changed a business decision.','What is the difference between correlation and causation, and how do you test for causality?','How would you design an A/B test for a new feature?','Explain overfitting and how you would detect it.','How do you handle missing data in a dataset?','What visualization would you use to explain a skewed distribution to executives?','How do you prioritize which insights to present when you have many findings?'],
+  'Data Engineer': ['Explain the difference between ETL and ELT.','How would you design a data pipeline that processes 10TB of data daily?','What is the difference between a data lake and a data warehouse?','How do you ensure data quality across an ingestion pipeline?','Explain partitioning and indexing strategies for a large table.','How would you handle schema evolution in a streaming pipeline?','What is the CAP theorem and how does it apply to distributed databases?','Describe how you would set up incremental data loads.','How do you monitor and alert on pipeline failures?','Explain the tradeoffs between batch and streaming architectures.'],
+  'Software Engineer': ['Explain the SOLID principles with an example.','What is the difference between a process and a thread?','How would you design a URL shortener (system design)?','Explain the differences between SQL and NoSQL databases.','How do you handle race conditions in concurrent code?','What is the difference between REST and GraphQL?','How would you design a rate limiter?','Explain dependency injection and why it is useful.','How do you approach debugging a production incident under pressure?','Describe your approach to code review and giving feedback.'],
+  'DevOps Engineer': ['Explain the difference between CI and CD.','How would you design a zero-downtime deployment strategy?','What is Infrastructure as Code, and which tools have you used?','Explain how a container differs from a virtual machine.','How do you handle secrets management in a CI/CD pipeline?','What monitoring and alerting stack would you set up for a production system?','Explain blue-green vs canary deployments.','How would you debug a service that intermittently fails health checks?','What is the role of a service mesh in microservices architecture?','How do you approach capacity planning and auto-scaling?'],
+  'Cloud Engineer': ['Explain the shared responsibility model in cloud security.','How would you design a highly available architecture across multiple regions?','What is the difference between IAM roles and IAM policies?','Explain VPC peering and when you would use it.','How do you optimize cloud costs without sacrificing performance?','What is the difference between horizontal and vertical scaling?','How would you design a disaster recovery plan for a cloud-native app?','Explain the differences between serverless and container-based architectures.','How do you secure data at rest and in transit in the cloud?','Describe your experience with multi-cloud or hybrid-cloud setups.'],
+  'Cybersecurity Analyst': ['Explain the difference between symmetric and asymmetric encryption.','Walk through how you would respond to a detected data breach.','What is the difference between a vulnerability and an exploit?','Explain the OWASP Top 10 and how you mitigate them.','How would you design a zero-trust network architecture?','What is the difference between IDS and IPS?','How do you stay current with emerging threats and CVEs?','Explain how you would conduct a penetration test on a web application.','What is multi-factor authentication and why is it important?','Describe your incident response process from detection to remediation.'],
+  'Data Analyst': ['Walk through how you would clean a messy dataset before analysis.','Explain the difference between a JOIN and a UNION in SQL.','How would you identify and handle outliers in a dataset?','Describe a dashboard you built and the decisions it informed.','What is the difference between a measure and a dimension in BI tools?','How do you decide between a bar chart, line chart, or pie chart for a given dataset?','Explain how you would calculate month-over-month growth.','How do you validate that your analysis is statistically sound?','What is a cohort analysis and when would you use one?','How would you explain a complex finding to a non-technical stakeholder?'],
+  'Business Analyst': ['How do you gather and document requirements from stakeholders?','Explain the difference between functional and non-functional requirements.','Walk through how you would perform a gap analysis.','How do you prioritize conflicting stakeholder requirements?','Describe a time you had to manage scope creep in a project.','What tools have you used for process mapping (e.g. BPMN)?','How would you write a user story and acceptance criteria?','Explain how you would conduct a cost-benefit analysis for a new initiative.','How do you handle disagreement between business and technical teams?','Describe your approach to UAT (user acceptance testing).'],
+  'Finance Analyst': ['Walk through how you would build a 3-statement financial model.','Explain the difference between NPV and IRR.','How would you value a company using DCF analysis?','What is the difference between EBITDA and net income?','Describe how you would forecast revenue for a SaaS business.','Explain working capital and why it matters.','How do you assess financial risk in an investment decision?','What is sensitivity analysis and when would you use it?','How would you explain a variance in actuals vs budget to a non-finance stakeholder?','Describe your experience with financial reporting under tight deadlines.'],
+  'Marketing Analyst': ['How would you measure the ROI of a marketing campaign?','Explain the difference between CAC and LTV.','Walk through how you would set up attribution modeling.','How do you A/B test a landing page and interpret the results?','What metrics would you track for a paid social campaign?','Explain cohort retention analysis in the context of marketing.','How would you segment a customer base for targeted campaigns?','What is the difference between first-touch and last-touch attribution?','How do you use Google Analytics or similar tools to find funnel drop-off?','Describe a campaign you analyzed that did not perform well — what did you do?'],
+  'HR Analyst': ['How would you measure employee engagement using data?','Explain the difference between attrition rate and retention rate.','Walk through how you would build a headcount forecasting model.','How do you ensure fairness and avoid bias in compensation analysis?','What metrics would you track for a DEI initiative?','Describe how you would analyze the effectiveness of a recruitment channel.','How do you handle sensitive employee data in your analysis?','What is time-to-hire and how would you reduce it?','How would you measure the ROI of a training program?','Describe your experience with an HRIS platform.'],
+  'Operations Analyst': ['How would you identify bottlenecks in an operational process?','Explain how you would set up a KPI dashboard for operations.','Walk through how you would forecast demand for inventory planning.','What is Six Sigma and have you applied it in past work?','How do you balance cost efficiency with service quality?','Describe a process improvement project you led and its impact.','How would you analyze the root cause of a recurring operational issue?','What tools have you used for process automation?','How do you communicate operational risks to leadership?','Describe how you would set SLAs for a new operational workflow.'],
+  'Supply Chain Analyst': ['How would you optimize inventory levels across multiple warehouses?','Explain the bullwhip effect and how to mitigate it.','Walk through how you would forecast demand using historical data.','What is the difference between just-in-time and just-in-case inventory strategies?','How do you evaluate supplier performance?','Describe how you would respond to a sudden supply chain disruption.','What metrics would you track for logistics efficiency?','How would you design a network optimization model for distribution centers?','Explain safety stock and how you would calculate it.','How do you balance cost, speed, and reliability in supply chain decisions?'],
+  'Product Manager': ['How do you prioritize a product roadmap with limited engineering resources?','Walk through how you would launch a new feature from idea to release.','Explain how you would write a PRD for a new feature.','How do you decide whether to build, buy, or partner for a capability?','Describe a time you had to say no to a stakeholder\u2019s feature request.','How would you measure the success of a product launch?','What framework do you use to prioritize features (e.g. RICE, MoSCoW)?','How do you balance user needs with business goals?','Describe how you would handle conflicting data signals from user research vs analytics.','How do you work with engineering to scope a feature realistically?'],
+  'UX Designer': ['Walk through your design process from research to high-fidelity mockups.','How do you incorporate user feedback into iterative design?','Explain the difference between usability testing and A/B testing.','How would you design for accessibility (WCAG compliance)?','Describe a time your design was challenged by engineering or business constraints.','What is a design system and why is it valuable?','How do you balance aesthetics with usability?','Walk through how you would conduct a user interview.','How do you measure the success of a redesign?','Describe your experience working with developers to implement designs accurately.']
+};
+
+const IQG_HR = [
+  'Tell me about yourself and why you\u2019re interested in this role.',
+  'Why do you want to work at this company specifically?',
+  'Tell me about a time you faced a conflict with a teammate and how you resolved it.',
+  'Describe a project that failed and what you learned from it.',
+  'How do you handle tight deadlines and competing priorities?',
+  'Where do you see yourself in 3-5 years?',
+  'Tell me about a time you had to learn a new skill quickly.',
+  'How do you handle feedback or criticism on your work?',
+  'Describe a situation where you disagreed with your manager\u2019s decision.',
+  'What motivates you in your work?',
+  'Tell me about a time you went above and beyond your role.',
+  'As an international candidate, what made you choose this country/company for your career?',
+  'How do you stay organized when juggling multiple projects?',
+  'Describe a time you had to influence someone without direct authority.',
+  'What\u2019s a weakness you\u2019re actively working on?'
+];
+
+const IQG_CODING = {
+  'default': ['Reverse a linked list.','Find the longest substring without repeating characters.','Merge two sorted arrays.','Detect a cycle in a graph.','Implement a LRU cache.','Find the kth largest element in an array.','Check if a binary tree is balanced.','Implement binary search on a rotated sorted array.','Write a function to validate balanced parentheses.','Find all pairs in an array that sum to a target value.'],
+  'Data Analyst': ['Write a SQL query to find the second-highest salary per department.','Write a SQL query to find customers with no orders in the last 90 days.','Given a list of transactions, calculate running totals using window functions.','Write a query to find duplicate rows in a table.','Pivot a long-format table into wide format using SQL or pandas.'],
+  'Business Analyst': ['Write a SQL query to find month-over-month retention by cohort.','Given two tables (orders, customers), write a query to find top 10 customers by spend.','Use a pivot table to summarize sales by region and product category.'],
+  'Finance Analyst': ['Write an Excel formula to calculate compound annual growth rate (CAGR).','Build a simple amortization schedule formula.','Write a SQL query to calculate quarter-over-quarter revenue growth.'],
+  'Marketing Analyst': ['Write a SQL query to calculate customer lifetime value by cohort.','Calculate conversion rate at each stage of a funnel using SQL.'],
+  'HR Analyst': ['Write a SQL query to calculate average tenure by department.','Calculate attrition rate by quarter using a HRIS export.']
+};
+
+let _iqgCurrentTab = 'technical';
+
+function openInterviewQGen(){
+  document.getElementById('iqg-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderInterviewQGen();
+}
+function closeInterviewQGen(){
+  document.getElementById('iqg-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('iqg-modal').addEventListener('click', function(e){ if(e.target === this) closeInterviewQGen(); });
+
+function renderInterviewQGen(){
+  const body = document.getElementById('iqg-body');
+  const sub = document.getElementById('iqg-sub');
+  const roles = Object.keys(IQG_TECHNICAL);
+  const currentRole = window._cvRole || state.role || roles[0];
+  sub.textContent = `For: ${currentRole}`;
+
+  let html = `
+    <div class="salary-field-label" style="margin-top:0">Role</div>
+    <select class="salary-select" id="iqg-role">
+      ${roles.map(r => `<option value="${r}" ${r===currentRole?'selected':''}>${r}</option>`).join('')}
+    </select>
+    <div class="iqg-tabs" style="margin-top:14px">
+      <button class="iqg-tab active" data-iqg-tab="technical" onclick="switchIqgTab('technical')">🧠 Technical</button>
+      <button class="iqg-tab" data-iqg-tab="hr" onclick="switchIqgTab('hr')">💬 HR / Behavioral</button>
+      <button class="iqg-tab" data-iqg-tab="coding" onclick="switchIqgTab('coding')">💻 Coding</button>
+    </div>
+    <div class="iqg-list" id="iqg-list"></div>
+    <button class="iqg-copy-all" onclick="copyIqgList()">Copy all questions</button>
+    <div class="iqg-disclaimer">Common patterns for this role — actual interviews vary by company and seniority. Use these to practice structure, not to memorise scripted answers.</div>
+  `;
+  body.innerHTML = html;
+
+  document.getElementById('iqg-role').addEventListener('change', () => {
+    document.getElementById('iqg-sub').textContent = `For: ${document.getElementById('iqg-role').value}`;
+    renderIqgList();
+  });
+
+  _iqgCurrentTab = 'technical';
+  renderIqgList();
+  if(typeof gtag !== 'undefined') gtag('event','interview_questions_opened', {role: currentRole});
+}
+
+function switchIqgTab(tabKey){
+  _iqgCurrentTab = tabKey;
+  document.querySelectorAll('.iqg-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-iqg-tab') === tabKey);
+  });
+  renderIqgList();
+}
+
+function renderIqgList(){
+  const role = document.getElementById('iqg-role').value;
+  const list = document.getElementById('iqg-list');
+  let questions = [];
+
+  if(_iqgCurrentTab === 'technical'){
+    questions = IQG_TECHNICAL[role] || IQG_TECHNICAL['Software Engineer'];
+  } else if(_iqgCurrentTab === 'hr'){
+    questions = IQG_HR;
+  } else {
+    questions = IQG_CODING[role] || IQG_CODING['default'];
+  }
+
+  list.innerHTML = questions.map((q,i) => `<div class="iqg-q"><span class="iqg-q-num">${i+1}</span><span>${q}</span></div>`).join('');
+  window._iqgCurrentQuestions = questions;
+}
+
+function copyIqgList(){
+  const questions = window._iqgCurrentQuestions || [];
+  const text = questions.map((q,i) => `${i+1}. ${q}`).join('\n');
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.iqg-copy-all');
+  if(btn){
+    const original = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => { btn.textContent = original; }, 1500);
+  }
+  if(typeof gtag !== 'undefined') gtag('event','interview_questions_copied', {tab: _iqgCurrentTab});
 }
 // ─────────────────────────────────────────────────────────────────
 </script>
