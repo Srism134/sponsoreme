@@ -297,6 +297,16 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 @keyframes spin{to{transform:rotate(360deg)}}
 .recruiter-error{text-align:center;padding:18px;color:#A32D2D;font-size:12.5px;background:#FCEBEB;border-radius:10px;border:1px solid #F0B8B8}
 .recruiter-cv-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+/* Find Connections / Referral Finder */
+.referral-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.referral-modal.open{display:flex}
+.referral-school-row{display:flex;gap:8px;margin-bottom:12px}
+.referral-school-input{flex:1;padding:9px 12px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12.5px;font-family:var(--font)}
+.referral-school-input:focus{outline:none;border-color:var(--accent-border)}
+.referral-school-save{flex-shrink:0;padding:9px 14px;border-radius:9px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.referral-degree-pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.referral-degree-chip{padding:5px 11px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:11.5px;cursor:pointer;font-family:var(--font)}
+.referral-degree-chip.active{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent2);font-weight:600}
 .job-apply-btn{display:inline-block;padding:5px 12px;font-size:11px;border-radius:7px;font-family:var(--mono);text-decoration:none;transition:all .15s;border:1px solid}
 .btn-li{background:#E6F1FB;border-color:#B5D4F4;color:#185FA5}
 .btn-li:hover{background:#D5E7F8}
@@ -3456,6 +3466,7 @@ function renderJobCards(data, container, country, append=false){
         <a class="job-apply-btn btn-in" href="${urls.indeed}"   target="_blank" rel="noopener">Indeed ↗</a>
         <a class="job-apply-btn btn-gg" href="${urls.google}"   target="_blank" rel="noopener">Google Jobs ↗</a>
         <button class="job-apply-btn recruiter-btn" onclick="openRecruiterFinder('${jobId}')">📧 Find Recruiter</button>
+        <button class="job-apply-btn recruiter-btn" style="color:#1F7A1F;border-color:#bfe3bf;background:#EAF6EA" onclick="openReferralFinder('${jobId}')">🔗 Find Connections</button>
         <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="addJobToTracker('${jobId}')">📋 Add to Tracker</button>
         <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="openApplyAssistant('${jobId}')">🤖 Apply with AI</button>
       </div>`;
@@ -3629,6 +3640,7 @@ function renderFeaturedCard(job, matchScore){
     <div class="job-apply-row">
       <span class="job-apply-btn btn-in">Apply Directly ↗</span>
       <button class="job-apply-btn recruiter-btn" onclick="event.preventDefault();event.stopPropagation();openRecruiterFinder('${featJobId}')">📧 Find Recruiter</button>
+      <button class="job-apply-btn recruiter-btn" style="color:#1F7A1F;border-color:#bfe3bf;background:#EAF6EA" onclick="event.preventDefault();event.stopPropagation();openReferralFinder('${featJobId}')">🔗 Find Connections</button>
       <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="event.preventDefault();event.stopPropagation();addJobToTracker('${featJobId}')">📋 Add to Tracker</button>
       <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="event.preventDefault();event.stopPropagation();openApplyAssistant('${featJobId}')">🤖 Apply with AI</button>
     </div>`;
@@ -4165,6 +4177,20 @@ updateSavedCount();
   </div>
 </div>
 
+<!-- Find Connections / Referral Modal -->
+<div class="referral-modal" id="referral-modal">
+  <div class="recruiter-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">🔗 Find Connections & Referrals</div>
+        <div class="recruiter-sub" id="referral-sub">Loading...</div>
+      </div>
+      <button class="recruiter-close" onclick="closeReferralFinder()">✕</button>
+    </div>
+    <div class="recruiter-body" id="referral-body"></div>
+  </div>
+</div>
+
 <!-- AI Resume Roast Modal -->
 <div class="roast-modal" id="roast-modal">
   <div class="roast-box">
@@ -4393,6 +4419,159 @@ function generateRecruiterOutreach(jobId, type){
   box.appendChild(copyBtn);
 
   if(typeof gtag !== 'undefined') gtag('event','recruiter_outreach_generated',{type, company: job.company});
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Find Connections / Referral Finder ─────────────────────────────
+const REFERRAL_DEGREES = ['Bachelor\'s', 'Master\'s', 'PhD'];
+
+function getSavedUniversity(){
+  return localStorage.getItem('sponsoreme_university') || '';
+}
+function getSavedDegree(){
+  return localStorage.getItem('sponsoreme_degree') || 'Master\'s';
+}
+function saveUniversity(){
+  const val = document.getElementById('referral-school-input').value.trim();
+  localStorage.setItem('sponsoreme_university', val);
+  const btn = document.getElementById('referral-school-save');
+  if(btn){ btn.textContent='Saved ✓'; setTimeout(()=>{ btn.textContent='Save'; },1300); }
+}
+function pickReferralDegree(jobId, degree){
+  localStorage.setItem('sponsoreme_degree', degree);
+  renderReferralResults(jobId, getJobForRecruiter(jobId));
+}
+
+function referralLinkedInUrl(query){
+  return 'https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(query);
+}
+
+function openReferralFinder(jobId){
+  const modal = document.getElementById('referral-modal');
+  const body  = document.getElementById('referral-body');
+  const sub   = document.getElementById('referral-sub');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const job = getJobForRecruiter(jobId);
+  if(!job){
+    sub.textContent = '';
+    body.innerHTML = '<div class="recruiter-error">Could not load this job\u2019s details. Please try again from the job card.</div>';
+    return;
+  }
+
+  sub.textContent = job.company + ' • ' + job.title;
+  body.innerHTML = '<div class="recruiter-loading"><div class="recruiter-spin"></div>Finding connection paths...</div>';
+
+  // Small delay purely for perceived-loading UX; all data here is generated client-side, nothing is fetched/scraped
+  setTimeout(() => renderReferralResults(jobId, job), 450);
+}
+
+function closeReferralFinder(){
+  document.getElementById('referral-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('referral-modal').addEventListener('click', function(e){ if(e.target === this) closeReferralFinder(); });
+
+function renderReferralResults(jobId, job){
+  const body = document.getElementById('referral-body');
+  try {
+    const school  = getSavedUniversity();
+    const degree  = getSavedDegree();
+    const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+
+    let html = '';
+
+    // University input
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">🎓 Your university (for alumni search)</div>
+      <div class="referral-school-row">
+        <input class="referral-school-input" id="referral-school-input" placeholder="e.g. Northumbria University" value="${school}">
+        <button class="referral-school-save" id="referral-school-save" onclick="saveUniversity()">Save</button>
+      </div>
+      <div class="referral-degree-pick">
+        ${REFERRAL_DEGREES.map(d => `<button class="referral-degree-chip ${d===degree?'active':''}" onclick="pickReferralDegree('${jobId}','${d}')">${d}</button>`).join('')}
+      </div>
+    </div>`;
+
+    // Alumni search
+    if(school){
+      const alumniQuery = `${job.company} ${school} alumni`;
+      html += `<div class="recruiter-section">
+        <div class="recruiter-section-title">🤝 Alumni working at ${job.company}</div>
+        <div class="recruiter-search-row">
+          <span class="recruiter-search-text">${school} alumni at ${job.company}</span>
+          <a class="recruiter-search-go" href="${referralLinkedInUrl(alumniQuery)}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+        <div style="font-size:10.5px;color:var(--text3);margin-top:4px;line-height:1.5">Alumni reply 3-5x more often than strangers — they remember being in your shoes.</div>
+      </div>`;
+    } else {
+      html += `<div class="recruiter-cv-note">💡 Add your university above to unlock alumni-specific search — alumni are usually the easiest people to get a referral from.</div>`;
+    }
+
+    // Employees in similar role / team
+    const empQueries = [
+      { label: shortTitle + ' at ' + job.company,        query: `${job.company} ${shortTitle}` },
+      { label: 'Software/Data team at ' + job.company,   query: `${job.company} ${shortTitle.split(' ')[0]} engineer` },
+      { label: 'International hires at ' + job.company,  query: `${job.company} visa sponsorship ${shortTitle}` }
+    ];
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">👥 Current employees to connect with</div>
+      ${empQueries.map(q => `
+        <div class="recruiter-search-row">
+          <span class="recruiter-search-text">${q.label}</span>
+          <a class="recruiter-search-go" href="${referralLinkedInUrl(q.query)}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      `).join('')}
+    </div>`;
+
+    // Outreach
+    html += `<div class="recruiter-section">
+      <div class="recruiter-section-title">✉️ Referral Request</div>
+      <button class="recruiter-action-btn recruiter-action-primary" onclick="generateReferralOutreach('${jobId}','alumni')">🎓 Generate Alumni Referral Message</button>
+      <button class="recruiter-action-btn" onclick="generateReferralOutreach('${jobId}','employee')">👥 Generate Employee Connection Message</button>
+      <div class="recruiter-generated-box" id="referral-generated"></div>
+    </div>`;
+
+    body.innerHTML = html;
+  } catch(err){
+    body.innerHTML = '<div class="recruiter-error">⚠️ Something went wrong building the connections search. Please close and try again.</div>';
+  }
+}
+
+function generateReferralOutreach(jobId, type){
+  const job = getJobForRecruiter(jobId);
+  const box = document.getElementById('referral-generated');
+  if(!job || !box) return;
+
+  const school  = getSavedUniversity() || 'our university';
+  const degree  = getSavedDegree();
+  const skills  = (window._cvAllSkills || state.skills || []).slice(0, 4);
+  const role    = window._cvRole || state.role || job.title;
+  const skillsLine = skills.length ? skills.join(', ') : (role || 'this field');
+  const shortTitle = job.title.replace(/\(.*?\)/g,'').split(/[-–,]/)[0].trim();
+
+  let text = '';
+  if(type === 'alumni'){
+    text = `Hi! I noticed we're both connected to ${school} — I'm currently doing my ${degree} and saw you're at ${job.company}. I'm really interested in the ${shortTitle} role there and would love to hear about your experience on the team. If there's any chance of a quick chat or a referral, I'd really appreciate it — happy to share my CV. Thank you so much!`;
+  } else {
+    text = `Hi! I came across the ${shortTitle} opening at ${job.company} and saw you're on the team there. I have hands-on experience with ${skillsLine}, and I'm an international candidate looking for visa-sponsored opportunities. Would you be open to a quick chat about your experience at ${job.company}, or possibly referring me for the role? I'd be happy to share my CV — thank you for considering!`;
+  }
+
+  box.textContent = text;
+  box.classList.add('open');
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'recruiter-copy-btn';
+  copyBtn.textContent = 'Copy';
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(text);
+    copyBtn.textContent = 'Copied ✓';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+  };
+  box.appendChild(copyBtn);
+
+  if(typeof gtag !== 'undefined') gtag('event','referral_outreach_generated',{type, company: job.company});
 }
 // ─────────────────────────────────────────────────────────────────
 
