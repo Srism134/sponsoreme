@@ -477,6 +477,9 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 .country-jobs-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;padding:6px 2px;margin-top:8px;border-top:1px solid var(--border);margin-bottom:8px}
 footer a{color:var(--text2);text-decoration:none}
 footer a:hover{color:var(--accent2)}
+.footer-social{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
+.footer-social a{display:flex;align-items:center;gap:5px;font-size:12px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);transition:.15s}
+.footer-social a:hover{border-color:var(--accent-border);color:var(--accent2);background:var(--accent-bg)}
 @media(max-width:600px){.visa-box{grid-template-columns:1fr 1fr}h1{font-size:26px}.form-card{padding:18px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -783,6 +786,11 @@ footer a:hover{color:var(--accent2)}
 </div>
 
 <footer>
+    <div class="footer-social">
+      <a href="https://chat.whatsapp.com/REPLACE_WITH_YOUR_GROUP_INVITE" target="_blank" rel="noopener">💬 WhatsApp Group</a>
+      <a href="https://instagram.com/REPLACE_WITH_YOUR_HANDLE" target="_blank" rel="noopener">📸 Instagram</a>
+      <a href="https://linkedin.com/company/REPLACE_WITH_YOUR_PAGE" target="_blank" rel="noopener">💼 LinkedIn</a>
+    </div>
     Built with ♥ for international students ·
     <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank">Verify UK sponsors →</a> ·
     <a href="https://github.com" target="_blank">Star on GitHub →</a>
@@ -913,15 +921,15 @@ const companyData={
 {s:2,n:'NielsenIQ 📈',t:'Market Data • DA/Analysts',c:'https://nielseniq.com/global/en/careers/',li:'https://www.linkedin.com/company/nielseniq/jobs/'},
 {s:2,n:'Starling Bank 🌟',t:'FinTech • SWE/DA/Risk',c:'https://www.starlingbank.com/careers/',li:'https://www.linkedin.com/company/starlingbank/jobs/'},
 {s:2,n:'Checkout.com 💳',t:'Payments • SWE/DA/Risk',c:'https://www.checkout.com/careers',li:'https://www.linkedin.com/company/checkout/jobs/'},
-{s:2,n:'ClearBank 🏦',t:'Banking API • SWE/DA',c:'https://clear.bank/careers',li:'https://www.linkedin.com/company/clearbank/jobs/'},
+{s:2,n:'ClearBank 🏦',t:'Banking API • SWE/DA',c:'https://clear.bank/careers',li:'https://www.linkedin.com/company/clear-bank/jobs/'},
 {s:2,n:'Zopa 💰',t:'FinTech • SWE/Risk/DA',c:'https://www.zopa.com/careers',li:'https://www.linkedin.com/company/zopa/jobs/'},
 {s:2,n:'Illumina 🧬',t:'Genomics • Bioinformatics/DS',c:'https://www.illumina.com/company/careers.html',li:'https://www.linkedin.com/company/illumina/jobs/'},
 {s:2,n:'IQVIA 🏥',t:'Healthcare Data • DA/DS/BA',c:'https://jobs.iqvia.com/',li:'https://www.linkedin.com/company/iqvia/jobs/'},
 {s:2,n:'Medpace 💉',t:'Clinical Research • DA/Analysts',c:'https://www.medpace.com/careers/',li:'https://www.linkedin.com/company/medpace/jobs/'},
-{s:2,n:'Multiverse 🎓',t:'EdTech • SWE/DS/PM',c:'https://www.multiverse.io/en-GB/careers',li:'https://www.linkedin.com/company/multiverse-hq/jobs/'},
+{s:2,n:'Multiverse 🎓',t:'EdTech • SWE/DS/PM',c:'https://www.multiverse.io/en-GB/careers',li:'https://www.linkedin.com/company/joinmultiverse/jobs/'},
 {s:2,n:'Octopus Energy ⚡',t:'GreenTech • SWE/DA/DS',c:'https://octopus.energy/careers/',li:'https://www.linkedin.com/company/octopus-energy/jobs/'},
 {s:2,n:'Snyk 🔒',t:'DevSecOps • SWE/Security',c:'https://snyk.io/careers/',li:'https://www.linkedin.com/company/snyk/jobs/'},
-{s:2,n:'BP',t:'Energy • DA/DS/Engineers',c:'https://www.bp.com/en/global/corporate/careers.html',li:'https://www.linkedin.com/company/bp_2/jobs/'},
+{s:2,n:'BP',t:'Energy • DA/DS/Engineers',c:'https://www.bp.com/en/global/corporate/careers.html',li:'https://www.linkedin.com/company/bp/jobs/'},
 {s:2,n:'Shell',t:'Energy • DA/DS/Engineers',c:'https://www.shell.com/careers.html',li:'https://www.linkedin.com/company/shell/jobs/'},
 {s:2,n:'Unilever',t:'FMCG • BA/Marketing/DA',c:'https://www.unilever.com/careers/',li:'https://www.linkedin.com/company/unilever/jobs/'},
 {s:2,n:'Diageo',t:'FMCG • BA/Marketing/Supply Chain',c:'https://careers.diageo.com/',li:'https://www.linkedin.com/company/diageo/jobs/'},
@@ -931,7 +939,7 @@ const companyData={
 {s:2,n:'BBC',t:'Media • SWE/DA/Editorial Tech',c:'https://careerssearch.bbc.co.uk/jobs',li:'https://www.linkedin.com/company/bbc/jobs/'},
 {s:2,n:'Centrica',t:'Energy • DA/DS/Engineers',c:'https://www.centrica.com/careers/',li:'https://www.linkedin.com/company/centrica/jobs/'},
 {s:2,n:'National Grid',t:'Energy/Utilities • Engineers/DA',c:'https://www.nationalgrid.com/careers',li:'https://www.linkedin.com/company/national-grid/jobs/'},
-{s:2,n:'Tesco',t:'Retail • DA/DS/SWE',c:'https://www.tesco-careers.com/',li:'https://www.linkedin.com/company/tesco/jobs/'},
+{s:2,n:'Tesco',t:'Retail • DA/DS/SWE',c:'https://www.tesco-careers.com/',li:'https://www.linkedin.com/company/-tesco/jobs/'},
 {s:2,n:'Sainsburys',t:'Retail • DA/DS/Supply Chain',c:'https://www.sainsburys.jobs/',li:'https://www.linkedin.com/company/sainsburys/jobs/'},
 {s:2,n:'Marks & Spencer',t:'Retail • DA/BA/Supply Chain',c:'https://careers.marksandspencer.com/',li:'https://www.linkedin.com/company/marksandspencer/jobs/'},
 {s:2,n:'John Lewis Partnership',t:'Retail • DA/BA/SWE',c:'https://www.jlpjobs.com/',li:'https://www.linkedin.com/company/john-lewis-partnership/jobs/'},
