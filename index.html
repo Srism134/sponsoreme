@@ -297,6 +297,52 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 @keyframes spin{to{transform:rotate(360deg)}}
 .recruiter-error{text-align:center;padding:18px;color:#A32D2D;font-size:12.5px;background:#FCEBEB;border-radius:10px;border:1px solid #F0B8B8}
 .recruiter-cv-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+/* Follow-Up Reminder Generator */
+.followup-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.followup-modal.open{display:flex}
+.followup-item{background:var(--bg3);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.followup-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.followup-item-title{font-size:13px;font-weight:600;color:var(--text)}
+.followup-item-company{font-size:11.5px;color:var(--text3)}
+.followup-days-badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono);white-space:nowrap}
+.followup-days-badge.warn{background:#FDECEC;color:#B3261E}
+.followup-days-badge.ok{background:#EAF6EA;color:#1F7A1F}
+/* LinkedIn Profile Health Check */
+.linkedin-health-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.linkedin-health-modal.open{display:flex}
+.lh-score-ring{text-align:center;padding:10px 0 18px}
+.lh-score-num{font-size:38px;font-weight:800;font-family:var(--mono);color:var(--accent2)}
+.lh-score-label{font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase}
+.lh-check-row{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)}
+.lh-check-row:last-child{border-bottom:none}
+.lh-check-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.lh-check-text{font-size:12.5px;color:var(--text);line-height:1.5}
+.lh-check-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.lh-keyword-tag{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;margin:2px 3px 2px 0;font-family:var(--mono)}
+.lh-keyword-tag.missing{background:#FDECEC;color:#B3261E}
+.lh-keyword-tag.present{background:#EAF6EA;color:#1F7A1F}
+/* Follow-Up Generator */
+.followup-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.followup-modal.open{display:flex}
+.followup-pending-item{background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.followup-pending-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.followup-pending-title{font-size:13px;font-weight:700;color:var(--text)}
+.followup-pending-company{font-size:11.5px;color:var(--text3)}
+.followup-days-badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;font-family:var(--mono)}
+.followup-days-fresh{background:var(--green-bg,#E9F6E9);color:var(--green,#2E7D32)}
+.followup-days-due{background:#FFF3D6;color:#8A5A00}
+.followup-days-overdue{background:#FCE4E4;color:#B3261E}
+.followup-gen-btn{margin-top:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.followup-empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:13px}
+/* LinkedIn Health Check */
+.linkedin-health-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.linkedin-health-modal.open{display:flex}
+.lh-score-ring{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:var(--mono);margin:0 auto 6px}
+.lh-check-row{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.lh-check-row:last-child{border-bottom:none}
+.lh-check-icon{flex-shrink:0;font-size:15px;margin-top:1px}
+.lh-check-text{font-size:12.5px;color:var(--text2);line-height:1.5}
+.lh-missing-tag{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:3px 9px;font-size:11px;color:var(--text2);margin:2px 4px 2px 0}
 /* Find Connections / Referral Finder */
 .referral-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .referral-modal.open{display:flex}
@@ -685,6 +731,12 @@ footer a:hover{color:var(--accent2)}
         </button>
         <button class="saved-tab-btn" onclick="openInterviewQGen()" style="color:#185FA5;border-color:#B5D4F4">
           ❓ Interview Questions
+        </button>
+        <button class="saved-tab-btn" onclick="openFollowUpGenerator()" style="color:#B3261E;border-color:#F4B8B4">
+          🔔 Follow-Up
+        </button>
+        <button class="saved-tab-btn" onclick="openLinkedInHealthCheck()" style="color:#0A66C2;border-color:#A9CDEE">
+          📊 LinkedIn Check
         </button>
         <button class="reset-btn" onclick="reset()">← New search</button>
       </div>
@@ -4258,6 +4310,34 @@ updateSavedCount();
   </div>
 </div>
 
+<!-- Follow-Up Reminder Generator Modal -->
+<div class="followup-modal" id="followup-modal">
+  <div class="recruiter-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">🔔 Follow-Up Generator</div>
+        <div class="recruiter-sub" id="followup-sub">Applications waiting for a response</div>
+      </div>
+      <button class="recruiter-close" onclick="closeFollowUpGenerator()">✕</button>
+    </div>
+    <div class="recruiter-body" id="followup-body"></div>
+  </div>
+</div>
+
+<!-- LinkedIn Profile Health Check Modal -->
+<div class="linkedin-health-modal" id="linkedin-health-modal">
+  <div class="recruiter-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">📊 LinkedIn Profile Health Check</div>
+        <div class="recruiter-sub" id="lh-sub">Compares your CV skills to what recruiters search for</div>
+      </div>
+      <button class="recruiter-close" onclick="closeLinkedInHealthCheck()">✕</button>
+    </div>
+    <div class="recruiter-body" id="linkedin-health-body"></div>
+  </div>
+</div>
+
 <!-- Apply with AI Assistant Modal -->
 <div class="apply-modal" id="apply-modal">
   <div class="apply-box">
@@ -4803,6 +4883,181 @@ function addJobToTracker(jobId){
 }
 
 updateTrackerCount();
+// ─────────────────────────────────────────────────────────────────
+
+// ── Follow-Up Reminder Generator ────────────────────────────────
+const FOLLOWUP_ACTIVE_STATUSES = ['applied','assessment','interview'];
+const FOLLOWUP_THRESHOLD_DAYS = 7;
+
+function daysSince(dateStr){
+  const then = new Date(dateStr).getTime();
+  const now = Date.now();
+  return Math.floor((now - then) / (1000*60*60*24));
+}
+
+function openFollowUpGenerator(){
+  document.getElementById('followup-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderFollowUpGenerator();
+}
+function closeFollowUpGenerator(){
+  document.getElementById('followup-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('followup-modal').addEventListener('click', function(e){ if(e.target === this) closeFollowUpGenerator(); });
+
+function renderFollowUpGenerator(){
+  const body = document.getElementById('followup-body');
+  const sub  = document.getElementById('followup-sub');
+  const items = getTrackerItems()
+    .filter(i => FOLLOWUP_ACTIVE_STATUSES.includes(i.status))
+    .map(i => ({...i, pending: daysSince(i.date)}))
+    .sort((a,b) => b.pending - a.pending);
+
+  if(!items.length){
+    sub.textContent = 'Nothing waiting on a reply right now';
+    body.innerHTML = `<div class="recruiter-cv-note">💡 Add applications to your Tracker (📋 button above) — once they've been sitting for a few days, a follow-up draft will be ready here.</div>`;
+    return;
+  }
+
+  sub.textContent = `${items.length} application${items.length>1?'s':''} waiting for a response`;
+
+  let html = '';
+  items.forEach(item => {
+    const isOverdue = item.pending >= FOLLOWUP_THRESHOLD_DAYS;
+    const badgeCls = isOverdue ? 'warn' : 'ok';
+    const badgeText = item.pending === 0 ? 'Applied today' : `${item.pending} day${item.pending>1?'s':''} pending`;
+    html += `<div class="followup-item">
+      <div class="followup-item-top">
+        <div>
+          <div class="followup-item-title">${item.title}</div>
+          <div class="followup-item-company">${item.company}</div>
+        </div>
+        <span class="followup-days-badge ${badgeCls}">${badgeText}</span>
+      </div>
+      <button class="recruiter-action-btn ${isOverdue ? 'recruiter-action-primary' : ''}" onclick="generateFollowUpMessage('${item.id}')">✉️ Generate Follow-Up Email</button>
+      <div class="recruiter-generated-box" id="followup-generated-${item.id}"></div>
+    </div>`;
+  });
+
+  body.innerHTML = html;
+}
+
+function generateFollowUpMessage(itemId){
+  const item = getTrackerItems().find(i => i.id === itemId);
+  const box = document.getElementById('followup-generated-' + itemId);
+  if(!item || !box) return;
+
+  const pending = daysSince(item.date);
+  const role = window._cvRole || state.role || item.title;
+  const timeframe = pending >= 14 ? 'a couple of weeks' : (pending >= 7 ? 'about a week' : 'a few days');
+
+  const text = `Subject: Following up on my application — ${item.title}
+
+Hi,
+
+I hope you're doing well. I applied for the ${item.title} role at ${item.company} ${timeframe} ago and wanted to follow up to check on the status of my application.
+
+I remain very interested in the opportunity and would welcome the chance to discuss how my background in ${role} could contribute to your team. Please let me know if you need any further information from my end.
+
+Thank you for your time, and I look forward to hearing from you.
+
+Best regards`;
+
+  box.textContent = text;
+  box.classList.add('open');
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'recruiter-copy-btn';
+  copyBtn.textContent = 'Copy';
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(text);
+    copyBtn.textContent = 'Copied ✓';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+  };
+  box.appendChild(copyBtn);
+
+  if(typeof gtag !== 'undefined') gtag('event','followup_generated', {company: item.company});
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── LinkedIn Profile Health Check ───────────────────────────────
+const LINKEDIN_PROFILE_BASICS = [
+  { key:'headline', label:'Headline includes your target role + 1-2 top skills', sub:'e.g. "Data Scientist | Python, SQL, ML" beats a generic job title' },
+  { key:'about', label:'About section written in first person, 3-5 short paragraphs', sub:'Recruiters skim this in ~10 seconds — lead with your strongest win' },
+  { key:'photo', label:'Professional photo + custom banner image', sub:'Profiles with a photo get significantly more recruiter views' },
+  { key:'skills', label:'Top 5 skills pinned match your CV keywords exactly', sub:'LinkedIn search matches literal skill tags, not synonyms' },
+  { key:'recs', label:'At least 2-3 recommendations from managers/professors', sub:'Social proof recruiters actually read before reaching out' },
+  { key:'open-to', label:'"Open to Work" set with correct roles + locations', sub:'Only recruiters see this if set to "Recruiters only"' }
+];
+
+function openLinkedInHealthCheck(){
+  document.getElementById('linkedin-health-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderLinkedInHealthCheck();
+}
+function closeLinkedInHealthCheck(){
+  document.getElementById('linkedin-health-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('linkedin-health-modal').addEventListener('click', function(e){ if(e.target === this) closeLinkedInHealthCheck(); });
+
+function renderLinkedInHealthCheck(){
+  const body = document.getElementById('linkedin-health-body');
+  const sub  = document.getElementById('lh-sub');
+  const cvSkills = window._cvAllSkills || [];
+  const role = window._cvRole || state.role || '';
+
+  if(!cvSkills.length){
+    sub.textContent = 'Upload your CV first to compare keywords';
+    body.innerHTML = `<div class="recruiter-cv-note">💡 This tool compares your CV's detected skills against what recruiters search for on LinkedIn. Use the 🎯 CV Match feature first to detect your skills, then come back here.</div>` +
+      renderLinkedInProfileChecklist();
+    return;
+  }
+
+  sub.textContent = `Comparing ${cvSkills.length} CV skills to recruiter search terms for ${role || 'your role'}`;
+
+  // Find the closest matching role's signal keywords to use as the "what recruiters search" baseline
+  let signalPool = [];
+  Object.entries(ROLE_SIGNALS).forEach(([r, signals]) => {
+    if(role && r.toLowerCase().includes(role.toLowerCase().split(' ')[0])) signalPool = signalPool.concat(signals);
+  });
+  if(!signalPool.length){
+    signalPool = Object.values(ROLE_SIGNALS).flat().slice(0, 12);
+  }
+  // Keep only the more "keyword-like" ones (skip full phrases) for a cleaner tag list
+  const keywordCandidates = [...new Set(signalPool)].slice(0, 10);
+
+  const cvLower = cvSkills.map(s => s.toLowerCase());
+  const present = keywordCandidates.filter(k => cvLower.some(s => k.includes(s) || s.includes(k)));
+  const missing = keywordCandidates.filter(k => !present.includes(k));
+
+  let html = `<div class="lh-score-ring">
+    <div class="lh-score-num">${cvSkills.length}</div>
+    <div class="lh-score-label">Skills Detected From Your CV</div>
+  </div>`;
+
+  html += `<div class="recruiter-section">
+    <div class="recruiter-section-title">🔑 Recruiter search terms for ${role || 'your role'}</div>
+    <div>${present.map(k => `<span class="lh-keyword-tag present">✓ ${k}</span>`).join('')}${missing.map(k => `<span class="lh-keyword-tag missing">+ ${k}</span>`).join('')}</div>
+    <div style="font-size:10.5px;color:var(--text3);margin-top:8px;line-height:1.5">Green = already covered by your CV skills. Red = commonly searched terms worth adding to your LinkedIn skills/About section if genuinely true for you.</div>
+  </div>`;
+
+  html += renderLinkedInProfileChecklist();
+  body.innerHTML = html;
+}
+
+function renderLinkedInProfileChecklist(){
+  let html = `<div class="recruiter-section"><div class="recruiter-section-title">✅ Profile Health Checklist</div>`;
+  LINKEDIN_PROFILE_BASICS.forEach(item => {
+    html += `<div class="lh-check-row">
+      <span class="lh-check-icon">⬜</span>
+      <div><div class="lh-check-text">${item.label}</div><div class="lh-check-sub">${item.sub}</div></div>
+    </div>`;
+  });
+  html += `</div>`;
+  return html;
+}
 // ─────────────────────────────────────────────────────────────────
 
 // ── One-Click Apply Assistant ───────────────────────────────────
