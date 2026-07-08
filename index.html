@@ -297,6 +297,31 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 @keyframes spin{to{transform:rotate(360deg)}}
 .recruiter-error{text-align:center;padding:18px;color:#A32D2D;font-size:12.5px;background:#FCEBEB;border-radius:10px;border:1px solid #F0B8B8}
 .recruiter-cv-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+/* Community Board */
+.community-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.community-modal.open{display:flex}
+.community-box{background:var(--bg2);border-radius:16px;max-width:640px;width:100%;padding:22px 22px 26px}
+.community-tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--bg3);border-radius:9px;padding:3px}
+.community-tab{flex:1;padding:8px 6px;border-radius:7px;border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:.15s}
+.community-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.community-form{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.community-form select,.community-form input,.community-form textarea{padding:9px 12px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12.5px;font-family:var(--font)}
+.community-form textarea{resize:vertical;min-height:70px}
+.community-form select:focus,.community-form input:focus,.community-form textarea:focus{outline:none;border-color:var(--accent-border)}
+.community-post-btn{padding:10px;border-radius:9px;border:none;background:#9333EA;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.community-post-btn:disabled{opacity:.5;cursor:not-allowed}
+.community-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;line-height:1.5}
+.community-post{background:var(--bg3);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.community-post-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.community-post-tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono)}
+.community-post-tag.story{background:#EDE4FB;color:#7C3AED}
+.community-post-tag.tip{background:#EAF6EA;color:#1F7A1F}
+.community-post-tag.question{background:#FEF3E2;color:#B45309}
+.community-post-meta{font-size:10.5px;color:var(--text3);font-family:var(--mono)}
+.community-post-body{font-size:12.5px;color:var(--text);line-height:1.6;white-space:pre-wrap}
+.community-empty{text-align:center;padding:30px 10px;color:var(--text3);font-size:12.5px}
+.community-refresh-btn{background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:var(--mono);margin-bottom:10px}
+.community-refresh-btn:hover{color:var(--accent2)}
 /* Follow-Up Reminder Generator */
 .followup-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .followup-modal.open{display:flex}
@@ -738,6 +763,9 @@ footer a:hover{color:var(--accent2)}
         <button class="saved-tab-btn" onclick="openLinkedInHealthCheck()" style="color:#0A66C2;border-color:#A9CDEE">
           📊 LinkedIn Check
         </button>
+        <button class="saved-tab-btn" onclick="openCommunityBoard()" style="color:#9333EA;border-color:#DCC5F5">
+          💬 Community
+        </button>
         <button class="reset-btn" onclick="reset()">← New search</button>
       </div>
     </div>
@@ -832,6 +860,45 @@ footer a:hover{color:var(--accent2)}
         <div class="progress-bar-wrap"><div class="progress-bar-fill" id="cl-bar" style="width:0%"></div></div>
         <div id="checklist-items"></div>
         <button class="checklist-reset" onclick="resetChecklist()">↺ Reset checklist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Community Board -->
+<div class="community-modal" id="community-modal">
+  <div class="community-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">💬 Community Board</div>
+        <div class="recruiter-sub">Anonymous stories & tips from fellow visa-sponsorship job seekers</div>
+      </div>
+      <button class="recruiter-close" onclick="closeCommunityBoard()">✕</button>
+    </div>
+
+    <div class="community-tabs">
+      <button class="community-tab active" id="community-tab-feed" onclick="switchCommunityTab('feed')">📖 Feed</button>
+      <button class="community-tab" id="community-tab-post" onclick="switchCommunityTab('post')">✍️ Share Something</button>
+    </div>
+
+    <div id="community-pane-feed">
+      <button class="community-refresh-btn" onclick="loadCommunityPosts()">↻ Refresh</button>
+      <div id="community-feed-list"><div class="community-empty">Loading...</div></div>
+    </div>
+
+    <div id="community-pane-post" style="display:none">
+      <div class="community-note" id="community-setup-note" style="display:none">
+        ⚠️ Community Board isn't connected to shared storage yet — posts will only save on this device until a Google Sheet webhook is configured (see code comment near <code>COMMUNITY_API_URL</code>).
+      </div>
+      <div class="community-form">
+        <select id="community-type">
+          <option value="story">🎉 Success Story</option>
+          <option value="tip">💡 Helpful Tip</option>
+          <option value="question">❓ Question for the Community</option>
+        </select>
+        <input id="community-country" type="text" placeholder="Country (optional, e.g. UK, Canada, Germany)" />
+        <textarea id="community-text" maxlength="600" placeholder="Share your experience, a tip, or ask something... (anonymous, max 600 characters)"></textarea>
+        <button class="community-post-btn" id="community-post-btn" onclick="submitCommunityPost()">Post Anonymously</button>
       </div>
     </div>
   </div>
@@ -5060,7 +5127,127 @@ function renderLinkedInProfileChecklist(){
 }
 // ─────────────────────────────────────────────────────────────────
 
-// ── One-Click Apply Assistant ───────────────────────────────────
+// ── Community Board ─────────────────────────────────────────────
+// To make posts truly SHARED across all visitors, deploy a small Google Apps Script
+// as a Web App (Extensions > Apps Script in a Google Sheet, doPost/doGet reading &
+// appending rows), then paste its /exec URL below. Until then, posts save locally
+// per-device only (each visitor sees just their own posts, clearly noted in the UI).
+const COMMUNITY_API_URL = ''; // e.g. 'https://script.google.com/macros/s/XXXXX/exec'
+
+let _communityTab = 'feed';
+
+function switchCommunityTab(tab){
+  _communityTab = tab;
+  document.getElementById('community-tab-feed').classList.toggle('active', tab==='feed');
+  document.getElementById('community-tab-post').classList.toggle('active', tab==='post');
+  document.getElementById('community-pane-feed').style.display = tab==='feed' ? 'block' : 'none';
+  document.getElementById('community-pane-post').style.display = tab==='post' ? 'block' : 'none';
+  document.getElementById('community-setup-note').style.display = COMMUNITY_API_URL ? 'none' : 'block';
+  if(tab==='feed') loadCommunityPosts();
+}
+
+function openCommunityBoard(){
+  document.getElementById('community-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchCommunityTab('feed');
+}
+function closeCommunityBoard(){
+  document.getElementById('community-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('community-modal').addEventListener('click', function(e){ if(e.target === this) closeCommunityBoard(); });
+
+function getLocalCommunityPosts(){
+  return JSON.parse(localStorage.getItem('sponsoreme_community_posts') || '[]');
+}
+function saveLocalCommunityPost(post){
+  const posts = getLocalCommunityPosts();
+  posts.unshift(post);
+  localStorage.setItem('sponsoreme_community_posts', JSON.stringify(posts.slice(0, 100)));
+}
+
+async function loadCommunityPosts(){
+  const list = document.getElementById('community-feed-list');
+  list.innerHTML = '<div class="community-empty">Loading...</div>';
+
+  let posts = [];
+  if(COMMUNITY_API_URL){
+    try {
+      const res = await fetch(COMMUNITY_API_URL);
+      posts = await res.json();
+    } catch(err){
+      posts = getLocalCommunityPosts();
+    }
+  } else {
+    posts = getLocalCommunityPosts();
+  }
+
+  if(!posts.length){
+    list.innerHTML = `<div class="community-empty">No posts yet — be the first to share a story or tip! 🌱</div>`;
+    return;
+  }
+
+  const typeLabels = { story:'🎉 Story', tip:'💡 Tip', question:'❓ Question' };
+  list.innerHTML = posts.map(p => `
+    <div class="community-post">
+      <div class="community-post-top">
+        <span class="community-post-tag ${p.type}">${typeLabels[p.type] || p.type}</span>
+        ${p.country ? `<span class="community-post-meta">📍 ${escapeHtml(p.country)}</span>` : ''}
+        <span class="community-post-meta">${timeAgo(p.date)}</span>
+      </div>
+      <div class="community-post-body">${escapeHtml(p.text)}</div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function timeAgo(dateStr){
+  const d = daysSince(dateStr);
+  if(d <= 0) return 'today';
+  if(d === 1) return '1 day ago';
+  return `${d} days ago`;
+}
+
+async function submitCommunityPost(){
+  const type = document.getElementById('community-type').value;
+  const country = document.getElementById('community-country').value.trim();
+  const text = document.getElementById('community-text').value.trim();
+  const btn = document.getElementById('community-post-btn');
+
+  if(!text || text.length < 10){ alert('Please write at least a few words to share!'); return; }
+
+  const post = { type, country, text, date: new Date().toISOString() };
+  btn.disabled = true;
+  btn.textContent = 'Posting...';
+
+  if(COMMUNITY_API_URL){
+    try {
+      await fetch(COMMUNITY_API_URL, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(post)
+      });
+    } catch(err){
+      saveLocalCommunityPost(post); // fallback so the post isn't lost
+    }
+  } else {
+    saveLocalCommunityPost(post);
+  }
+
+  if(typeof gtag !== 'undefined') gtag('event','community_post_submitted', {type});
+
+  document.getElementById('community-text').value = '';
+  document.getElementById('community-country').value = '';
+  btn.disabled = false;
+  btn.textContent = 'Post Anonymously';
+  switchCommunityTab('feed');
+}
+// ─────────────────────────────────────────────────────────────────
 let _applyCurrentJobId = null;
 let _applyCurrentTab = 'resume';
 
