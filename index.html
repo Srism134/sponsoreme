@@ -297,6 +297,21 @@ footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-
 @keyframes spin{to{transform:rotate(360deg)}}
 .recruiter-error{text-align:center;padding:18px;color:#A32D2D;font-size:12.5px;background:#FCEBEB;border-radius:10px;border:1px solid #F0B8B8}
 .recruiter-cv-note{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+/* Sponsor Likelihood Score */
+.sponsor-score-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.sponsor-score-modal.open{display:flex}
+.sponsor-score-ring{text-align:center;padding:14px 0 18px}
+.sponsor-score-badge{display:inline-block;font-size:13px;font-weight:800;padding:7px 20px;border-radius:20px;font-family:var(--mono);letter-spacing:.3px}
+.sponsor-score-badge.high{background:#EAF6EA;color:#1F7A1F}
+.sponsor-score-badge.medium{background:#FEF3E2;color:#B45309}
+.sponsor-score-badge.low{background:#FDECEC;color:#B3261E}
+.sponsor-score-sub{font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--mono)}
+.sponsor-reason-row{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)}
+.sponsor-reason-row:last-child{border-bottom:none}
+.sponsor-reason-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.sponsor-reason-text{font-size:12.5px;color:var(--text);line-height:1.5}
+.sponsor-verify-btn{width:100%;padding:11px;border-radius:9px;border:1px solid var(--accent-border);background:var(--accent-bg);color:var(--accent2);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.sponsor-disclaimer{font-size:11px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:9px 12px;margin-top:14px;line-height:1.55}
 /* Community Board */
 .community-modal{display:none;position:fixed;inset:0;background:rgba(44,44,42,.45);backdrop-filter:blur(3px);z-index:1100;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .community-modal.open{display:flex}
@@ -901,6 +916,20 @@ footer a:hover{color:var(--accent2)}
         <button class="community-post-btn" id="community-post-btn" onclick="submitCommunityPost()">Post Anonymously</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Sponsor Likelihood Score -->
+<div class="sponsor-score-modal" id="sponsor-score-modal">
+  <div class="community-box">
+    <div class="recruiter-head">
+      <div>
+        <div class="recruiter-title">🎯 Sponsor Likelihood Score</div>
+        <div class="recruiter-sub" id="sponsor-score-sub">Loading...</div>
+      </div>
+      <button class="recruiter-close" onclick="closeSponsorScore()">✕</button>
+    </div>
+    <div id="sponsor-score-body"></div>
   </div>
 </div>
 
@@ -3595,6 +3624,7 @@ function renderJobCards(data, container, country, append=false){
         <a class="job-apply-btn btn-gg" href="${urls.google}"   target="_blank" rel="noopener">Google Jobs ↗</a>
         <button class="job-apply-btn recruiter-btn" onclick="openRecruiterFinder('${jobId}')">📧 Find Recruiter</button>
         <button class="job-apply-btn recruiter-btn" style="color:#1F7A1F;border-color:#bfe3bf;background:#EAF6EA" onclick="openReferralFinder('${jobId}')">🔗 Find Connections</button>
+        <button class="job-apply-btn recruiter-btn" style="color:#B45309;border-color:#FAC775;background:#FEF3E2" onclick="openSponsorScore('${jobId}')">🎯 Sponsor Score</button>
         <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="addJobToTracker('${jobId}')">📋 Add to Tracker</button>
         <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="openApplyAssistant('${jobId}')">🤖 Apply with AI</button>
       </div>`;
@@ -3769,6 +3799,7 @@ function renderFeaturedCard(job, matchScore){
       <span class="job-apply-btn btn-in">Apply Directly ↗</span>
       <button class="job-apply-btn recruiter-btn" onclick="event.preventDefault();event.stopPropagation();openRecruiterFinder('${featJobId}')">📧 Find Recruiter</button>
       <button class="job-apply-btn recruiter-btn" style="color:#1F7A1F;border-color:#bfe3bf;background:#EAF6EA" onclick="event.preventDefault();event.stopPropagation();openReferralFinder('${featJobId}')">🔗 Find Connections</button>
+      <button class="job-apply-btn recruiter-btn" style="color:#B45309;border-color:#FAC775;background:#FEF3E2" onclick="event.preventDefault();event.stopPropagation();openSponsorScore('${featJobId}')">🎯 Sponsor Score</button>
       <button class="job-apply-btn recruiter-btn" style="color:#534AB7;border-color:#D5D2F5;background:#EEEDFE" onclick="event.preventDefault();event.stopPropagation();addJobToTracker('${featJobId}')">📋 Add to Tracker</button>
       <button class="job-apply-btn recruiter-btn" style="color:#fff;border-color:#185FA5;background:#185FA5" onclick="event.preventDefault();event.stopPropagation();openApplyAssistant('${featJobId}')">🤖 Apply with AI</button>
     </div>`;
@@ -5246,6 +5277,122 @@ async function submitCommunityPost(){
   btn.disabled = false;
   btn.textContent = 'Post Anonymously';
   switchCommunityTab('feed');
+}
+// ─────────────────────────────────────────────────────────────────
+
+// ── Sponsor Likelihood Score ────────────────────────────────────
+// Official government sponsor-verification registries, used as the authoritative
+// source we always point people to — the score below is only a heuristic starting point.
+const SPONSOR_REGISTRIES = {
+  'United Kingdom': { name:'UK Register of Licensed Sponsors', url:'https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers' },
+  'Ireland': { name:'Ireland Employment Permits Register', url:'https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/' },
+  'Canada': { name:'Canada IRCC Employer Compliance', url:'https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/employer-compliance.html' },
+  'Australia': { name:'Australia Approved Sponsors List', url:'https://immi.homeaffairs.gov.au/visas/employing-and-sponsoring-someone/sponsoring-workers' },
+  'Germany': { name:'Germany Skilled Immigration Info', url:'https://www.make-it-in-germany.com/en/visa-residence/types/employment' },
+  'Netherlands': { name:'Netherlands IND Recognized Sponsors', url:'https://ind.nl/en/public-register-recognised-sponsors' },
+};
+
+function normalizeCompanyForCount(name){
+  return (name || '')
+    .toLowerCase()
+    .replace(/\.(com|io|co|ai)\b/g,'')
+    .replace(/\b(uk|usa|us|canada|germany|netherlands|australia|ireland|singapore|belgium|denmark|nl|de|au|ca)\b/g,'')
+    .replace(/\b(ltd|inc|limited|gmbh|b\.?v\.?|pty|plc|group|corp|corporation|technologies|holdings)\b/g,'')
+    .replace(/[^a-z0-9]/g,'')
+    .trim();
+}
+
+function countCompanyPresence(companyName){
+  const target = normalizeCompanyForCount(companyName);
+  if(!target) return { count:0, countries:[] };
+  let count = 0;
+  const countries = [];
+  Object.entries(companyData).forEach(([country, list]) => {
+    const hit = list.some(c => normalizeCompanyForCount(c.n) === target);
+    if(hit){ count++; countries.push(country); }
+  });
+  return { count, countries };
+}
+
+function getJobCountryFromLocation(location){
+  if(!location) return (state.countries && state.countries[0]) || '';
+  const known = Object.keys(SPONSOR_REGISTRIES);
+  const found = known.find(c => location.toLowerCase().includes(c.toLowerCase()));
+  return found || (state.countries && state.countries[0]) || '';
+}
+
+function openSponsorScore(jobId){
+  document.getElementById('sponsor-score-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderSponsorScore(jobId);
+}
+function closeSponsorScore(){
+  document.getElementById('sponsor-score-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('sponsor-score-modal').addEventListener('click', function(e){ if(e.target === this) closeSponsorScore(); });
+
+function renderSponsorScore(jobId){
+  const body = document.getElementById('sponsor-score-body');
+  const sub  = document.getElementById('sponsor-score-sub');
+  const job = getJobForRecruiter(jobId);
+
+  if(!job){
+    sub.textContent = '';
+    body.innerHTML = '<div class="recruiter-error">Could not load this job\u2019s details. Please try again from the job card.</div>';
+    return;
+  }
+
+  sub.textContent = `${job.company} • ${job.title}`;
+
+  const { count, countries } = countCompanyPresence(job.company);
+  let bucket, badgeCls, reasons = [];
+
+  if(count >= 3){
+    bucket = 'Higher Likelihood';
+    badgeCls = 'high';
+    reasons.push({icon:'🌍', text:`Appears in our database across ${count} countries (${countries.slice(0,4).join(', ')}${count>4?'...':''}) — a sign of an established multinational employer used to hiring across borders.`});
+    reasons.push({icon:'📈', text:'Larger, multi-country organisations more commonly have existing visa sponsorship processes and legal teams in place.'});
+  } else if(count === 2){
+    bucket = 'Moderate Likelihood';
+    badgeCls = 'medium';
+    reasons.push({icon:'🌍', text:`Appears in ${count} countries in our database (${countries.join(', ')}) — some international presence, but smaller scale than global majors.`});
+    reasons.push({icon:'🔎', text:'Worth checking their careers page directly for visa sponsorship or "relocation support" wording on the specific job listing.'});
+  } else {
+    bucket = 'Uncertain — Verify Directly';
+    badgeCls = 'low';
+    reasons.push({icon:'🌍', text:'Only appears in one country in our database, or is a smaller/local employer — this alone doesn\'t mean they won\'t sponsor, just that we have less signal.'});
+    reasons.push({icon:'🔎', text:'Many smaller companies do sponsor for the right candidate. Check the job listing itself and ask directly — it doesn\'t hurt to apply.'});
+  }
+
+  const jobCountry = getJobCountryFromLocation(job.location);
+  const registry = SPONSOR_REGISTRIES[jobCountry];
+
+  let html = `<div class="sponsor-score-ring">
+    <span class="sponsor-score-badge ${badgeCls}">${bucket}</span>
+    <div class="sponsor-score-sub">Heuristic estimate — not official data</div>
+  </div>`;
+
+  html += `<div class="recruiter-section">`;
+  reasons.forEach(r => {
+    html += `<div class="sponsor-reason-row">
+      <span class="sponsor-reason-icon">${r.icon}</span>
+      <div class="sponsor-reason-text">${r.text}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  if(registry){
+    html += `<a class="sponsor-verify-btn" href="${registry.url}" target="_blank" rel="noopener">✅ Verify on ${registry.name} ↗</a>`;
+  } else {
+    html += `<a class="sponsor-verify-btn" href="https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(job.company + ' visa sponsorship')}" target="_blank" rel="noopener">🔎 Search confirmed sponsorship mentions ↗</a>`;
+  }
+
+  html += `<div class="sponsor-disclaimer">⚠️ This score is based only on how many times a company appears in our own database — it is <strong>not</strong> official government sponsorship data and can't guarantee a company will sponsor. Always verify on the official registry above before making decisions, and check the specific job listing for sponsorship wording.</div>`;
+
+  body.innerHTML = html;
+
+  if(typeof gtag !== 'undefined') gtag('event','sponsor_score_viewed', {company: job.company, bucket});
 }
 // ─────────────────────────────────────────────────────────────────
 let _applyCurrentJobId = null;
